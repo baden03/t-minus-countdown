@@ -2,15 +2,17 @@
 # This file is distributed under the same license as the T(-) Countdown package.
 msgid ""
 msgstr ""
-"Project-Id-Version: T(-) Countdown 2.2.6\n"
+"Project-Id-Version: T(-) Countdown\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/countdown-timer\n"
 "POT-Creation-Date: 2012-09-25 22:47:28+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2012-09-26 01:00+0100\n"
+"Last-Translator: Baden Coleman <baden@twinpictures.de>\n"
+"Language-Team: Twinpictures <info@twinpictures.de>\n"
+"X-Generator: Poedit 1.5.3\n"
+"Language: English\n"
 
 #: countdown-timer.php:106
 msgid "A highly customizable jQuery countdown timer by Twinpictures"
@@ -116,24 +118,8 @@ msgstr ""
 msgid "Schedule Recurring Countdown"
 msgstr ""
 
-#. Plugin Name of the plugin/theme
-msgid "T(-) Countdown"
-msgstr ""
-
-#. Plugin URI of the plugin/theme
-msgid "http://plugins.twinpictures.de/plugins/t-minus-countdown/"
-msgstr ""
-
 #. Description of the plugin/theme
 msgid ""
 "Display and configure multiple T(-) Countdown timers using a shortcode or "
 "sidebar widget."
-msgstr ""
-
-#. Author of the plugin/theme
-msgid "twinpictures, baden03"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "http://www.twinpictures.de/"
 msgstr ""
