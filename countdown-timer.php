@@ -34,7 +34,6 @@ function countdown_scripts(){
 			//add version check
 			add_option('t-minus_version', '2.2.6');
 		}
-		
 		$styles_arr = array("TIE-fighter","c-3po","c-3po-mini","carbonite","carbonlite","darth","jedi");
 		add_option('t-minus_styles', $styles_arr);
 		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
@@ -103,7 +102,8 @@ class CountDownTimer extends WP_Widget {
     /** constructor */
     function CountDownTimer() {
         //parent::WP_Widget(false, $name = 'CountDownTimer');
-		$widget_ops = array('classname' => 'CountDownTimer', 'description' => __('A highly customizable jQuery countdown timer by Twinpictures') );
+		load_plugin_textdomain( 'tminus', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		$widget_ops = array('classname' => 'CountDownTimer', 'description' => __('A highly customizable jQuery countdown timer by Twinpictures', 'tminus') );
 		$this->WP_Widget('CountDownTimer', 'T(-) Countdown', $widget_ops);
     }
 	
@@ -140,19 +140,8 @@ class CountDownTimer extends WP_Widget {
 		
 		//now
 		$now = time() + ( get_option( 'gmt_offset' ) * 3600);
-		
-		//target
-		/*
-		$target = mktime(
-			$hour, 
-			$min, 
-			$sec, 
-			$month, 
-			$day, 
-			$year
-		);
-		*/
-		
+
+		//taret		
 		$target = strtotime( $date.' '.$hour.':'.$min.':'.$sec );
 		
 		//difference in seconds
@@ -382,11 +371,11 @@ class CountDownTimer extends WP_Widget {
 		$style = empty($instance['style']) ? 'jedi' : apply_filters('widget_style', $instance['style']);
 		$jsplacement = empty($instance['jsplacement']) ? 'footer' : apply_filters('widget_jsplacement', $instance['jsplacement']);
 
-		$weektitle = empty($instance['weektitle']) ? 'weeks' : apply_filters('widget_weektitle', stripslashes($instance['weektitle']));
-		$daytitle = empty($instance['daytitle']) ? 'days' : apply_filters('widget_daytitle', stripslashes($instance['daytitle']));
-		$hourtitle = empty($instance['hourtitle']) ? 'hours' : apply_filters('widget_hourtitle', stripslashes($instance['hourtitle']));
-		$mintitle = empty($instance['mintitle']) ? 'minutes' : apply_filters('widget_mintitle', stripslashes($instance['mintitle']));
-		$sectitle = empty($instance['sectitle']) ? 'seconds' : apply_filters('widget_sectitle', stripslashes($instance['sectitle']));
+		$weektitle = empty($instance['weektitle']) ? __('weeks', 'tminus') : apply_filters('widget_weektitle', stripslashes($instance['weektitle']));
+		$daytitle = empty($instance['daytitle']) ? __('days', 'tminus') : apply_filters('widget_daytitle', stripslashes($instance['daytitle']));
+		$hourtitle = empty($instance['hourtitle']) ? __('hours', 'tminus') : apply_filters('widget_hourtitle', stripslashes($instance['hourtitle']));
+		$mintitle = empty($instance['mintitle']) ? __('minutes', 'tminus') : apply_filters('widget_mintitle', stripslashes($instance['mintitle']));
+		$sectitle = empty($instance['sectitle']) ? __('seconds', 'tminus') : apply_filters('widget_sectitle', stripslashes($instance['sectitle']));
 			
 		$isrockstar = get_option('rockstar');
 		
@@ -398,9 +387,9 @@ class CountDownTimer extends WP_Widget {
 			$launchtarget = empty($instance['launchtarget']) ? 'After Counter' : apply_filters('widget_launchtarget', $instance['launchtarget']);
 		}
         ?>
-        <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label></p>
-		<p><label for="<?php echo $this->get_field_id('date'); ?>"><?php _e('Target Date:'); ?></label><br/><input style="width: 90px;" id="<?php echo $this->get_field_id('date'); ?>" name="<?php echo $this->get_field_name('date'); ?>" type="text" value="<?php echo $date; ?>" class="t-datepicker"/></p>
-		<p><label for="<?php echo $this->get_field_id('hour'); ?>"><?php _e('Target Time (HH:MM:SS):'); ?></label><br/><input style="width: 30px;" id="<?php echo $this->get_field_id('hour'); ?>" name="<?php echo $this->get_field_name('hour'); ?>" type="text" value="<?php echo $hour; ?>" />:<input style="width: 30px;" id="<?php echo $this->get_field_id('min'); ?>" name="<?php echo $this->get_field_name('min'); ?>" type="text" value="<?php echo $min; ?>" />:<input style="width: 30px;" id="<?php echo $this->get_field_id('sec'); ?>" name="<?php echo $this->get_field_name('sec'); ?>" type="text" value="<?php echo $sec; ?>" /></p>
+        <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:', 'tminus'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label></p>
+		<p><label for="<?php echo $this->get_field_id('date'); ?>"><?php _e('Target Date:', 'tminus'); ?></label><br/><input style="width: 90px;" id="<?php echo $this->get_field_id('date'); ?>" name="<?php echo $this->get_field_name('date'); ?>" type="text" value="<?php echo $date; ?>" class="t-datepicker"/></p>
+		<p><label for="<?php echo $this->get_field_id('hour'); ?>"><?php _e('Target Time (HH:MM:SS):', 'tminus'); ?></label><br/><input style="width: 30px;" id="<?php echo $this->get_field_id('hour'); ?>" name="<?php echo $this->get_field_name('hour'); ?>" type="text" value="<?php echo $hour; ?>" />:<input style="width: 30px;" id="<?php echo $this->get_field_id('min'); ?>" name="<?php echo $this->get_field_name('min'); ?>" type="text" value="<?php echo $min; ?>" />:<input style="width: 30px;" id="<?php echo $this->get_field_id('sec'); ?>" name="<?php echo $this->get_field_name('sec'); ?>" type="text" value="<?php echo $sec; ?>" /></p>
 		<?php
 			//Omit Week Slector
             $negative = '';
@@ -420,8 +409,8 @@ class CountDownTimer extends WP_Widget {
                 $inline = 'CHECKED'; 
             }
 		?>
-		<p><?php _e('Omit Weeks:'); ?> <input id="<?php echo $this->get_field_id('omitweeks'); ?>-no" name="<?php echo $this->get_field_name('omitweeks'); ?>" type="radio" <?php echo $negative; ?> value="false" /><label for="<?php echo $this->get_field_id('omitweeks'); ?>-no"> <?php _e('No'); ?> </label> <input id="<?php echo $this->get_field_id('omitweeks'); ?>-yes" name="<?php echo $this->get_field_name('omitweeks'); ?>" type="radio" <?php echo $positive; ?> value="true" /> <label for="<?php echo $this->get_field_id('omitweeks'); ?>-yes"> <?php _e('Yes'); ?></label></p>
-		<p><?php _e('Style:'); ?> <select name="<?php echo $this->get_field_name('style'); ?>" id="<?php echo $this->get_field_name('style'); ?>">
+		<p><?php _e('Omit Weeks:', 'tminus'); ?> <input id="<?php echo $this->get_field_id('omitweeks'); ?>-no" name="<?php echo $this->get_field_name('omitweeks'); ?>" type="radio" <?php echo $negative; ?> value="false" /><label for="<?php echo $this->get_field_id('omitweeks'); ?>-no"> <?php _e('No', 'tminus'); ?> </label> <input id="<?php echo $this->get_field_id('omitweeks'); ?>-yes" name="<?php echo $this->get_field_name('omitweeks'); ?>" type="radio" <?php echo $positive; ?> value="true" /> <label for="<?php echo $this->get_field_id('omitweeks'); ?>-yes"> <?php _e('Yes', 'tminus'); ?></label></p>
+		<p><?php _e('Style:', 'tminus'); ?> <select name="<?php echo $this->get_field_name('style'); ?>" id="<?php echo $this->get_field_name('style'); ?>">
 		<?php	
 
 		    $styles_arr = folder_array(WP_PLUGIN_DIR.'/'. dirname( plugin_basename(__FILE__) ).'/css');
@@ -435,36 +424,36 @@ class CountDownTimer extends WP_Widget {
 			}
 		?>
 	    </select></p>
-		<p><?php _e('Inject Script:'); ?> <input id="<?php echo $this->get_field_id('jsplacement'); ?>-foot" name="<?php echo $this->get_field_name('jsplacement'); ?>" type="radio" <?php echo $foot; ?> value="footer" /><label for="<?php echo $this->get_field_id('jsplacement'); ?>-foot"> <?php _e('Footer'); ?> </label> <input id="<?php echo $this->get_field_id('jsplacement'); ?>-inline" name="<?php echo $this->get_field_name('jsplacement'); ?>" type="radio" <?php echo $inline; ?> value="inline" /> <label for="<?php echo $this->get_field_id('jsplacement'); ?>-inline"> <?php _e('Inline'); ?></label></p>
+		<p><?php _e('Inject Script:', 'tminus'); ?> <input id="<?php echo $this->get_field_id('jsplacement'); ?>-foot" name="<?php echo $this->get_field_name('jsplacement'); ?>" type="radio" <?php echo $foot; ?> value="footer" /><label for="<?php echo $this->get_field_id('jsplacement'); ?>-foot"> <?php _e('Footer', 'tminus'); ?> </label> <input id="<?php echo $this->get_field_id('jsplacement'); ?>-inline" name="<?php echo $this->get_field_name('jsplacement'); ?>" type="radio" <?php echo $inline; ?> value="inline" /> <label for="<?php echo $this->get_field_id('jsplacement'); ?>-inline"> <?php _e('Inline', 'tminus'); ?></label></p>
 		
 		<input class="isrockstar" id="<?php echo $this->get_field_id('isrockstar'); ?>" name="<?php echo $this->get_field_name('isrockstar'); ?>" type="hidden" value="<?php echo $isrockstar; ?>" />
 		<?php
 		if($isrockstar){
-			echo __($isrockstar).'<br/>';
+			echo $isrockstar.'<br/>';
 		}
 		else{
 			?>
-			<p id="header-<?php echo $this->get_field_id('unlock'); ?>"><input class="rockstar" id="<?php echo $this->get_field_id('unlock'); ?>" name="<?php echo $this->get_field_name('unlock'); ?>" type="checkbox" value="" /> <label for="<?php echo $this->get_field_id('unlock'); ?>"><?php _e('This is totally worth 3 bucks.'); ?></label></p>
+			<p id="header-<?php echo $this->get_field_id('unlock'); ?>"><input class="rockstar" id="<?php echo $this->get_field_id('unlock'); ?>" name="<?php echo $this->get_field_name('unlock'); ?>" type="checkbox" value="" /> <label for="<?php echo $this->get_field_id('unlock'); ?>"><?php _e('This is totally worth 3 bucks.', 'tminus'); ?></label></p>
 			<div id="target-<?php echo $this->get_field_id('unlock'); ?>" class="collapseomatic_content">
 			<?php
 		}
 		
 		if($isrockstar){
 		?>
-		<a class="collapseomatic" id="tophtml<?php echo $this->get_field_id('tophtml'); ?>"><?php _e('Above Countdown'); ?></a>
+		<a class="collapseomatic" id="tophtml<?php echo $this->get_field_id('tophtml'); ?>"><?php _e('Above Countdown', 'tminus'); ?></a>
 		<div id="target-tophtml<?php echo $this->get_field_id('tophtml'); ?>" class="collapseomatic_content">
-				<p><label for="<?php echo $this->get_field_id('tophtml'); ?>"><?php _e('Top HTML:'); ?></label> <textarea id="<?php echo $this->get_field_id('tophtml'); ?>" name="<?php echo $this->get_field_name('tophtml'); ?>"><?php echo $tophtml; ?></textarea></p>
+				<p><label for="<?php echo $this->get_field_id('tophtml'); ?>"><?php _e('Top HTML:', 'tminus'); ?></label> <textarea id="<?php echo $this->get_field_id('tophtml'); ?>" name="<?php echo $this->get_field_name('tophtml'); ?>"><?php echo $tophtml; ?></textarea></p>
 		</div>
 		<br/>
-		<a class="collapseomatic" id="bothtml<?php echo $this->get_field_id('bothtml'); ?>"><?php _e('Below Countdown'); ?></a>
+		<a class="collapseomatic" id="bothtml<?php echo $this->get_field_id('bothtml'); ?>"><?php _e('Below Countdown', 'tminus'); ?></a>
 		<div id="target-bothtml<?php echo $this->get_field_id('bothtml'); ?>" class="collapseomatic_content">
-				<p><label for="<?php echo $this->get_field_id('bothtml'); ?>"><?php _e('Bottom HTML:'); ?></label> <textarea id="<?php echo $this->get_field_id('bothtml'); ?>" name="<?php echo $this->get_field_name('bothtml'); ?>"><?php echo $bothtml; ?></textarea></p>
+				<p><label for="<?php echo $this->get_field_id('bothtml'); ?>"><?php _e('Bottom HTML:', 'tminus'); ?></label> <textarea id="<?php echo $this->get_field_id('bothtml'); ?>" name="<?php echo $this->get_field_name('bothtml'); ?>"><?php echo $bothtml; ?></textarea></p>
 		</div>
 		<br/>
-		<a class="collapseomatic" id="launchhtml<?php echo $this->get_field_id('launchhtml'); ?>"><?php _e('When Countdown Reaches Zero'); ?></a>
+		<a class="collapseomatic" id="launchhtml<?php echo $this->get_field_id('launchhtml'); ?>"><?php _e('When Countdown Reaches Zero', 'tminus'); ?></a>
 		<div id="target-launchhtml<?php echo $this->get_field_id('launchhtml'); ?>" class="collapseomatic_content">
-				<p><label for="<?php echo $this->get_field_id('launchhtml'); ?>"><?php _e('Launch Event HTML:'); ?></label> <textarea id="<?php echo $this->get_field_id('launchhtml'); ?>" name="<?php echo $this->get_field_name('launchhtml'); ?>"><?php echo $launchhtml; ?></textarea></p>
-				<p><?php _e('Launch Target:'); ?> <select name="<?php echo $this->get_field_name('launchtarget'); ?>" id="<?php echo $this->get_field_name('launchtarget'); ?>">
+				<p><label for="<?php echo $this->get_field_id('launchhtml'); ?>"><?php _e('Launch Event HTML:', 'tminus'); ?></label> <textarea id="<?php echo $this->get_field_id('launchhtml'); ?>" name="<?php echo $this->get_field_name('launchhtml'); ?>"><?php echo $launchhtml; ?></textarea></p>
+				<p><?php _e('Launch Target:', 'tminus'); ?> <select name="<?php echo $this->get_field_name('launchtarget'); ?>" id="<?php echo $this->get_field_name('launchtarget'); ?>">
 				<?php
 					$target_arr = array('Above Countdown', 'Below Countdown', 'Entire Widget', 'Count Up');
 					foreach($target_arr as $target_name){
@@ -478,13 +467,13 @@ class CountDownTimer extends WP_Widget {
 				</select></p>
 		</div>
 		<br/>
-		<a class="collapseomatic" id="titles<?php echo $this->get_field_id('weektitle'); ?>"><?php _e('Digit Titles'); ?></a>
+		<a class="collapseomatic" id="titles<?php echo $this->get_field_id('weektitle'); ?>"><?php _e('Digit Titles', 'tminus'); ?></a>
 		<div id="target-titles<?php echo $this->get_field_id('weektitle'); ?>" class="collapseomatic_content">
-				<p><label for="<?php echo $this->get_field_id('weektitle'); ?>"><?php _e('How do you spell "weeks"?:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('weektitle'); ?>" name="<?php echo $this->get_field_name('weektitle'); ?>" type="text" value="<?php echo $weektitle; ?>" /></label></p>
-				<p><label for="<?php echo $this->get_field_id('daytitle'); ?>"><?php _e('How do you spell "days"?:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('daytitle'); ?>" name="<?php echo $this->get_field_name('daytitle'); ?>" type="text" value="<?php echo $daytitle; ?>" /></label></p>
-				<p><label for="<?php echo $this->get_field_id('hourtitle'); ?>"><?php _e('How do you spell "hours"?:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('hourtitle'); ?>" name="<?php echo $this->get_field_name('hourtitle'); ?>" type="text" value="<?php echo $hourtitle; ?>" /></label></p>
-				<p><label for="<?php echo $this->get_field_id('mintitle'); ?>"><?php _e('How do you spell "minutes"?:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('mintitle'); ?>" name="<?php echo $this->get_field_name('mintitle'); ?>" type="text" value="<?php echo $mintitle; ?>" /></label></p>
-				<p><label for="<?php echo $this->get_field_id('sectitle'); ?>"><?php _e('And "seconds" are spelled:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('sectitle'); ?>" name="<?php echo $this->get_field_name('sectitle'); ?>" type="text" value="<?php echo $sectitle; ?>" /></label></p>
+				<p><label for="<?php echo $this->get_field_id('weektitle'); ?>"><?php _e('How do you spell "weeks"?:', 'tminus'); ?> <input class="widefat" id="<?php echo $this->get_field_id('weektitle'); ?>" name="<?php echo $this->get_field_name('weektitle'); ?>" type="text" value="<?php echo $weektitle; ?>" /></label></p>
+				<p><label for="<?php echo $this->get_field_id('daytitle'); ?>"><?php _e('How do you spell "days"?:', 'tminus'); ?> <input class="widefat" id="<?php echo $this->get_field_id('daytitle'); ?>" name="<?php echo $this->get_field_name('daytitle'); ?>" type="text" value="<?php echo $daytitle; ?>" /></label></p>
+				<p><label for="<?php echo $this->get_field_id('hourtitle'); ?>"><?php _e('How do you spell "hours"?:', 'tminus'); ?> <input class="widefat" id="<?php echo $this->get_field_id('hourtitle'); ?>" name="<?php echo $this->get_field_name('hourtitle'); ?>" type="text" value="<?php echo $hourtitle; ?>" /></label></p>
+				<p><label for="<?php echo $this->get_field_id('mintitle'); ?>"><?php _e('How do you spell "minutes"?:', 'tminus'); ?> <input class="widefat" id="<?php echo $this->get_field_id('mintitle'); ?>" name="<?php echo $this->get_field_name('mintitle'); ?>" type="text" value="<?php echo $mintitle; ?>" /></label></p>
+				<p><label for="<?php echo $this->get_field_id('sectitle'); ?>"><?php _e('And "seconds" are spelled:', 'tminus'); ?> <input class="widefat" id="<?php echo $this->get_field_id('sectitle'); ?>" name="<?php echo $this->get_field_name('sectitle'); ?>" type="text" value="<?php echo $sectitle; ?>" /></label></p>
 		</div>
 	
 		<?php
@@ -495,7 +484,7 @@ class CountDownTimer extends WP_Widget {
 		
 		?>
 		<br/>
-		<a class="collapseomatic" id="tccc<?php echo $this->get_field_id('isrockstar'); ?>"><?php _e('Schedule Recurring Countdown'); ?></a>
+		<a class="collapseomatic" id="tccc<?php echo $this->get_field_id('isrockstar'); ?>"><?php _e('Schedule Recurring Countdown', 'tminus'); ?></a>
 		<div id="target-tccc<?php echo $this->get_field_id('isrockstar'); ?>" class="collapseomatic_content">
 				<p><a href="http://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/" target="_blank" title="T(-) Countdown Control">T(-) Countdown Control</a> is a premium countdown plugin that includes the ability to schedule and manage mulitple recurring T(-) Countdowns... the Jedi way.</p>
 		</div>
