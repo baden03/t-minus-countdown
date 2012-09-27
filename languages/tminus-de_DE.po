@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the T(-) Countdown package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2012-09-27 12:22:47+0000\n"
+"PO-Revision-Date: 2012-09-27 15:16:13+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,109 +10,157 @@ msgstr ""
 "X-Generator: GlotPress/0.1\n"
 "Project-Id-Version: T(-) Countdown\n"
 
-#: countdown-timer.php:106
+#: tminus.php:134 tminus.php:376 tminus.php:554
+msgid "weeks"
+msgstr "Wochen"
+
+#: tminus.php:135 tminus.php:377 tminus.php:555
+msgid "days"
+msgstr "Tage"
+
+#: tminus.php:136 tminus.php:378 tminus.php:556
+msgid "hours"
+msgstr "Stunden"
+
+#: tminus.php:137 tminus.php:379 tminus.php:557
+msgid "minutes"
+msgstr "Minuten"
+
+#: tminus.php:138 tminus.php:380 tminus.php:558
+msgid "seconds"
+msgstr "Sekunden"
+
+#: tminus.php:434
+msgid "Rockstar Features"
+msgstr "Rockstar Features"
+
+#: countdown-timer.php:462
+msgid "Entire Widget"
+msgstr "Komplettes Widget"
+
+#: countdown-timer.php:462
+msgid "Count Up"
+msgstr "Hochzählen"
+
+#: tminus.php:491
+msgid "%sT(-) Countdown Control%s is a premium countdown plugin that includes the ability to schedule and manage multiple recurring T(-) Countdowns... the Jedi way."
+msgstr "%sT(-) Countdown Control%s ist ein Premium Countdown Plugin, das mehrere wiederholende Countdowns erstellen und managen kann ... the Jedi way. "
+
+msgid "T(-) Countdown"
+msgstr "T(-) Countdown"
+
+msgid "http://plugins.twinpictures.de/plugins/t-minus-countdown/"
+msgstr "http://plugins.twinpictures.de/plugins/t-minus-countdown/"
+
+msgid "twinpictures, baden03"
+msgstr "twinpictures, baden03"
+
+msgid "http://www.twinpictures.de/"
+msgstr "http://www.twinpictures.de/"
+
+#: tminus.php:107
 msgid "A highly customizable jQuery countdown timer by Twinpictures"
 msgstr "Ein flexibel anpassbarer JQuery Countdown Timer von Twinpictures"
 
-#: countdown-timer.php:390
+#: tminus.php:392
 msgid "Title:"
 msgstr "Titel:"
 
-#: countdown-timer.php:391
+#: tminus.php:393
 msgid "Target Date:"
 msgstr "Stichtag: "
 
-#: countdown-timer.php:392
+#: tminus.php:394
 msgid "Target Time (HH:MM:SS):"
 msgstr "Zielzeit (HH:MM:SS):"
 
-#: countdown-timer.php:412
+#: tminus.php:414
 msgid "Omit Weeks:"
 msgstr "Wochen weglassen: "
 
-#: countdown-timer.php:412
+#: tminus.php:414
 msgid "No"
 msgstr "Nein"
 
-#: countdown-timer.php:412
+#: tminus.php:414
 msgid "Yes"
 msgstr "Ja"
 
-#: countdown-timer.php:413
+#: tminus.php:415
 msgid "Style:"
 msgstr "Style: "
 
-#: countdown-timer.php:427
+#: tminus.php:429
 msgid "Inject Script:"
 msgstr "Skript einfügen:"
 
-#: countdown-timer.php:427
+#: tminus.php:429
 msgid "Footer"
 msgstr "Fußzeile"
 
-#: countdown-timer.php:427
+#: tminus.php:429
 msgid "Inline"
 msgstr "Inline"
 
-#: countdown-timer.php:436
+#: tminus.php:438
 msgid "This is totally worth 3 bucks."
 msgstr "Das Plugin ist mir 3 Dollar wert. "
 
-#: countdown-timer.php:443
+#: tminus.php:445
 msgid "Above Countdown"
 msgstr "Überhalb des Countdowns"
 
-#: countdown-timer.php:445
+#: tminus.php:447
 msgid "Top HTML:"
 msgstr "HTML oben: "
 
-#: countdown-timer.php:448
+#: tminus.php:450
 msgid "Below Countdown"
 msgstr "Unterhalb des Countdowns"
 
-#: countdown-timer.php:450
+#: tminus.php:452
 msgid "Bottom HTML:"
 msgstr "HTML unten:"
 
-#: countdown-timer.php:453
+#: tminus.php:455
 msgid "When Countdown Reaches Zero"
-msgstr "Wenn der Countdown abgelaufen ist"
+msgstr "Wenn der Countdown Null erreicht"
 
-#: countdown-timer.php:455
+#: tminus.php:457
 msgid "Launch Event HTML:"
 msgstr "Launch Event HTML: "
 
-#: countdown-timer.php:456
+#: tminus.php:458
 msgid "Launch Target:"
 msgstr "Launch Ziel: "
 
-#: countdown-timer.php:470
+#: tminus.php:472
 msgid "Digit Titles"
-msgstr "Ziffern-Überschriften"
+msgstr "Ziffer-Überschriften"
 
-#: countdown-timer.php:472
+#: tminus.php:474
 msgid "How do you spell \"weeks\"?:"
 msgstr "Wie willst Du \"Wochen\" schreiben?"
 
-#: countdown-timer.php:473
+#: tminus.php:475
 msgid "How do you spell \"days\"?:"
 msgstr "Wie willst Du \"Tage\" schreiben?"
 
-#: countdown-timer.php:474
+#: tminus.php:476
 msgid "How do you spell \"hours\"?:"
 msgstr "Wie willst Du \"Stunden\" schreiben?"
 
-#: countdown-timer.php:475
+#: tminus.php:477
 msgid "How do you spell \"minutes\"?:"
 msgstr "Wie willst Du \"Minuten\" schreiben?"
 
-#: countdown-timer.php:476
+#: tminus.php:478
 msgid "And \"seconds\" are spelled:"
-msgstr "Wie willst Du \"Sekunden\" schreiben?"
+msgstr "Und wie willst Du \"Sekunden\" schreiben?"
 
-#: countdown-timer.php:487
+#: tminus.php:489
 msgid "Schedule Recurring Countdown"
-msgstr "Wiederholende Countdowns festlegen"
+msgstr "Wiederholende Countdowns erstellen"
 
 msgid "Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget."
 msgstr "Mehrere T(-) Countdown Timer mit Shortcodes oder Sidebar Widgets anzeigen und konfigurieren. "

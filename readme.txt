@@ -5,9 +5,9 @@ Donate link: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, t minus, t-minus, twinpictures, plguin-oven, pluginoven, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 3.3
 Tested up to: 3.4.2
-Stable tag: 2.2.6
+Stable tag: 2.2.7
 
-T(-) Countdown will display a highly customizable, sweet-n-sexy flash-free countdown timer in a sidebar, page or post.
+T(-) Countdown will display a highly customizable, flash-free countdown timer as a sidebar widget or in a post or page using a shortcode.
 
 == Description ==
 
@@ -31,6 +31,12 @@ T(-) Countdown will display a highly customizable jQuery countdown timer as a si
 = How does one use the shortcode, exactly? =
 A <a href='http://plugins.twinpictures.de/plugins/t-minus-countdown/documentation/'>complete list of shortcode options</a> has been provided to answer this exact question.
 
+= Where can I fork this plugn and contribute changes? =
+<a href='http://github.com/baden03/t-minus-countdown'>github</a>
+
+= Where can I translate this plugin into my favorite langauge? =
+<a href='http://translate.twinpictures.de/projects/t-countdown'>Community translation for T(-) Countdown</a> has been set up. You are <a href='http://translate.twinpictures.de/wordpress/wp-login.php?action=register'>welcome to join</a>.
+
 = How does one pronounce T Minus? =
 * Tee&mdash;As in Tea for Two, or Tee off time
 * Minus&mdash;As in the opposite of plus (+)
@@ -51,8 +57,14 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the
 1. Styles: C-3PO, TIE-Fighter and Carbonlite.
 1. The basic T(-) Countdown widget options.
 1. An expansive view of the available Countdown widget options, provided for your viewing pleasure.
+1. The _magical_ jQuery Datepicker.
 
 == Changelog ==
+
+= 2.2.7 =
+* Added I18n localization support
+* Added German translation
+* Added source to Github: http://github.com/baden03/t-minus-countdown
 
 = 2.2.6 =
 * Fixed issue with flashing animations on inactive tabs (again)
@@ -148,6 +160,10 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the
 * The plugin came to be.
 
 == Upgrade Notice ==
+
+= 2.2.7 =
+* Language support added
+* German translation added
 
 = 2.2.6 =
 * Animations remain smooth for inactive tabs.

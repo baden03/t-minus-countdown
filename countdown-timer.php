@@ -1,9 +1,11 @@
 <?php
 /*
 Plugin Name: T(-) Countdown
+Text Domain: tminus
+Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.2.6
+Version: 2.2.7
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -32,7 +34,7 @@ function countdown_scripts(){
 			//delete the old style system
 			delete_option( 't-minus_styles' );
 			//add version check
-			add_option('t-minus_version', '2.2.6');
+			add_option('t-minus_version', '2.2.7');
 		}
 		$styles_arr = array("TIE-fighter","c-3po","c-3po-mini","carbonite","carbonlite","darth","jedi");
 		add_option('t-minus_styles', $styles_arr);
@@ -69,7 +71,7 @@ function countdown_scripts(){
 }
 add_action( 'init', 'countdown_scripts' );
 
-//set the locaiton to throbber in a var
+//set the location to throbber in a var
 /*
 function throbber_location() {
     echo '<script type="text/javascript"> var throbber_url = "'.plugins_url() .'/'. dirname( plugin_basename(__FILE__) ).'/js/throbber.js"; </script>';
@@ -101,7 +103,6 @@ add_option('rockstar', '');
 class CountDownTimer extends WP_Widget {
     /** constructor */
     function CountDownTimer() {
-        //parent::WP_Widget(false, $name = 'CountDownTimer');
 		load_plugin_textdomain( 'tminus', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 		$widget_ops = array('classname' => 'CountDownTimer', 'description' => __('A highly customizable jQuery countdown timer by Twinpictures', 'tminus') );
 		$this->WP_Widget('CountDownTimer', 'T(-) Countdown', $widget_ops);
@@ -116,8 +117,8 @@ class CountDownTimer extends WP_Widget {
 		wp_enqueue_style( 'countdown-'.$style.'-css' );
 		
 		$title = empty($instance['title']) ? ' ' : apply_filters('widget_title', $instance['title']);
-		$tophtml = empty($instance['tophtml']) ? ' ' : apply_filters('widget_tophtml', $instance['tophtml']);
-        $bothtml = empty($instance['bothtml']) ? ' ' : apply_filters('widget_bothtml', $instance['bothtml']);
+		$tophtml = empty($instance['tophtml']) ? ' ' : apply_filters('widget_tophtml', stripslashes($instance['tophtml']));
+        $bothtml = empty($instance['bothtml']) ? ' ' : apply_filters('widget_bothtml', stripslashes($instance['bothtml']));
         $launchhtml = empty($instance['launchhtml']) ? ' ' : apply_filters('widget_launchhtml', $instance['launchhtml']);
         $launchtarget = empty($instance['launchtarget']) ? 'After Countdown' : apply_filters('widget_launchtarget', $instance['launchtarget']);
 		
@@ -130,18 +131,19 @@ class CountDownTimer extends WP_Widget {
 		$min = empty($instance['min']) ? 12 : apply_filters('widget_min', $instance['min']);
 		$sec = empty($instance['sec']) ? 20 : apply_filters('widget_sec', $instance['sec']);
 		
-		$weektitle = empty($instance['weektitle']) ? 'weeks' : apply_filters('widget_weektitle', $instance['weektitle']);
-		$daytitle = empty($instance['daytitle']) ? 'days' : apply_filters('widget_daytitle', $instance['daytitle']);
-		$hourtitle = empty($instance['hourtitle']) ? 'hours' : apply_filters('widget_hourtitle', $instance['hourtitle']);
-		$mintitle = empty($instance['mintitle']) ? 'minutes' : apply_filters('widget_mintitle', $instance['mintitle']);
-		$sectitle = empty($instance['sectitle']) ? 'seconds' : apply_filters('widget_sectitle', $instance['sectitle']);
+		$weektitle = empty($instance['weektitle']) ? __('weeks', 'tminus') : apply_filters('widget_weektitle', stripslashes($instance['weektitle']));
+		$daytitle = empty($instance['daytitle']) ? __('days', 'tminus') : apply_filters('widget_daytitle', stripslashes($instance['daytitle']));
+		$hourtitle = empty($instance['hourtitle']) ? __('hours', 'tminus') : apply_filters('widget_hourtitle', stripslashes($instance['hourtitle']));
+		$mintitle = empty($instance['mintitle']) ? __('minutes', 'tminus') : apply_filters('widget_mintitle', stripslashes($instance['mintitle']));
+		$sectitle = empty($instance['sectitle']) ? __('seconds', 'tminus') : apply_filters('widget_sectitle', stripslashes($instance['sectitle']));
+		
 		$omitweeks = empty($instance['omitweeks']) ? 'false' : apply_filters('widget_omitweeks', $instance['omitweeks']);
 		$jsplacement = empty($instance['jsplacement']) ? 'footer' : apply_filters('widget_jsplacement', $instance['jsplacement']);
 		
 		//now
 		$now = time() + ( get_option( 'gmt_offset' ) * 3600);
 
-		//taret		
+		//target		
 		$target = strtotime( $date.' '.$hour.':'.$min.':'.$sec );
 		
 		//difference in seconds
@@ -391,7 +393,7 @@ class CountDownTimer extends WP_Widget {
 		<p><label for="<?php echo $this->get_field_id('date'); ?>"><?php _e('Target Date:', 'tminus'); ?></label><br/><input style="width: 90px;" id="<?php echo $this->get_field_id('date'); ?>" name="<?php echo $this->get_field_name('date'); ?>" type="text" value="<?php echo $date; ?>" class="t-datepicker"/></p>
 		<p><label for="<?php echo $this->get_field_id('hour'); ?>"><?php _e('Target Time (HH:MM:SS):', 'tminus'); ?></label><br/><input style="width: 30px;" id="<?php echo $this->get_field_id('hour'); ?>" name="<?php echo $this->get_field_name('hour'); ?>" type="text" value="<?php echo $hour; ?>" />:<input style="width: 30px;" id="<?php echo $this->get_field_id('min'); ?>" name="<?php echo $this->get_field_name('min'); ?>" type="text" value="<?php echo $min; ?>" />:<input style="width: 30px;" id="<?php echo $this->get_field_id('sec'); ?>" name="<?php echo $this->get_field_name('sec'); ?>" type="text" value="<?php echo $sec; ?>" /></p>
 		<?php
-			//Omit Week Slector
+			//Omit Week Selector
             $negative = '';
             $positive = '';
             if($omitweeks == 'false'){
@@ -400,7 +402,7 @@ class CountDownTimer extends WP_Widget {
                 $positive = 'CHECKED'; 
             }
 			
-			//JS Placement Slector
+			//JS Placement Selector
             $foot = '';
             $inline = '';
             if($jsplacement == 'footer'){
@@ -429,7 +431,7 @@ class CountDownTimer extends WP_Widget {
 		<input class="isrockstar" id="<?php echo $this->get_field_id('isrockstar'); ?>" name="<?php echo $this->get_field_name('isrockstar'); ?>" type="hidden" value="<?php echo $isrockstar; ?>" />
 		<?php
 		if($isrockstar){
-			echo $isrockstar.'<br/>';
+			echo __('Rockstar Features', 'tminus').'<br/>';
 		}
 		else{
 			?>
@@ -461,7 +463,7 @@ class CountDownTimer extends WP_Widget {
 						if($launchtarget == $target_name){
 							$selected = 'SELECTED';
 						}
-						echo '<option value="'.$target_name.'" '.$selected.'>'.__($target_name).'</option>';
+						echo '<option value="'.$target_name.'" '.$selected.'>'.__($target_name, "tminus").'</option>';
 					}
 				?>
 				</select></p>
@@ -486,7 +488,7 @@ class CountDownTimer extends WP_Widget {
 		<br/>
 		<a class="collapseomatic" id="tccc<?php echo $this->get_field_id('isrockstar'); ?>"><?php _e('Schedule Recurring Countdown', 'tminus'); ?></a>
 		<div id="target-tccc<?php echo $this->get_field_id('isrockstar'); ?>" class="collapseomatic_content">
-				<p><a href="http://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/" target="_blank" title="T(-) Countdown Control">T(-) Countdown Control</a> is a premium countdown plugin that includes the ability to schedule and manage mulitple recurring T(-) Countdowns... the Jedi way.</p>
+				<p><?php printf(__('%sT(-) Countdown Control%s is a premium countdown plugin that includes the ability to schedule and manage multiple recurring T(-) Countdowns... the Jedi way.', 'tminus'), '<a href="http://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/" target="blank" title="(-) Countdown Control">', '</a>'); ?></p>
 		</div>
 		<?php
     }
@@ -549,11 +551,11 @@ function tminuscountdown($atts, $content=null) {
     extract(shortcode_atts(array(
 		'id' => $ran,
 		't' => '20-12-2012 20:12:20',
-        'weeks' => 'weeks',
-		'days' => 'days',
-		'hours' => 'hours',
-		'minutes' => 'minutes',
-		'seconds' => 'seconds',
+        'weeks' => __('weeks', 'tminus'),
+		'days' => __('days', 'tminus'),
+		'hours' => __('hours', 'tminus'),
+		'minutes' => __('minutes', 'tminus'),
+		'seconds' => __('seconds', 'tminus'),
 		'omitweeks' => 'false',
 		'style' => 'jedi',
 		'before' => '',
@@ -661,7 +663,7 @@ function tminuscountdown($atts, $content=null) {
 	}
 			
 	$tminus .= '<div class="'.$dclass.'"><span class="'.$style.'-dash_title">'.$days.'</span>';
-	//show thrid day digit if there are NO weeks and the number of days is greater that 99
+	//show third day digit if there are NO weeks and the number of days is greater that 99
 	if($omitweeks == 'true' && $date_arr['days'][3] > 99){
 		$tminus .= '<div class="'.$style.'-digit">'.$date_arr['days'][0].'</div>';
 	}
