@@ -66,6 +66,7 @@
 	left: -15px;
 	top: 16px;
 	width:28px;
+	white-space:nowrap;
 	color: #000;
 	text-align: left;
 	font-size: 9px;

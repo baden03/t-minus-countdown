@@ -5,7 +5,7 @@ Text Domain: tminus
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.2.7
+Version: 2.2.8
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -525,7 +525,7 @@ function print_my_script() {
 				'localtime': '<?php echo $script['localtime']; ?>'
 			},
 			style: '<?php echo $script['style']; ?>',
-			launchtarget: '<? echo $script['launchtarget']; ?>',
+			launchtarget: '<?php echo $script['launchtarget']; ?>',
 			omitWeeks: <?php echo $script['omitweeks'];
 				if($script['content']){
 					echo ", onComplete: function() {
