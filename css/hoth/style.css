@@ -1,0 +1,71 @@
+/*above the dashboard*/
+.hoth-tophtml, .hoth-bothtml {
+	margin: 0 auto;
+	padding: 0;
+	text-align: center;
+	font-size: 12px;
+	clear: both;
+}
+
+.hoth-dashboard {
+	height: 48px;
+	width: 100%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.hoth-dash {
+	width: 21%;
+	min-width: 32px;
+	max-width: 80px;
+	height: 48px;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 1%;
+	margin-right: auto;
+	position: relative;
+	color: #000;
+	background: #f1f1f1;
+	text-align: center;
+}
+
+.hoth-tripdash {
+	width: 21%;
+	min-width: 40px;
+	max-width: 80px;
+	height: 48px;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 1%;
+	margin-right: auto;
+	position: relative;
+	color: #000;
+	background: #f1f1f1;
+	text-align: center;
+}
+
+.hoth-digit {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.9em;
+	font-weight: 600;
+	line-height: 1.2em;
+	display: inline-block;
+	vertical-align: top;
+	width: auto;
+	height: .8em;
+	position: relative;
+	margin-top:4px;
+	}
+
+.hoth-dash_title {
+	display: block;
+	position: absolute;
+	width: 100%;
+	color: #000;
+	text-align: center;
+	font-size: 10px;
+	margin: 0px;
+	top: 23px;
+	white-space: nowrap;
+	overflow: hidden;
+}
