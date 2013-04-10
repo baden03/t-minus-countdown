@@ -1,5 +1,5 @@
 /*!
- * T- Countdown v1.2
+ * T- Countdown v1.4
  * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
  * Copyright 2012, Twinpictures
@@ -80,6 +80,7 @@
 	};
 
 	$.fn.doCountDown = function (id, diffSecs, duration) {
+		//alert(diffSecs);
 		$this = $('#' + id);
 		
 		if (diffSecs <= 0){
@@ -110,36 +111,27 @@
 		$.data($this[0], 'diffSecs', diffSecs);
 		if (diffSecs > 0 || $.data($this[0], 'launchtarget') == 'countup'){
 			if($.data($this[0], 'status') == 'play'){
-				a = 0;
+				var delta = 0;
 				delay = 1000;
 				now = new Date();
 				before = $.data($this[0], 'before');
 				elapsedTime = (now.getTime() - before.getTime());
 				if(elapsedTime >= delay + 1000){
-					a += Math.floor(1*(elapsedTime/delay));
+					delta += Math.floor(1*(elapsedTime/delay));
 				}
 				else{
-					a = 1;
+					delta = 1;
 				}
 				before = new Date();
 				$.data($this[0], 'before', before);
 				e = $this;
-				
-				//if(typeof(Worker)!=="undefined"){
-					// Yes! Web worker support!
-					//console.log(throbber_url);
-					//if(typeof(w)=="undefined"){
-						//w = new Worker(throbber_url);
-					//}
-					//w.onmessage = function( event ) { e.doCountDown(id, diffSecs-a) };
-				//}
-				//else{
-					// Sorry! No Web Worker support..
-					t = setTimeout(function() { e.doCountDown(id, diffSecs-a) } , 1000);
-				//}
+				t = setTimeout(function() {
+					e.doCountDown(id, diffSecs-delta);
+					} , 1000);
 			}
-		} 
-		else if (cb = $.data($this[0], 'callback')){
+		}
+		//cb = $.data($this[0], 'callback')
+		else if ($.data($this[0], 'callback')){
 			if($.data($this[0], 'hangtime')){
 				//phone's ringing dude.
 			}
