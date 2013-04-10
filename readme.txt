@@ -2,10 +2,12 @@
 
 Contributors: twinpictures, baden03
 Donate link: http://plugins.twinpictures.de/plugins/t-minus-countdown/
-Tags: countdown, timer, clock, ticker, widget, event, counter, count down, t minus, t-minus, twinpictures, plguin-oven, pluginoven, G2, spaceBros, littlewebtings, jQuery, javascript
+Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, plugin-oven, pluginoven, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 3.3
-Tested up to: 3.4.2
-Stable tag: 2.2.8
+Tested up to: 3.6-beta
+Stable tag: 2.2.10
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 T(-) Countdown will display a highly customizable, flash-free countdown timer as a sidebar widget or in a post or page using a shortcode.
 
@@ -42,14 +44,14 @@ A <a href='http://plugins.twinpictures.de/plugins/t-minus-countdown/documentatio
 * Minus&mdash;As in the opposite of plus (+)
 * T Minus&mdash;As in "This is Apollo Saturn Launch Control. We've passed the 11-minute mark. Now T minus 10 minutes 54 seconds on our countdown for Apollo 11."
 
-= Where may one view political news that gives giggle? =
-The Daily Show with John Stewart
-
-= I am a Social Netwookiee, do you have a Facebook page? =
+= I am a Social Netwookiee, does Twinpictures have a Facebook page? =
 Yes, yes... <a href='http://www.facebook.com/twinpictures'>Twinpictures is on Facebook</a>.
 
 = Does Twinpictures do the Twitter? =
 Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the Twitter.
+
+= Where may one view political news that gives giggle? =
+The Daily Show with John Stewart
 
 == Screenshots ==
 
@@ -57,9 +59,19 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the
 1. Styles: C-3PO, TIE-Fighter and Carbonlite.
 1. The basic T(-) Countdown widget options.
 1. An expansive view of the available Countdown widget options, provided for your viewing pleasure.
-1. The _magical_ jQuery Datepicker.
+1. The magical jQuery Datepicker.
 
 == Changelog ==
+
+= 2.2.10 =
+* only load jQuery datepicker and related css on widgets admin page
+* countup will switch to triple digits for numbers above 100
+* added carbonite-responsive style
+* added hoth style
+
+= 2.2.9 =
+* calculate local time using WordPress current_time() function
+* fixed bug for iOS devices using Chrome
 
 = 2.2.8 =
 * fixed missing php tag.
@@ -163,6 +175,15 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the
 * The plugin came to be.
 
 == Upgrade Notice ==
+
+= 2.2.10 =
+* jQuery datepicker and related css will only load when needed
+* countup will use triple digit class for numbers above 100
+* new carbonite-responsive style
+
+= 2.2.9 =
+* current time calculation now uses WordPress current_time() function
+* bug fix for iOS devices using Chrome
 
 = 2.2.8 =
 * small bug fix that was causing issues on some systems.
