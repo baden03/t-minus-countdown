@@ -1,67 +1,96 @@
-# Copyright (C) 2012 T(-) Countdown
+# Translation of T(-) Countdown in Italian
 # This file is distributed under the same license as the T(-) Countdown package.
 msgid ""
 msgstr ""
-"Project-Id-Version: T(-) Countdown 2.2.7\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/tminus\n"
-"POT-Creation-Date: 2012-09-27 14:27:24+00:00\n"
+"PO-Revision-Date: 2013-03-11 10:18+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2012-09-27 17:48+0100\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.5.5\n"
+"Project-Id-Version: T(-) Countdown\n"
+"POT-Creation-Date: \n"
 "Last-Translator: Baden Coleman <baden@twinpictures.de>\n"
-"Language-Team: Twinpictures <info@twinpictures.de>\n"
-"X-Generator: Poedit 1.5.3\n"
-"Language: English\n"
-"X-Poedit-SourceCharset: UTF-8\n"
+"Language-Team: \n"
+
+#: countdown-timer.php:491
+msgid ""
+"%sT(-) Countdown Control%s is a premium countdown plugin that includes the "
+"ability to schedule and manage mulitple recurring T(-) Countdowns... the "
+"Jedi way."
+msgstr ""
+
+#: countdown-timer.php:134 countdown-timer.php:376 countdown-timer.php:554
+msgid "weeks"
+msgstr "Settimane"
+
+#: countdown-timer.php:135 countdown-timer.php:377 countdown-timer.php:555
+msgid "days"
+msgstr "Giorni"
+
+#: countdown-timer.php:136 countdown-timer.php:378 countdown-timer.php:556
+msgid "hours"
+msgstr "Ore"
+
+#: countdown-timer.php:137 countdown-timer.php:379 countdown-timer.php:557
+msgid "minutes"
+msgstr "Minuti"
+
+#: countdown-timer.php:138 countdown-timer.php:380 countdown-timer.php:558
+msgid "seconds"
+msgstr "Secondi"
+
+#: countdown-timer.php:434
+msgid "Rockstar Features"
+msgstr "Funzioni Rockstar"
+
+#: countdown-timer.php:462
+msgid "Entire Widget"
+msgstr ""
+
+#: countdown-timer.php:462
+msgid "Count Up"
+msgstr ""
+
+msgid "T(-) Countdown"
+msgstr ""
+
+msgid "http://plugins.twinpictures.de/plugins/t-minus-countdown/"
+msgstr ""
+
+msgid "twinpictures, baden03"
+msgstr ""
+
+msgid "http://www.twinpictures.de/"
+msgstr ""
 
 #: countdown-timer.php:107
 msgid "A highly customizable jQuery countdown timer by Twinpictures"
 msgstr ""
 
-#: countdown-timer.php:134 countdown-timer.php:376 countdown-timer.php:554
-msgid "weeks"
-msgstr ""
-
-#: countdown-timer.php:135 countdown-timer.php:377 countdown-timer.php:555
-msgid "days"
-msgstr ""
-
-#: countdown-timer.php:136 countdown-timer.php:378 countdown-timer.php:556
-msgid "hours"
-msgstr ""
-
-#: countdown-timer.php:137 countdown-timer.php:379 countdown-timer.php:557
-msgid "minutes"
-msgstr ""
-
-#: countdown-timer.php:138 countdown-timer.php:380 countdown-timer.php:558
-msgid "seconds"
-msgstr ""
-
 #: countdown-timer.php:392
 msgid "Title:"
-msgstr ""
+msgstr "Titolo:"
 
 #: countdown-timer.php:393
 msgid "Target Date:"
-msgstr ""
+msgstr "Data di fine Count Down:"
 
 #: countdown-timer.php:394
 msgid "Target Time (HH:MM:SS):"
-msgstr ""
+msgstr "Orario fine Cound Down (HH:MM:SS):"
 
 #: countdown-timer.php:414
 msgid "Omit Weeks:"
-msgstr ""
+msgstr "Nascondi Settimane:"
 
 #: countdown-timer.php:414
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: countdown-timer.php:414
 msgid "Yes"
-msgstr ""
+msgstr "Si"
 
 #: countdown-timer.php:415
 msgid "Style:"
@@ -77,10 +106,6 @@ msgstr ""
 
 #: countdown-timer.php:429
 msgid "Inline"
-msgstr ""
-
-#: countdown-timer.php:434
-msgid "Rockstar Features"
 msgstr ""
 
 #: countdown-timer.php:438
@@ -115,14 +140,6 @@ msgstr ""
 msgid "Launch Target:"
 msgstr ""
 
-#: countdown-timer.php:462
-msgid "Entire Widget"
-msgstr ""
-
-#: countdown-timer.php:462
-msgid "Count Up"
-msgstr ""
-
 #: countdown-timer.php:472
 msgid "Digit Titles"
 msgstr ""
@@ -151,31 +168,7 @@ msgstr ""
 msgid "Schedule Recurring Countdown"
 msgstr ""
 
-#: countdown-timer.php:491
-msgid ""
-"%sT(-) Countdown Control%s is a premium countdown plugin that includes the "
-"ability to schedule and manage mulitple recurring T(-) Countdowns... the "
-"Jedi way."
-msgstr ""
-
-#. Plugin Name of the plugin/theme
-msgid "T(-) Countdown"
-msgstr ""
-
-#. Plugin URI of the plugin/theme
-msgid "http://plugins.twinpictures.de/plugins/t-minus-countdown/"
-msgstr ""
-
-#. Description of the plugin/theme
 msgid ""
 "Display and configure multiple T(-) Countdown timers using a shortcode or "
 "sidebar widget."
-msgstr ""
-
-#. Author of the plugin/theme
-msgid "twinpictures, baden03"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "http://www.twinpictures.de/"
 msgstr ""
