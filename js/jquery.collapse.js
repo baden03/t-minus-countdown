@@ -1,8 +1,8 @@
 /*!
- * jQuery Collapse-O-Matic for T-Minus v1.1
+ * jQuery Collapse-O-Matic for T-Minus v1.2
  * http://www.twinpictures.de/
  *
- * Copyright 2012, Twinpictures
+ * Copyright 2014, Twinpictures
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,7 @@ jQuery(document).ready(function() {
 	    jQuery('#target-'+thisid).css('display', 'none');
     });
 	
-    jQuery('.collapseomatic').livequery('click', function(event) {
+	jQuery(document).on('click', '.collapseomatic', function(event) {
 		//alert('phones ringin dude');
 		jQuery(this).toggleClass('colomat-close');
 		var id = jQuery(this).attr('id');
@@ -43,7 +43,7 @@ jQuery(document).ready(function() {
 		});
 	});
 	
-	jQuery('.rockstar').livequery('click', function(event) {
+	jQuery(document).on('click', '.rockstar', function(event) {
 		//alert('phones ringin dude');
 		var id = jQuery(this).attr('id');
 		var key = jQuery(this).val();
