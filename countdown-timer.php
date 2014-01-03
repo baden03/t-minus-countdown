@@ -5,13 +5,13 @@ Text Domain: tminus
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.2.10
+Version: 2.2.12
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
 */
 
-/*  Copyright 2013 Twinpictures (www.twinpictures.de)
+/*  Copyright 2014 Twinpictures (www.twinpictures.de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -29,30 +29,27 @@ License: GPL2
 
 //widget scripts
 function countdown_scripts(){
-		$current_version = '2.2.10';
+		$current_version = '2.2.12';
 		$installed_version  = get_option('t-minus_version');
 		
 		if($current_version != $installed_version){
 			//delete the old style system
 			delete_option( 't-minus_styles' );
 			//add version check
-			update_option('t-minus_version', '2.2.10');
+			update_option('t-minus_version', '2.2.12');
 			
 			//reset rockstar option
 			delete_option( 'rockstar' );
 			add_option('rockstar', '');
 		}
-		$styles_arr = array("hoth","TIE-fighter","c-3po","c-3po-mini","carbonite","carbonite-responsive","carbonlite","darth","jedi");
+		$styles_arr = array("hoth","TIE-fighter","c-3po","c-3po-mini","carbonite","carbonite-responsive","carbonlite","cloud-city","darth","jedi", "sith");
 		add_option('t-minus_styles', $styles_arr);
 		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
-		wp_enqueue_script('jquery');
+		//wp_enqueue_script('jquery');
         if (is_admin() && $_SERVER["REQUEST_URI"] == '/wp-admin/widgets.php'){
                 //jquery admin stuff
-                wp_register_script('tminus-admin-script', $plugin_url.'/js/jquery.collapse.min.js', array ('jquery'), '1.1' );
+                wp_register_script('tminus-admin-script', $plugin_url.'/js/jquery.collapse.js', array ('jquery'), '1.2' );
                 wp_enqueue_script('tminus-admin-script');
-				
-				wp_register_script('livequery-script', $plugin_url.'/js/jquery.livequery.min.js', array ('jquery'), '1.0' );
-                wp_enqueue_script('livequery-script');
 				
 				wp_register_style('colapse-admin-css', $plugin_url.'/admin/collapse-style.css', array (), '1.0' );    
                 wp_enqueue_style('colapse-admin-css');
@@ -63,14 +60,13 @@ function countdown_scripts(){
         }
 		else{
 				//lwtCountdown script
-				//wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.4' );
-                wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.min.js', array ('jquery'), '1.4' );
+				wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.5' );
                 wp_enqueue_script('countdown-script');
 				
 				//register all countdown styles for enqueue-as-needed
 				$styles_arr = get_option('t-minus_styles');
 				foreach($styles_arr as $style_name){
-					wp_register_style( 'countdown-'.$style_name.'-css', $plugin_url.'/css/'.$style_name.'/style.css', array(), '1.2' );
+					wp_register_style( 'countdown-'.$style_name.'-css', $plugin_url.'/css/'.$style_name.'/style.css', array(), '1.3' );
 				}
 		}
 }
@@ -119,7 +115,7 @@ class CountDownTimer extends WP_Widget {
 		
 		$day = empty($instance['day']) ? 20 : apply_filters('widget_day', $instance['day']);
 		$month = empty($instance['month']) ? 12 : apply_filters('widget_month', $instance['month']);
-		$year = empty($instance['year']) ? 2013 : apply_filters('widget_year', $instance['year']);
+		$year = empty($instance['year']) ? 2014 : apply_filters('widget_year', $instance['year']);
 		
 		$date = empty($instance['date']) ? $year.'-'.$month.'-'.$day : apply_filters('widget_date', $instance['date']);
 		$hour = empty($instance['hour']) ? 20 : apply_filters('widget_hour', $instance['hour']);
@@ -332,13 +328,25 @@ class CountDownTimer extends WP_Widget {
     }
 
     /** Update */
+	/*
     function update($new_instance, $old_instance) {
 		$instance = array_merge($old_instance, $new_instance);
 		if($instance['isrockstar'] == 'rockstar'){
 			update_option('rockstar', 'rockstar');
 		}
+		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
 		return array_map('mysql_real_escape_string', $instance);
     }
+	*/
+	
+	function update( $new_instance, $old_instance ) {
+		$instance = array_merge($old_instance, $new_instance);
+		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
+		if($instance['isrockstar'] == 'rockstar'){
+			update_option('rockstar', 'rockstar');
+		}
+		return $instance;
+	}
 
     /** Form */
     function form($instance) {
@@ -351,7 +359,7 @@ class CountDownTimer extends WP_Widget {
 		if($month > 12){
 			$month = 12;
 		}
-		$year = empty($instance['year']) ? 2013 : apply_filters('widget_year', $instance['year']);
+		$year = empty($instance['year']) ? 2014 : apply_filters('widget_year', $instance['year']);
 		$date = empty($instance['date']) ? $year.'-'.$month.'-'.$day : apply_filters('widget_date', $instance['date']);
 		$hour = empty($instance['hour']) ? 12 : apply_filters('widget_hour', $instance['hour']);
 		if($hour > 23){
@@ -718,33 +726,32 @@ function tminuscountdown($atts, $content=null) {
 		);
 	}
 	else{
-		?>
-		<script language="javascript" type="text/javascript">
+		$tminus .= "<script language='javascript' type='text/javascript'>
 			jQuery(document).ready(function() {
-				jQuery('#<?php echo $id; ?>-dashboard').countDown({	
+				jQuery('#".$id."-dashboard').countDown({	
 					targetDate: {
-						'day': 	<?php echo $day; ?>,
-						'month': <?php echo $month; ?>,
-						'year': <?php echo $year; ?>,
-						'hour': <?php echo $hour; ?>,
-						'min': 	<?php echo $min; ?>,
-						'sec': 	<?php echo $sec; ?>,
-						'localtime': '<?php echo $t; ?>',
-						'mysqltime':  '<?php echo current_time('mysql'); ?>'
+						'day': 	".$day.",
+						'month': ".$month.",
+						'year': ".$year.",
+						'hour': ".$hour.",
+						'min': 	".$min.",
+						'sec': 	".$sec.",
+						'localtime': '".$t."',
+						'mysqltime':  '".current_time('mysql')."'
 					},
-					style: '<?php echo $style; ?>',
-					launchtarget: '<?php echo $launchtarget; ?>',
-					omitWeeks: <?php echo $omitweeks;
-						if($content){
-							echo ", onComplete: function() {
+					style: '".$style."',
+					launchtarget: '".$launchtarget."',
+					omitWeeks: ".$omitweeks;
+					
+		if($content){
+			$tminus .= ", onComplete: function() {
 								jQuery('#".$id."-".$launchtarget."').css({'width' : '".$launchwidth."', 'height' : '".$launchheight."'});
 								jQuery('#".$id."-".$launchtarget."').html('".do_shortcode($content)."');	
 							}";
-						}?>
-				});
+		}
+		$tminus .= "});
 			});
-		</script>
-		<?php		
+		</script>";
 	}
 	return $tminus;
 }

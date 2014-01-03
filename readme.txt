@@ -3,9 +3,9 @@
 Contributors: twinpictures, baden03
 Donate link: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, plugin-oven, pluginoven, G2, spaceBros, littlewebtings, jQuery, javascript
-Requires at least: 3.3
-Tested up to: 3.6-beta
-Stable tag: 2.2.10
+Requires at least: 3.5
+Tested up to: 3.8
+Stable tag: 2.2.12
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,7 +13,7 @@ T(-) Countdown will display a highly customizable, flash-free countdown timer as
 
 == Description ==
 
-T(-) Countdown will display a highly customizable jQuery countdown timer as a sidebar widget or in a post or page using a shortcode. Perfect for informing one's website visitors of an upcoming event, such as a pending space voyage. Using Jedi Mind-tricks and CSS... but mostly CSS, the countdown timer is highly customizable for your viewing pleasure. A <a href='http://plugins.twinpictures.de/plugins/t-minus-countdown/documentation/'>complete listing of shortcode options</a> are available, as well as <a href='http://wordpress.org/support/plugin/jquery-t-countdown-widget'>free community</a> and <a href='http://plugins.twinpictures.de/plugins/t-minus-countdown/support/'>premium support</a>. This plug-in was inspired by littlewebthings' CountDown jQuery plugin. Intergalactic planetary thanks to g2.de, siliconstudio.com and be.net/arturex for the included css styles.
+T(-) Countdown will display a highly customizable jQuery countdown timer as a sidebar widget or in a post or page using a shortcode. Perfect for informing one's website visitors of an upcoming event, such as a pending space voyage. Using Jedi Mind-tricks and CSS... but mostly CSS, the countdown timer is highly customizable for your viewing pleasure. A <a href='http://plugins.twinpictures.de/plugins/t-minus-countdown/documentation/'>complete listing of shortcode options</a> are available, as well as <a href='http://wordpress.org/support/plugin/jquery-t-countdown-widget'>free community</a> support. This plug-in was inspired by littlewebthings' CountDown jQuery plugin. Intergalactic planetary thanks to g2.de, siliconstudio.com and be.net/arturex for the included css styles.
 
 == Installation ==
 
@@ -62,6 +62,14 @@ The Daily Show with John Stewart
 1. The magical jQuery Datepicker.
 
 == Changelog ==
+
+= 2.2.12 =
+* added cloud-city style which is a clone of vintage that came with vintage wedding theme: http://wordpress.org/support/topic/cannot-see-boxes
+
+= 2.2.11 =
+* When setting jsplacment to inline, script is forced to print after countdown elements.
+* Escape characters no longer converted in widget tile
+* Fixed 'Top Scroll' issue: http://wordpress.org/support/topic/timer-working-but-top-scroll-feature-conflicting?replies=7
 
 = 2.2.10 =
 * only load jQuery datepicker and related css on widgets admin page
@@ -175,6 +183,15 @@ The Daily Show with John Stewart
 * The plugin came to be.
 
 == Upgrade Notice ==
+
+= 2.2.12 =
+* added cloud-city style
+
+= 2.2.11 =
+* added new style: sith
+* jsplacment inline improved
+* Escape characters no longer converted in widget tile
+* Fixed 'Top Scroll' issue
 
 = 2.2.10 =
 * jQuery datepicker and related css will only load when needed
