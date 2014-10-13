@@ -1,5 +1,5 @@
 /*!
- * jQuery Collapse-O-Matic for T-Minus v1.2
+ * jQuery Collapse-O-Matic for T-Minus v1.2.1
  * http://www.twinpictures.de/
  *
  * Copyright 2014, Twinpictures
@@ -25,14 +25,15 @@
  */
 
 jQuery(document).ready(function() {
-	jQuery('.t-datepicker').datepicker({
-	   dateFormat : 'yy-mm-dd'
+
+	jQuery(document).on('click', '.t-datepicker', function(event) {
+		jQuery(this).datepicker('destroy').datepicker({dateFormat : 'yy-mm-dd'}).focus();
 	});
 	
 	jQuery('.collapseomatic:not(.colomat-close)').each(function(index) {
-	    var thisid = jQuery(this).attr('id');
-	    jQuery('#target-'+thisid).css('display', 'none');
-    });
+		var thisid = jQuery(this).attr('id');
+		jQuery('#target-'+thisid).css('display', 'none');
+	});
 	
 	jQuery(document).on('click', '.collapseomatic', function(event) {
 		//alert('phones ringin dude');

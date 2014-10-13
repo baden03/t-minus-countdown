@@ -5,72 +5,66 @@ Text Domain: tminus
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.2.12
+Version: 2.2.17c
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
 */
 
-/*  Copyright 2014 Twinpictures (www.twinpictures.de)
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License, version 2, as 
-    published by the Free Software Foundation.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
-//widget scripts
-function countdown_scripts(){
-		$current_version = '2.2.12';
+//plugin init scripts
+add_action( 'init', 'countdown_init_scripts' );
+function countdown_init_scripts(){
+		$current_version = '2.2.17c';
 		$installed_version  = get_option('t-minus_version');
 		
 		if($current_version != $installed_version){
-			//delete the old style system
-			delete_option( 't-minus_styles' );
-			//add version check
-			update_option('t-minus_version', '2.2.12');
+			//add or update version
+			update_option('t-minus_version', $current_version);
 			
+			//add or update styles
+			$styles_arr = array("hoth","TIE-fighter","c-3po","c-3po-mini","carbonite","carbonite-responsive","carbonlite","cloud-city","darth","jedi", "sith");
+		        update_option('t-minus_styles', $styles_arr);
+		
 			//reset rockstar option
-			delete_option( 'rockstar' );
-			add_option('rockstar', '');
-		}
-		$styles_arr = array("hoth","TIE-fighter","c-3po","c-3po-mini","carbonite","carbonite-responsive","carbonlite","cloud-city","darth","jedi", "sith");
-		add_option('t-minus_styles', $styles_arr);
-		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
-		//wp_enqueue_script('jquery');
-        if (is_admin() && $_SERVER["REQUEST_URI"] == '/wp-admin/widgets.php'){
-                //jquery admin stuff
-                wp_register_script('tminus-admin-script', $plugin_url.'/js/jquery.collapse.js', array ('jquery'), '1.2' );
-                wp_enqueue_script('tminus-admin-script');
-				
-				wp_register_style('colapse-admin-css', $plugin_url.'/admin/collapse-style.css', array (), '1.0' );    
-                wp_enqueue_style('colapse-admin-css');
-				
-				wp_enqueue_script( 'jquery-ui-datepicker' );
-				wp_register_style('jquery-ui-css', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css', array (), '1.8.23' );    
-				wp_enqueue_style('jquery-ui-css');
-        }
-		else{
-				//lwtCountdown script
-				wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.5' );
-                wp_enqueue_script('countdown-script');
-				
-				//register all countdown styles for enqueue-as-needed
-				$styles_arr = get_option('t-minus_styles');
-				foreach($styles_arr as $style_name){
-					wp_register_style( 'countdown-'.$style_name.'-css', $plugin_url.'/css/'.$style_name.'/style.css', array(), '1.3' );
-				}
+			update_option('rockstar', '');
 		}
 }
-add_action( 'init', 'countdown_scripts' );
+
+//load scripts on the widget admin page
+add_action( 'admin_enqueue_scripts', 'admin_scripts');
+function admin_scripts($hook){		
+		if( $hook == 'widgets.php' ){
+				//jquery datepicker
+				wp_enqueue_script( 'jquery-ui-datepicker' );
+				wp_register_style('jquery-ui-css', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css', array (), '1.10.4' );    
+				wp_enqueue_style('jquery-ui-css');
+		
+				$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
+				
+				//jquery widget scripts
+				wp_register_script('tminus-admin-script', $plugin_url.'/js/jquery.collapse.js', array ('jquery'), '1.2.1' );
+				wp_enqueue_script('tminus-admin-script');
+						
+				wp_register_style('colapse-admin-css', $plugin_url.'/admin/collapse-style.css', array (), '1.0' );    
+				wp_enqueue_style('colapse-admin-css');
+		}
+}
+
+//load front-end countdown scripts
+add_action('wp_enqueue_scripts', 'countdown_scripts' );
+function countdown_scripts(){
+		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
+		
+		//lwtCountdown script
+		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.5.1' );
+		wp_enqueue_script('countdown-script');
+		
+		//register all countdown styles for enqueue-as-needed
+		$styles_arr = get_option('t-minus_styles');
+		foreach($styles_arr as $style_name){
+				wp_register_style( 'countdown-'.$style_name.'-css', $plugin_url.'/css/'.$style_name.'/style.css', array(), '1.3' );
+		}
+}
 
 //style folders array
 function folder_array($path, $exclude = ".|..") {
@@ -102,16 +96,16 @@ class CountDownTimer extends WP_Widget {
     /** Widget */
     function widget($args, $instance) {
 		global $add_my_script;
-        extract( $args );
+		extract( $args );
 		//insert some style into your life
 		$style = empty($instance['style']) ? 'jedi' : apply_filters('widget_style', $instance['style']);
 		wp_enqueue_style( 'countdown-'.$style.'-css' );
 		
 		$title = empty($instance['title']) ? ' ' : apply_filters('widget_title', $instance['title']);
 		$tophtml = empty($instance['tophtml']) ? ' ' : apply_filters('widget_tophtml', stripslashes($instance['tophtml']));
-        $bothtml = empty($instance['bothtml']) ? ' ' : apply_filters('widget_bothtml', stripslashes($instance['bothtml']));
-        $launchhtml = empty($instance['launchhtml']) ? ' ' : apply_filters('widget_launchhtml', $instance['launchhtml']);
-        $launchtarget = empty($instance['launchtarget']) ? 'After Countdown' : apply_filters('widget_launchtarget', $instance['launchtarget']);
+		$bothtml = empty($instance['bothtml']) ? ' ' : apply_filters('widget_bothtml', stripslashes($instance['bothtml']));
+		$launchhtml = empty($instance['launchhtml']) ? ' ' : apply_filters('widget_launchhtml', $instance['launchhtml']);
+		$launchtarget = empty($instance['launchtarget']) ? 'After Countdown' : apply_filters('widget_launchtarget', $instance['launchtarget']);
 		
 		$day = empty($instance['day']) ? 20 : apply_filters('widget_day', $instance['day']);
 		$month = empty($instance['month']) ? 12 : apply_filters('widget_month', $instance['month']);
@@ -301,8 +295,8 @@ class CountDownTimer extends WP_Widget {
 		else{
 			?>            
 			<script language="javascript" type="text/javascript">
-				jQuery(document).ready(function() {
-					jQuery('#<?php echo $args['widget_id']; ?>-dashboard').countDown({	
+				jQuery(document).ready(function($) {
+					$('#<?php echo $args['widget_id']; ?>-dashboard').countDown({	
 						targetDate: {
 							'day': 	<?php echo date('d', $target); ?>,
 							'month': 	<?php echo date('m', $target); ?>,
@@ -315,29 +309,18 @@ class CountDownTimer extends WP_Widget {
 						},
 						style: '<?php echo $style; ?>',
 						launchtarget: '<?php echo $launchdiv; ?>',
-						omitWeeks: <?php echo $omitweeks;
+						omitWeeks: '<?php echo $omitweeks; ?>'
+								<?php
 										if($launchhtml){
-											echo ", onComplete: function() { jQuery('#".$args['widget_id']."-".$launchdiv."').html('".do_shortcode($launchhtml)."'); }";
+											echo ", onComplete: function() { $('#".$args['widget_id']."-".$launchdiv."').html('".do_shortcode($launchhtml)."'); }";
 										}
-									?>
+								?>
 					});
 				});
 			</script>
 			<?php
 		}
     }
-
-    /** Update */
-	/*
-    function update($new_instance, $old_instance) {
-		$instance = array_merge($old_instance, $new_instance);
-		if($instance['isrockstar'] == 'rockstar'){
-			update_option('rockstar', 'rockstar');
-		}
-		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
-		return array_map('mysql_real_escape_string', $instance);
-    }
-	*/
 	
 	function update( $new_instance, $old_instance ) {
 		$instance = array_merge($old_instance, $new_instance);
@@ -406,7 +389,7 @@ class CountDownTimer extends WP_Widget {
                 $positive = 'CHECKED'; 
             }
 			
-			//JS Placement Selector
+            //JS Placement Selector
             $foot = '';
             $inline = '';
             if($jsplacement == 'footer'){
@@ -510,18 +493,18 @@ add_action('wp_footer', 'print_my_script');
  
 function print_my_script() {
 	global $add_my_script;
- 
 	if ( ! $add_my_script ){
 		return;
 	}
 	
 	?>
 		<script language="javascript" type="text/javascript">
-			jQuery(document).ready(function() {
-	<?php			
+			jQuery(document).ready(function($) {
+	<?php
+	//var_dump('hey dude', $add_my_script);
 	foreach((array) $add_my_script as $script){
 	?>
-		jQuery('#<?php echo $script['id']; ?>-dashboard').countDown({	
+		$('#<?php echo $script['id']; ?>-dashboard').countDown({	
 			targetDate: {
 				'day': 	<?php echo $script['day']; ?>,
 				'month': <?php echo $script['month']; ?>,
@@ -534,13 +517,15 @@ function print_my_script() {
 			},
 			style: '<?php echo $script['style']; ?>',
 			launchtarget: '<?php echo $script['launchtarget']; ?>',
-			omitWeeks: <?php echo $script['omitweeks'];
+			omitWeeks: '<?php echo $script['omitweeks']; ?>'
+				<?php
 				if($script['content']){
 					echo ", onComplete: function() {
-						jQuery('#".$script['id']."-".$script['launchtarget']."').css({'width' : '".$script['launchwidth']."', 'height' : '".$script['launchheight']."'});
-						jQuery('#".$script['id']."-".$script['launchtarget']."').html('".do_shortcode($script['content'])."');
+						$('#".$script['id']."-".$script['launchtarget']."').css({'width' : '".$script['launchwidth']."', 'height' : '".$script['launchheight']."'});
+						$('#".$script['id']."-".$script['launchtarget']."').html('".do_shortcode($script['content'])."');
 					}";
-				}?>
+				}
+				?>
 		});
 	<?php
 	}
@@ -558,8 +543,8 @@ function tminuscountdown($atts, $content=null) {
 	
     extract(shortcode_atts(array(
 		'id' => $ran,
-		't' => '20-12-2013 20:12:20',
-        'weeks' => __('weeks', 'tminus'),
+		't' => '',
+		'weeks' => __('weeks', 'tminus'),
 		'days' => __('days', 'tminus'),
 		'hours' => __('hours', 'tminus'),
 		'minutes' => __('minutes', 'tminus'),
@@ -576,6 +561,9 @@ function tminuscountdown($atts, $content=null) {
 		'jsplacement' => 'footer',
 	), $atts));
 	
+	if(empty($t)){
+		return;
+	}
 	//enqueue style that was already registerd
 	wp_enqueue_style( 'countdown-'.$style.'-css' );
 		
@@ -661,12 +649,15 @@ function tminuscountdown($atts, $content=null) {
 					
 	//set up correct style class for double or triple digit love
 	$dclass = $style.'-dash '.$style.'-days_dash';
+	
 	if($omitweeks == 'true' && $date_arr['days'][3] > 99){
 		$dclass = $style.'-tripdash '.$style.'-days_trip_dash';
 	}
 			
 	$tminus .= '<div class="'.$dclass.'"><span class="'.$style.'-dash_title">'.$days.'</span>';
+	
 	//show third day digit if there are NO weeks and the number of days is greater that 99
+	//var_dump($date_arr['days']);  array(4) { [0]=> int(3) [1]=> int(3) [2]=> int(5) [3]=> int(335) }
 	if($omitweeks == 'true' && $date_arr['days'][3] > 99){
 		$tminus .= '<div class="'.$style.'-digit">'.$date_arr['days'][0].'</div>';
 	}
@@ -694,7 +685,7 @@ function tminuscountdown($atts, $content=null) {
 		$tminus .= $after;    
 	}
 	$tminus .= '</div></div>';
-
+		
 	//$t = date( 'n/j/Y H:i:s', gmmktime() + ( get_option( 'gmt_offset' ) * 3600));
 	$t = date( 'n/j/Y H:i:s', strtotime(current_time('mysql')) );
 	
@@ -704,7 +695,7 @@ function tminuscountdown($atts, $content=null) {
 	if(is_numeric($launchheight)){
 		$launchheight .= 'px';
 	}
-	$content = mysql_real_escape_string( $content);
+	//$content = mysql_real_escape_string( $content);
 	$content = str_replace(array('\r\n', '\r', '\n<p>', '\n'), '', $content);
 	$content = stripslashes($content);
 	if($jsplacement == "footer"){
@@ -727,8 +718,8 @@ function tminuscountdown($atts, $content=null) {
 	}
 	else{
 		$tminus .= "<script language='javascript' type='text/javascript'>
-			jQuery(document).ready(function() {
-				jQuery('#".$id."-dashboard').countDown({	
+			jQuery(document).ready(function($) {
+				$('#".$id."-dashboard').countDown({	
 					targetDate: {
 						'day': 	".$day.",
 						'month': ".$month.",
@@ -741,12 +732,12 @@ function tminuscountdown($atts, $content=null) {
 					},
 					style: '".$style."',
 					launchtarget: '".$launchtarget."',
-					omitWeeks: ".$omitweeks;
+					omitWeeks: '".$omitweeks."'";
 					
 		if($content){
 			$tminus .= ", onComplete: function() {
-								jQuery('#".$id."-".$launchtarget."').css({'width' : '".$launchwidth."', 'height' : '".$launchheight."'});
-								jQuery('#".$id."-".$launchtarget."').html('".do_shortcode($content)."');	
+								$('#".$id."-".$launchtarget."').css({'width' : '".$launchwidth."', 'height' : '".$launchheight."'});
+								$('#".$id."-".$launchtarget."').html('".do_shortcode($content)."');	
 							}";
 		}
 		$tminus .= "});

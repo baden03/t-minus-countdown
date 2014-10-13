@@ -4,8 +4,8 @@ Contributors: twinpictures, baden03
 Donate link: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, plugin-oven, pluginoven, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 3.5
-Tested up to: 3.8
-Stable tag: 2.2.12
+Tested up to: 4.0
+Stable tag: 2.2.17b
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -62,6 +62,31 @@ The Daily Show with John Stewart
 1. The magical jQuery Datepicker.
 
 == Changelog ==
+
+= 2.2.17 =
+* addressed jQuery undefined function error on some WordPress installs
+
+= 2.2.16 =
+* fixed TIE-Fighter style to deal with box-sizing and will now adjust width automatically
+* updated the enqueue_scripts to be called using the proper hooks
+* only load the widget admin scripts on the widget page
+* datepicker now works when widget is first dropped on a sidebar
+
+= 2.2.15 =
+* fixed but with omitweeks attribute
+
+= 2.2.14 =
+* fixed IE rotation issue in some styles
+
+= 2.2.13 =
+* updated jQuery UI datepicker style.
+* added Russian language
+* added Slovak language
+* added Persian language
+* added Czech language
+* added Lithuanian language
+* added Catalan language
+* added French language
 
 = 2.2.12 =
 * added cloud-city style which is a clone of vintage that came with vintage wedding theme: http://wordpress.org/support/topic/cannot-see-boxes
@@ -183,6 +208,28 @@ The Daily Show with John Stewart
 * The plugin came to be.
 
 == Upgrade Notice ==
+
+= 2.2.16 =
+* fixed TIE-Fighter style to deal with box-sizing and will now adjust width automatically
+* updated the enqueue_scripts to be called using the proper hooks
+* only load the widget admin scripts on the widget page
+* datepicker now works when widget is first dropped on a sidebar
+
+= 2.2.15 =
+* fixed but with omitweeks attribute
+
+= 2.2.14 =
+* fixed IE rotation issue on some styles
+
+= 2.2.13 =
+* updated jQuery UI datepicker style.
+* added Russian language
+* added Slovak language
+* added Persian language
+* added Czech language
+* added Lithuanian language
+* added Catalan language
+* added French language
 
 = 2.2.12 =
 * added cloud-city style
