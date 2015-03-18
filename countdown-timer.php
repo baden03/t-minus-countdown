@@ -5,34 +5,221 @@ Text Domain: tminus
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.2.17
+Version: 2.3.0e
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
 */
 
-//plugin init scripts
-add_action( 'init', 'countdown_init_scripts' );
-function countdown_init_scripts(){
-		$current_version = '2.2.17';
-		$installed_version  = get_option('t-minus_version');
+class WP_TMinusCD {
+	var $plugin_name = 'T(-) Countdown';
+	var $version = '2.3.0e';
+	var $domain = 'tminus';
+	var $plguin_options_page_title = 'T(-) Countdown Options';
+	var $plugin_options_menue_title = 'T(-) Countdown';
+	var $plugin_options_slug = 't-countdown';
+	
+	var $options_name = 'WP_TMC_options';
+	/**
+	 * @var array
+	 */
+	var $options = array(
+		'custom_css' => '',
+	);
+	
+	var $license_name = 'WP_tminus_countdown_license';
+        
+	var $license_options = array(
+			'tminus_event_license_key' => '',
+			'tminus_event_license_status' => '',
+	);
 		
-		if($current_version != $installed_version){
-			//add or update version
-			update_option('t-minus_version', $current_version);
-			
-			//add or update styles
-			$styles_arr = array("hoth","TIE-fighter","c-3po","c-3po-mini","carbonite","carbonite-responsive","carbonlite","cloud-city","darth","jedi", "sith");
-		        update_option('t-minus_styles', $styles_arr);
+	function __construct() {
+		$this->_set_options();
 		
-			//reset rockstar option
-			update_option('rockstar', '');
+		// add actions
+		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+		add_action( 'plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'plugin_actions' ) );
+		add_action( 'admin_init', array( $this, 'admin_init' ) );
+		add_action( 'wp_head', array( $this, 'plugin_head_inject' ) );
+	}
+	
+	/**
+	 * Callback admin_menu
+	 */
+	function admin_menu() {
+		if ( function_exists( 'add_options_page' ) AND current_user_can( 'manage_options' ) ) {
+			// add options page
+			$options_page = add_options_page($this->plguin_options_page_title, $this->plugin_options_menue_title, 'manage_options', $this->plugin_options_slug, array( $this, 'options_page' ));
 		}
-}
+	}
+	
+	/**
+	 * Callback admin_init
+	 */
+	function admin_init() {
+		register_setting( $this->domain, $this->options_name );
+	}
+	
+	// Add link to options page from plugin list
+	function plugin_actions($links) {
+		$new_links = array();
+		$new_links[] = '<a href="options-general.php?page='.$this->plugin_options_slug.'">' . __('Settings', $this->domain) . '</a>';
+		return array_merge($new_links, $links);
+	}
+	
+	//plugin header inject
+	function plugin_head_inject(){
+		// custom css
+		if( !empty( $this->options['custom_css'] ) ){
+			echo "<style>\n";
+			echo $this->options['custom_css'];
+			echo "\n</style>\n";
+		}
+	}
+	
+	/**
+	 * Admin options page
+	 */
+	function options_page() {
+		$like_it_arr = array(
+						__('made you feel all warm and fuzzy on the inside', $this->domain),
+						__('restored your faith in humanity... even if only for a fleeting second', $this->domain),
+						__('rocked your world', 'provided a positive vision of future living', $this->domain),
+						__('inspired you to commit a random act of kindness', $this->domain),
+						__('encouraged more regular flossing of the teeth', $this->domain),
+						__('helped organize your life in the small ways that matter', $this->domain),
+						__('saved your minutes--if not tens of minutes--writing your own solution', $this->domain),
+						__('brightened your day... or darkened it if sleeping in', $this->domain),
+						__('caused you to dance a little jig of joy and joyousness', $this->domain),
+						__('inspired you to tweet a little @twinpictues social love', $this->domain),
+						__('tasted great, while also being less filling', $this->domain),
+						__('caused you to shout: "everybody spread love, give me some mo!"', $this->domain),
+						__('really tied the room together, Dude', $this->domain),
+						__('helped you keep the funk alive', $this->domain),
+						__('<a href="http://www.youtube.com/watch?v=dvQ28F5fOdU" target="_blank">soften hands while you do dishes</a>', $this->domain),
+						__('helped that little old lady <a href="http://www.youtube.com/watch?v=Ug75diEyiA0" target="_blank">find the beef</a>', $this->domain)
+					);
+		$rand_key = array_rand($like_it_arr);
+		$like_it = $like_it_arr[$rand_key];
+	  
+		$share_it_arr = array(
+						'http://www.facebook.com/twinpictures',
+						'http://twitter.com/twinpictures',
+						'http://plus.google.com/+TwinpicturesDe',
+						'https://wordpress.org/support/view/plugin-reviews/jquery-t-countdown-widget'
+					);
+		$rand_key = array_rand($share_it_arr);
+		$share_it = $share_it_arr[$rand_key];
+	  
+	?>
+		<div class="wrap">
+			<h2><?php echo $this->plguin_options_page_title; ?></h2>
+		</div>
+		
+		<div class="postbox-container metabox-holder meta-box-sortables" style="width: 69%">
+			<div style="margin:0 5px;">
+				<div class="postbox">
+					<div class="handlediv" title="<?php _e( 'Click to toggle', $this->domain ) ?>"><br/></div>
+					<h3 class="handle"><?php _e( 'T(-) Countdown Settings', $this->domain ) ?></h3>
+					<div class="inside">
+						<form method="post" action="options.php">
+							<?php
+								settings_fields( $this->domain );
+								$options = $this->options;
+							?>
+							
+							<table class="form-table">			
+								<tr>
+									<th><?php _e( 'Custom CSS', $this->domain ) ?>:</th>
+									<td><label><textarea id="<?php echo $this->options_name ?>[custom_css]" name="<?php echo $this->options_name ?>[custom_css]" style="width: 100%; height: 537px;"><?php echo $options['custom_css']; ?></textarea>
+										<br /><span class="description"><?php _e( 'Custom CSS style for <em>ultimate flexibility</em>', $this->domain ) ?></span></label>
+									</td>
+								</tr>
+							</table>
+							
+							<p class="submit" style="margin-bottom: 20px;">
+								<input class="button-primary" type="submit" value="<?php _e( 'Save Changes', $this->domain ) ?>" style="float: right;" />
+							</p>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="postbox-container side metabox-holder" style="width:29%;">
+			<div style="margin:0 5px;">
+				<div class="postbox">
+					<h3><?php _e( 'About' ) ?></h3>
+					<div class="inside">
+						<h4><?php echo $this->plugin_name; ?> <?php _e('Version', $this->domain); ?> <?php echo $this->version; ?></h4>
+						<p><?php _e( 'T(-) Countdown is a highly customizable, HTML5 countdown timer that can be displayed as a sidebar widget or in a post or page using a shortcode.', $this->domain) ?></p>
+						<ul>
+							<li><?php printf( __( '%sDetailed documentation%s, complete with working demonstrations of all shortcode attributes, is available for your instructional enjoyment.', 'tminus'), '<a href="http://plugins.twinpictures.de/plugins/t-minus-countdown/documentation/" target="_blank">', '</a>'); ?></li>
+							<li><?php printf( __( 'A %sCommunity translation%s tool has been set up that allows anyone to assist in translating T(-) Countdown. All are %swelcome to participate%s.', 'tminus'), '<a href="http://translate.twinpictures.de/projects/t-countdown" target="_blank">', '</a>', '<a href="http://translate.twinpictures.de/wordpress/wp-login.php?action=register" target="_blank">', '</a>' ); ?></li>
+							<li><?php printf( __( 'If this plugin %s, please consider %ssharing your story%s with others.', 'tminus'), $like_it, '<a href="'.$share_it.'" target="_blank">', '</a>' ) ?></li>
+							<li><a href="https://wordpress.org/plugins/jquery-t-countdown-widget/" target="_blank">WordPress.org</a> | <a href="http://plugins.twinpictures.de/plugins/t-minus-countdown/" target="_blank">Twinpictues Plugin Oven</a></li>
+						</ul>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="postbox-container side metabox-holder meta-box-sortables" style="width:29%;">
+			<div style="margin:0 5px;">
+				<div class="postbox">
+					<div class="handlediv" title="<?php _e( 'Click to toggle' ) ?>"><br/></div>
+					<h3 class="handle"><?php _e( 'Level Up!' ) ?></h3>
+					<div class="inside">
+						<p><?php printf(__( '%sT(-) Countdown Control%s is our premium plugin that manages and schedules multiple recurring countdown timers for repeating events.', 'tminus' ), '<a href="http://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/?utm_source=t-countdown&utm_medium=plugin-settings-page&utm_content=t-countdown&utm_campaign=t-control-level-up">', '</a>'); ?></p>		
+						<h4><?php _e('Reasons To Go Pro', 'tminus'); ?></h4>
+						<ol>
+							<li><?php _e('Schedule and manage multiple recurring countdowns', 'tminus'); ?></li>
+							<li><?php _e('Highle responsive professional support', 'tminus'); ?></li>
+							<li><?php printf(__('%sT(-) Countdown Control Testimonials%s', 'tminus'), '<a href="http://plugins.twinpictures.de/testimonial/t-countdown-control-testimonias/" target="_blank">', '</a>'); ?></li>
+						</ol>
+					</div>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		
+	<?php
+	}
+	
+	function _set_options() {
+		// set options
+		$saved_options = get_option( $this->options_name );
 
+		// backwards compatible (old values)
+		if ( empty( $saved_options ) ) {
+			$saved_options = get_option( $this->domain . 'options' );
+		}
+		
+		// set all options
+		if ( ! empty( $saved_options ) ) {
+			foreach ( $this->options AS $key => $option ) {
+				$this->options[ $key ] = ( empty( $saved_options[ $key ] ) ) ? '' : $saved_options[ $key ];
+			}
+		}
+	}
+	
+}
+$WP_TMinusCD = new WP_TMinusCD;
+	
+//set global vars
+add_action( 'wp_head', 'tminus_js_vars' );
+function tminus_js_vars(){
+	echo "<script type='text/javascript'>\n";
+	$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
+	echo "var tminusnow = '".$plugin_url."/js/now.php';\n";
+	echo "</script>";
+}
+	
 //load scripts on the widget admin page
-add_action( 'admin_enqueue_scripts', 'admin_scripts');
-function admin_scripts($hook){		
+add_action( 'admin_enqueue_scripts', 'tminus_admin_scripts');
+function tminus_admin_scripts($hook){		
 		if( $hook == 'widgets.php' ){
 				//jquery datepicker
 				wp_enqueue_script( 'jquery-ui-datepicker' );
@@ -45,8 +232,8 @@ function admin_scripts($hook){
 				wp_register_script('tminus-admin-script', $plugin_url.'/js/jquery.collapse.js', array ('jquery'), '1.2.1' );
 				wp_enqueue_script('tminus-admin-script');
 						
-				wp_register_style('colapse-admin-css', $plugin_url.'/admin/collapse-style.css', array (), '1.0' );    
-				wp_enqueue_style('colapse-admin-css');
+				wp_register_style('collapse-admin-css', $plugin_url.'/admin/collapse-style.css', array (), '1.0' );    
+				wp_enqueue_style('collapse-admin-css');
 		}
 }
 
@@ -56,14 +243,8 @@ function countdown_scripts(){
 		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
 		
 		//lwtCountdown script
-		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.5.2' );
+		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.5.4' );
 		wp_enqueue_script('countdown-script');
-		
-		//register all countdown styles for enqueue-as-needed
-		$styles_arr = get_option('t-minus_styles');
-		foreach($styles_arr as $style_name){
-				wp_register_style( 'countdown-'.$style_name.'-css', $plugin_url.'/css/'.$style_name.'/style.css', array(), '1.3' );
-		}
 }
 
 //style folders array
@@ -72,12 +253,13 @@ function folder_array($path, $exclude = ".|..") {
 		$dh = opendir($path);
 		$exclude_array = explode("|", $exclude);
 		$result = array();
-		while(false !== ( $file = readdir($dh) ) ) { 
-			if( !in_array( strtolower( $file ), $exclude_array) ){
+		while(false !==($file = readdir($dh))) { 
+			if( !in_array(strtolower($file), $exclude_array) && substr($file, 0, 1) != '.' ){
 				$result[] = $file;
 			}
 		}
 		closedir($dh);
+		print_r($result); 
 		return $result;
 	}
 }
@@ -97,10 +279,8 @@ class CountDownTimer extends WP_Widget {
     function widget($args, $instance) {
 		global $add_my_script;
 		extract( $args );
-		//insert some style into your life
-		$style = empty($instance['style']) ? 'jedi' : apply_filters('widget_style', $instance['style']);
-		wp_enqueue_style( 'countdown-'.$style.'-css' );
 		
+		$style = empty($instance['style']) ? 'jedi' : apply_filters('widget_style', $instance['style']);		
 		$title = empty($instance['title']) ? ' ' : apply_filters('widget_title', $instance['title']);
 		$tophtml = empty($instance['tophtml']) ? ' ' : apply_filters('widget_tophtml', stripslashes($instance['tophtml']));
 		$bothtml = empty($instance['bothtml']) ? ' ' : apply_filters('widget_bothtml', stripslashes($instance['bothtml']));
@@ -109,7 +289,7 @@ class CountDownTimer extends WP_Widget {
 		
 		$day = empty($instance['day']) ? 20 : apply_filters('widget_day', $instance['day']);
 		$month = empty($instance['month']) ? 12 : apply_filters('widget_month', $instance['month']);
-		$year = empty($instance['year']) ? 2014 : apply_filters('widget_year', $instance['year']);
+		$year = empty($instance['year']) ? 2015 : apply_filters('widget_year', $instance['year']);
 		
 		$date = empty($instance['date']) ? $year.'-'.$month.'-'.$day : apply_filters('widget_date', $instance['date']);
 		$hour = empty($instance['hour']) ? 20 : apply_filters('widget_hour', $instance['hour']);
@@ -125,9 +305,19 @@ class CountDownTimer extends WP_Widget {
 		$omitweeks = empty($instance['omitweeks']) ? 'false' : apply_filters('widget_omitweeks', $instance['omitweeks']);
 		$jsplacement = empty($instance['jsplacement']) ? 'footer' : apply_filters('widget_jsplacement', $instance['jsplacement']);
 		
+		$event_id = '';
+		
+		//insert some style into your life
+		$style_file_url = plugins_url('/css/'.$style.'/style.css', __FILE__);
+		
+		if ( file_exists( __DIR__ .'/css/'.$style.'/style.css' ) ) {
+			if (! wp_style_is( 'countdown-'.$style.'-css', 'registered' )) {
+				wp_register_style( 'countdown-'.$style.'-css', $style_file_url, array(), '2.0');	
+			}
+			wp_enqueue_style( 'countdown-'.$style.'-css' );
+		}
+	
 		//now
-		//$now = time() + ( get_option( 'gmt_offset' ) * 3600);
-		//$now = current_time('timestamp');
 		$now = strtotime(current_time('mysql'));
 
 		//target		
@@ -256,7 +446,7 @@ class CountDownTimer extends WP_Widget {
 		echo '</div>';
 		echo '</div>';
 		echo $after_widget;
-		//$t = date( 'n/j/Y H:i:s', time() + ( get_option( 'gmt_offset' ) * 3600));
+		
 		$t = date( 'n/j/Y H:i:s', strtotime(current_time('mysql')) );
 		
 		//launch div
@@ -285,6 +475,7 @@ class CountDownTimer extends WP_Widget {
 				'sec' => $sec,
 				'localtime' => $t,
 				'style' => $style,
+				'event_id' => $event_id,
 				'omitweeks' => $omitweeks,
 				'content' => trim($launchhtml),
 				'launchtarget' => $launchdiv,
@@ -305,7 +496,6 @@ class CountDownTimer extends WP_Widget {
 							'min': 	<?php echo $min; ?>,
 							'sec': 	<?php echo $sec; ?>,
 							'localtime':	'<?php echo $t; ?>',
-							'mysqltime':  '<?php echo current_time('mysql'); ?>'
 						},
 						style: '<?php echo $style; ?>',
 						launchtarget: '<?php echo $launchdiv; ?>',
@@ -320,6 +510,18 @@ class CountDownTimer extends WP_Widget {
 			</script>
 			<?php
 		}
+    }
+	
+	function get_styles($custom_css = null) {
+		//default styles
+		$styles_arr = folder_array(WP_PLUGIN_DIR.'/'. dirname( plugin_basename(__FILE__) ).'/css');
+		if( !empty( $custom_css ) ){
+			preg_match_all("/.(\w+)-dashboard/", $custom_css, $custom_styles);
+			$styles_arr = array_merge($styles_arr, $custom_styles[1]);
+		}
+		natcasesort($styles_arr);
+		return $styles_arr;
+
     }
 	
 	function update( $new_instance, $old_instance ) {
@@ -402,8 +604,9 @@ class CountDownTimer extends WP_Widget {
 		<p><?php _e('Style:', 'tminus'); ?> <select name="<?php echo $this->get_field_name('style'); ?>" id="<?php echo $this->get_field_name('style'); ?>">
 		<?php	
 
-		    $styles_arr = folder_array(WP_PLUGIN_DIR.'/'. dirname( plugin_basename(__FILE__) ).'/css');
-			update_option('t-minus_styles', $styles_arr);
+			$options = get_option('WP_TMCC_options');
+			$styles_arr = $this->get_styles($options['custom_css']);
+			
 			foreach($styles_arr as $style_name){
 				$selected = "";
 				if($style == $style_name){
@@ -478,7 +681,7 @@ class CountDownTimer extends WP_Widget {
 		<br/>
 		<a class="collapseomatic" id="tccc<?php echo $this->get_field_id('isrockstar'); ?>"><?php _e('Schedule Recurring Countdown', 'tminus'); ?></a>
 		<div id="target-tccc<?php echo $this->get_field_id('isrockstar'); ?>" class="collapseomatic_content">
-				<p><?php printf(__('%sT(-) Countdown Control%s is a premium countdown plugin that includes the ability to schedule and manage multiple recurring T(-) Countdowns... the Jedi way.', 'tminus'), '<a href="http://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/" target="blank" title="(-) Countdown Control">', '</a>'); ?></p>
+				<p><?php printf(__('%sT(-) Countdown Control%s is a premium countdown plugin that includes the ability to schedule and manage multiple recurring T(-) Countdowns... the Jedi way.', 'tminus'), '<a href="http://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/?utm_source=t-countdown&utm_medium=widget-settings&utm_content=t-countdown-control&utm_campaign=t-countdown-widget" target="blank" title="(-) Countdown Control">', '</a>'); ?></p>
 		</div>
 		<?php
     }
@@ -489,7 +692,7 @@ add_action('widgets_init', create_function('', 'return register_widget("CountDow
 
 
 //code for the footer
-add_action('wp_footer', 'print_my_script');
+add_action('wp_footer', 'print_my_script', 99);
  
 function print_my_script() {
 	global $add_my_script;
@@ -513,7 +716,6 @@ function print_my_script() {
 				'min': 	<?php echo $script['min']; ?>,
 				'sec': 	<?php echo $script['sec']; ?>,
 				'localtime': '<?php echo $script['localtime']; ?>',
-				'mysqltime':  '<?php echo current_time('mysql'); ?>'
 			},
 			style: '<?php echo $script['style']; ?>',
 			launchtarget: '<?php echo $script['launchtarget']; ?>',
@@ -559,15 +761,23 @@ function tminuscountdown($atts, $content=null) {
 		'launchheight' => 'auto',
 		'launchtarget' => 'countdown',
 		'jsplacement' => 'footer',
+		'event_id' => '',
 	), $atts));
 	
 	if(empty($t)){
 		return;
 	}
-	//enqueue style that was already registerd
-	wp_enqueue_style( 'countdown-'.$style.'-css' );
+
+	//insert some style into your life
+	$style_file_url = plugins_url('/css/'.$style.'/style.css', __FILE__);
 		
-	//$now = time() + ( get_option( 'gmt_offset' ) * 3600);
+	if ( file_exists( __DIR__ .'/css/'.$style.'/style.css' ) ) {
+		if (! wp_style_is( 'countdown-'.$style.'-css', 'registered' )) {
+		wp_register_style( 'countdown-'.$style.'-css', $style_file_url, array(), '2.0');	
+		}
+		wp_enqueue_style( 'countdown-'.$style.'-css' );
+	}
+		
 	$now = strtotime(current_time('mysql'));
 	$target = strtotime($t, $now);
 	
@@ -685,8 +895,7 @@ function tminuscountdown($atts, $content=null) {
 		$tminus .= $after;    
 	}
 	$tminus .= '</div></div>';
-		
-	//$t = date( 'n/j/Y H:i:s', gmmktime() + ( get_option( 'gmt_offset' ) * 3600));
+	
 	$t = date( 'n/j/Y H:i:s', strtotime(current_time('mysql')) );
 	
 	if(is_numeric($launchwidth)){
@@ -695,7 +904,7 @@ function tminuscountdown($atts, $content=null) {
 	if(is_numeric($launchheight)){
 		$launchheight .= 'px';
 	}
-	//$content = mysql_real_escape_string( $content);
+	
 	$content = str_replace(array('\r\n', '\r', '\n<p>', '\n'), '', $content);
 	$content = stripslashes($content);
 	if($jsplacement == "footer"){
@@ -713,7 +922,8 @@ function tminuscountdown($atts, $content=null) {
 			'content' => $content,
 			'launchtarget' => $launchtarget,
 			'launchwidth' => $launchwidth,
-			'launchheight' => $launchheight
+			'launchheight' => $launchheight,
+			'event_id' => $event_id,
 		);
 	}
 	else{
@@ -726,11 +936,10 @@ function tminuscountdown($atts, $content=null) {
 						'year': ".$year.",
 						'hour': ".$hour.",
 						'min': 	".$min.",
-						'sec': 	".$sec.",
-						'localtime': '".$t."',
-						'mysqltime':  '".current_time('mysql')."'
+						'sec': 	".$sec."
 					},
 					style: '".$style."',
+					event_id: '".$event_id."',
 					launchtarget: '".$launchtarget."',
 					omitWeeks: '".$omitweeks."'";
 					
