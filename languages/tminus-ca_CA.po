@@ -2,29 +2,21 @@
 # This file is distributed under the same license as the T(-) Countdown package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-02-10 10:51+0100\n"
+"PO-Revision-Date: 2015-03-04 14:18+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.7.4\n"
 "Project-Id-Version: T(-) Countdown\n"
 "POT-Creation-Date: \n"
-"Last-Translator: Baden Coleman <baden@twinpictures.de>\n"
+"Last-Translator: Twinpictues <info@twinpictures.de>\n"
 "Language-Team: Twinpictures <info@twinpictures.de>\n"
-"Language: Catalan\n"
+"Language: ca_CA\n"
 
 #: countdown-timer.php:491
-msgid ""
-"%sT(-) Countdown Control%s is a premium countdown plugin that includes the "
-"ability to schedule and manage mulitple recurring T(-) Countdowns... the "
-"Jedi way."
-msgstr ""
-"%sY(-) Countdown Contr%l és un és un temporitzador de compte enrere de "
-"primera qualitat que inclou la possibilitat de programar i gestionar "
-"múltiples recursosplugin de compte regressiva de primera qualitat que inclou "
-"la possibilitat de programar recorrent a t Countdown Control... el camí del "
-"Jedi."
+msgid "%sT(-) Countdown Control%s is a premium countdown plugin that includes the ability to schedule and manage mulitple recurring T(-) Countdowns... the Jedi way."
+msgstr "%sY(-) Countdown Contr%l és un és un temporitzador de compte enrere de primera qualitat que inclou la possibilitat de programar i gestionar múltiples recursosplugin de compte regressiva de primera qualitat que inclou la possibilitat de programar recorrent a t Countdown Control... el camí del Jedi."
 
 #: countdown-timer.php:134 countdown-timer.php:376 countdown-timer.php:554
 msgid "weeks"
@@ -72,8 +64,7 @@ msgstr "http://www.twinpictures.de/"
 
 #: countdown-timer.php:107
 msgid "A highly customizable jQuery countdown timer by Twinpictures"
-msgstr ""
-"jQuery un temporitzador de compte enrere d'altes prestacions de Twinpictures"
+msgstr "jQuery un temporitzador de compte enrere d'altes prestacions de Twinpictures"
 
 #: countdown-timer.php:392
 msgid "Title:"
@@ -175,9 +166,5 @@ msgstr "I \"segons\" s'escriu:"
 msgid "Schedule Recurring Countdown"
 msgstr "Re-programar el compte enrere"
 
-msgid ""
-"Display and configure multiple T(-) Countdown timers using a shortcode or "
-"sidebar widget."
-msgstr ""
-"Mostrar i configurar diversos T (-) Countdown de compte enrere utilitzant un "
-"codi curt o un giny de barra lateral."
+msgid "Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget."
+msgstr "Mostrar i configurar diversos T (-) Countdown de compte enrere utilitzant un codi curt o un giny de barra lateral."
