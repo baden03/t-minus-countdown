@@ -1,0 +1,67 @@
+.naboo-countdown {
+	background: #72aed3;
+	color: #fffff;
+	margin: 0 auto;
+	padding: 10px 0;
+	max-width: 360px;
+	text-align: center;
+}
+
+.naboo-countdown.omitweeks {
+	max-width: 295px;
+}
+
+.naboo-dashboard {
+	margin: 0 auto;
+        padding-bottom: 10px;
+}
+
+.naboo-tophtml, .naboo-bothtml {
+	margin: 0;
+	padding: 0;
+	font-family: "Gill Sans ", "Gill Sans MT", Calibri, sans-serif;
+  font-size: 16px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.naboo-tophtml p, .naboo-bothtml p {
+	margin-bottom: 0;
+}
+
+.naboo-timer_icon {
+	display: none;
+}
+
+.naboo-dash, .naboo-tripdash {
+	display: inline-block;
+  padding: 5px;
+  margin-left: 10px;
+	height: 30px;
+}
+
+.naboo-digit {
+	display: inline-block;
+	float: left;
+	font-family: "Gill Sans ", "Gill Sans MT", Calibri, sans-serif;
+	font-weight: 100;
+	font-size: 42px;
+	line-height: 42px;
+	color: #ffffff;
+}
+
+.naboo-dash_title {
+	-webkit-transform: rotate(-90deg);
+	-moz-transform: rotate(-90deg);
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+	font-size: 10px;
+	font-weight: 100;
+	overflow: visible;
+	white-space: nowrap;
+	width: 23px;
+	color: #ffffff;
+	position: absolute;
+	margin-top: 10px;
+	margin-left: -20px;
+	font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+}

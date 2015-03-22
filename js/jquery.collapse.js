@@ -1,9 +1,9 @@
 /*!
- * jQuery Collapse-O-Matic for T-Minus v1.2.1
+ * jQuery Collapse-O-Matic for T-Minus v1.2.2
  * http://www.twinpictures.de/
  *
  * Copyright 2014, Twinpictures
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -11,10 +11,10 @@
  * bake, hack, scramble, difiburlate, digest and/or sell copies of the Software,
  * and to permit persons to whom the Software is furnished to do so, subject to
  * the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -27,29 +27,26 @@
 jQuery(document).ready(function() {
 
 	jQuery(document).on('click', '.t-datepicker', function(event) {
-		jQuery(this).datepicker('destroy').datepicker({dateFormat : 'yy-mm-dd'}).focus();
+		jQuery(this).datetimepicker('destroy').datetimepicker(
+			{
+				dateFormat : 'yy-mm-dd',
+				timeFormat: 'HH:mm:ss'
+			}
+		).focus();
 	});
-	
+
+
 	jQuery('.collapseomatic:not(.colomat-close)').each(function(index) {
 		var thisid = jQuery(this).attr('id');
 		jQuery('#target-'+thisid).css('display', 'none');
 	});
-	
+
 	jQuery(document).on('click', '.collapseomatic', function(event) {
 		//alert('phones ringin dude');
 		jQuery(this).toggleClass('colomat-close');
 		var id = jQuery(this).attr('id');
 		jQuery('#target-'+id).slideToggle('fast', function() {
 		    // Animation complete.
-		});
-	});
-	
-	jQuery(document).on('click', '.rockstar', function(event) {
-		//alert('phones ringin dude');
-		var id = jQuery(this).attr('id');
-		var key = jQuery(this).val();
-		jQuery('.isrockstar').each(function(){
-			jQuery(this).val('Rockstar Features:');
 		});
 	});
 });
