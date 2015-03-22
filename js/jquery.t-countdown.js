@@ -1,8 +1,8 @@
-/*!
- * T- Countdown v1.5.2
+/*
+ * T- Countdown v1.5.4
  * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
- * Copyright 2014, Twinpictures
+ * Copyright 2015, Twinpictures
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,10 @@
 	$.fn.countDown = function (options) {
 		config = {};
 		$.extend(config, options);
-		diffSecs = this.setCountDown(config);
+		targetTime = this.setTargetTime(config);
+		//set diffSecs and launch the countdown once the ajax for now loads
+		//console.log(config.targetDate.localtime); //this did not support caching plugins
+		diffSecs = this.setDiffSecs(targetTime, options.targetDate.localtime);
 		before = new Date();
 		$.data($(this)[0], 'before', before);
 		$.data($(this)[0], 'status', 'play');
@@ -47,10 +50,9 @@
 			$.data($(this)[0], 'omitWeeks', config.omitWeeks);
 		}
 		$('#' + $(this).attr('id') + ' .' + style + '-digit').html('<div class="top"></div><div class="bottom"></div>');
-		$(this).doCountDown($(this).attr('id'), diffSecs, 500);
 		return this;
 	};
-
+	
 	$.fn.stopCountDown = function () {
 		$.data(this[0], 'status', 'stop');
 	};
@@ -60,7 +62,26 @@
 		this.doCountDown($(this).attr('id'),$.data(this[0], 'diffSecs'), 500);
 	};
 
-	$.fn.setCountDown = function (options) {
+	$.fn.setDiffSecs = function (targetTime, backuptime) {
+		var diffSecs = null;
+		$.ajax({
+			url: tminusnow,
+			cache: false,
+			success: $.proxy(function( data ) {
+				//console.log(data);
+				nowTime = new Date(data);
+				diffSecs = Math.floor((targetTime.valueOf()-nowTime.valueOf())/1000);
+				$(this).doCountDown($(this).attr('id'), diffSecs, 500);
+			}, this),
+			error: $.proxy(function( request, status, error ) {
+				nowTime = new Date(backuptime);
+				diffSecs = Math.floor((targetTime.valueOf()-nowTime.valueOf())/1000);
+				$(this).doCountDown($(this).attr('id'), diffSecs, 500);
+			}, this)
+		});
+	};
+	
+	$.fn.setTargetTime = function (options) {
 		var targetTime = new Date();
 		if (options.targetDate){
 			targetTime = new Date(options.targetDate.month + '/' + options.targetDate.day + '/' + options.targetDate.year + ' ' + options.targetDate.hour + ':' + options.targetDate.min + ':' + options.targetDate.sec + (options.targetDate.utc ? ' UTC' : ''));
@@ -73,14 +94,11 @@
 			targetTime.setMinutes(options.targetOffset.min + targetTime.getMinutes());
 			targetTime.setSeconds(options.targetOffset.sec + targetTime.getSeconds());
 		}
-		var nowTime = new Date(options.targetDate.localtime);
-		diffSecs = Math.floor((targetTime.valueOf()-nowTime.valueOf())/1000);
-		$.data(this[0], 'diffSecs', diffSecs);
-		return diffSecs;
+		
+		return targetTime;
 	};
 
 	$.fn.doCountDown = function (id, diffSecs, duration) {
-		//alert(diffSecs);
 		$this = $('#' + id);
 		
 		if (diffSecs <= 0){
