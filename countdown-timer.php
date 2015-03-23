@@ -5,7 +5,7 @@ Text Domain: tminus
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.3.0g
+Version: 2.3.0i
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -15,7 +15,7 @@ License: GPL2
 
 class WP_TMinusCD {
 	var $plugin_name = 'T(-) Countdown';
-	var $version = '2.3.0g';
+	var $version = '2.3.0i';
 	var $domain = 'tminus';
 	var $plguin_options_page_title = 'T(-) Countdown Options';
 	var $plugin_options_menue_title = 'T(-) Countdown';
@@ -30,6 +30,7 @@ class WP_TMinusCD {
 		'rockstar' => '',
 	);
 
+	var $license_group = 'tminus_countdown_licenseing';
 	var $license_name = 'WP_tminus_countdown_license';
 
 	var $license_options = array(
@@ -62,6 +63,9 @@ class WP_TMinusCD {
 	 */
 	function admin_init() {
 		register_setting( $this->domain, $this->options_name );
+		if( is_plugin_active( 't-countdown-events/t-countdown-events.php' ) ){
+			register_setting( $this->license_group, $this->license_name, array('WP_TminusEvents', 'edd_sanitize_license') );
+		}
 	}
 
 	// Add link to options page from plugin list
@@ -179,9 +183,9 @@ class WP_TMinusCD {
 			<div style="margin:0 5px;">
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e( 'Click to toggle' ) ?>"><br/></div>
-					<h3 class="handle"><?php _e( 'Level Up!' ) ?></h3>
+					<h3 class="handle"><?php _e( 'T(-) Countdown Control' ) ?></h3>
 					<div class="inside">
-						<p><?php printf(__( '%sT(-) Countdown Control%s is our premium plugin that manages and schedules multiple recurring countdown timers for repeating events.', 'tminus' ), '<a href="http://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/?utm_source=t-countdown&utm_medium=plugin-settings-page&utm_content=t-countdown&utm_campaign=t-control-level-up">', '</a>'); ?></p>
+						<p><?php printf(__( '%sT(-) Countdown Control%s is our premium plugin that manages and schedules multiple recurring countdown timers for repeating events.', 'tminus' ), '<a href="http://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/?utm_source=t-countdown&utm_medium=plugin-settings-page&utm_content=t-countdown&utm_campaign=t-control-sidebar">', '</a>'); ?></p>
 						<h4><?php _e('Reasons To Go Pro', 'tminus'); ?></h4>
 						<ol>
 							<li><?php _e('Schedule and manage multiple recurring countdowns', 'tminus'); ?></li>
@@ -194,6 +198,72 @@ class WP_TMinusCD {
 			<div class="clear"></div>
 		</div>
 
+		<?php if( is_plugin_active( 't-countdown-events/t-countdown-events.php' ) ) : ?>
+
+			<div class="postbox-container side metabox-holder" style="width:29%;">
+				<div style="margin:0 5px;">
+					<div class="postbox">
+						<h3 class="handle"><?php _e( 'Register T(-) Countdown Events', $this->domain) ?></h3>
+						<div class="inside">
+							<p><?php printf( __('To receive plugin updates you must register your plugin. Enter your T(-) Countdown Events licence key below. Licence keys may be viewed and managed by logging into %syour account%s.', $this->domain), '<a href="http://plugins.twinpictures.de/your-account/" target="_blank">', '</a>'); ?></p>
+							<form method="post" action="options.php">
+								<?php
+									settings_fields( $this->license_group );
+									$options = get_option($this->license_name);
+									$tce_licence = ( !isset( $options['tminus_event_license_key'] ) ) ? '' : $options['tminus_event_license_key'];
+								?>
+								<fieldset>
+									<table style="width: 100%">
+										<tbody>
+											<tr>
+												<th><?php _e( 'License Key', $this->domain ) ?>:</th>
+												<td><label for="<?php echo $this->license_name ?>[tminus_event_license_key]"><input type="password" id="<?php echo $this->license_name ?>[tminus_event_license_key]" name="<?php echo $this->license_name ?>[tminus_event_license_key]" value="<?php esc_attr_e( $tce_licence ); ?>" style="width: 100%" />
+													<br /><span class="description"><?php _e('Enter your license key', $this->domain); ?></span></label>
+	                                                                                        </td>
+
+											</tr>
+
+											<?php if( isset($options['tminus_event_license_key']) ) { ?>
+												<tr valign="top">
+													<th><?php _e('License Status', $this->domain); ?>:</th>
+													<td>
+														<?php if( isset($options['tminus_event_license_status']) && $options['tminus_event_license_status'] == 'valid' ) { ?>
+															<span style="color:green;"><?php _e('active'); ?></span><br/>
+															<input type="submit" class="button-secondary" name="edd_tce_license_deactivate" value="<?php _e('Deactivate License'); ?>"/>
+														<?php } else {
+																if( isset($options['tminus_event_license_status'])){ ?>
+																	<span style="color: red"><?php echo $options['tminus_event_license_status']; ?></span><br/>
+															<?php } else { ?>
+																	<span style="color: grey">inactive</span><br/>
+															<?php } ?>
+																<input type="submit" class="button-secondary" name="edd_tce_license_activate" value="<?php _e('Activate License'); ?>"/>
+														<?php } ?>
+														</td>
+												</tr>
+											<?php } ?>
+										</tbody>
+									</table>
+								</fieldset>
+	                        	<?php submit_button( __( 'Register', $this->domain) ); ?>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		<?php else: ?>
+			<div class="postbox-container side metabox-holder meta-box-sortables" style="width:29%;">
+				<div style="margin:0 5px;">
+					<div class="postbox">
+						<div class="handlediv" title="<?php _e( 'Click to toggle', 'colomat' ) ?>"><br/></div>
+						<h3 class="hndle">T(-) Countdown Events</h3>
+							<div class="inside">
+								<p><?php printf( __('%sT(-) Countdown Events%s is a new add-on plugin for T(-) Countdown Control that adds multiple event scheduling. Trigger events, such as changing content or firing a javascript function at specific times while the countdown is running.', $this->domain), '<a href="http://plugins.twinpictures.de/premium-plugins/t-countdown-events/?utm_source=t-countdown&utm_medium=plugin-settings-page&utm_content=t-countdown&utm_campaign=t-events-sidebar" target="_blank">', '</a>'); ?></p>
+							</div>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		<?php endif; ?>
 	<?php
 	}
 
@@ -405,11 +475,12 @@ class CountDownTimer extends WP_Widget {
 					'height' => '',
 					'launchwidth' => '',
 					'launchheight' => '',
-					'launchtarget' => '',
+					'launchtarget' => 'countdown',
 					'jsplacement' => '',
 					'event_id' => '',
 			), $instance));
 
+			//var_dump($instance);
 			if( empty($t) ){
 				//ancient
 				if( !empty($instance['year']) ){
@@ -421,7 +492,10 @@ class CountDownTimer extends WP_Widget {
 				}
 			}
 
-			//old values
+			//old values remove in a few versions
+			if(!empty($instance['jsplacement']) && $instance['jsplacement'] == 'footer'){
+				$jsplacement = '';
+			}
 			if(!empty($instance['weektitle'])){
 				$weeks = $instance['weektitle'];
 			}
@@ -438,15 +512,27 @@ class CountDownTimer extends WP_Widget {
 				$seconds = $instance['sectitle'];
 			}
 
-
 			$isrockstar = empty($options['rockstar']) ? '' : $options['rockstar'];
 
+			//rockstar features
 			if($isrockstar){
-				//rockstar features
 				$tophtml = empty($instance['tophtml']) ? '' : apply_filters('widget_tophtml', stripslashes($instance['tophtml']));
 				$bothtml = empty($instance['bothtml']) ? '' : apply_filters('widget_bothtml', stripslashes($instance['bothtml']));
 				$launchhtml = empty($instance['launchhtml']) ? '' : apply_filters('widget_launchhtml', stripslashes($instance['launchhtml']));
-				$launchtarget = empty($instance['launchtarget']) ? 'countdown' : apply_filters('widget_launchtarget', $instance['launchtarget']);
+
+				//old values - remove in a vew versions
+				if($launchtarget == 'Above Countdown'){
+					$launchtarget = 'above';
+				}
+				else if($launchtarget == 'Below Countdown'){
+					$launchtarget = 'below';
+				}
+				else if($launchtarget == 'Entire Widget'){
+					$launchtarget = 'countdown';
+				}
+				else if($launchtarget == 'Count Up'){
+					$launchtarget = 'countup';
+				}
 			}
 	    ?>
 	    <p><label><?php _e('Title:', 'tminus'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label></p>
@@ -471,8 +557,6 @@ class CountDownTimer extends WP_Widget {
 					}
 					echo '<option value="'.$eventID.'" '.$selected.'>'.get_the_title().'</option>';
 				endwhile;
-
-				// Reset Post Data
 				wp_reset_postdata();
 				echo '</select></p>';
 			}
@@ -480,7 +564,6 @@ class CountDownTimer extends WP_Widget {
 		<p><?php _e('Style:', 'tminus'); ?> <select name="<?php echo $this->get_field_name('style'); ?>" id="<?php echo $this->get_field_name('style'); ?>">
 			<?php
 				$styles_arr = $this->get_styles($options['custom_css']);
-
 				foreach($styles_arr as $style_name){
 					$selected = "";
 					if($style == $style_name){
@@ -515,8 +598,8 @@ class CountDownTimer extends WP_Widget {
 					<p><?php _e('Launch Target:', 'tminus'); ?> <select name="<?php echo $this->get_field_name('launchtarget'); ?>" id="<?php echo $this->get_field_name('launchtarget'); ?>">
 					<?php
 						$target_arr = array(
-							'above' => __('Above Countdown', 'tminus'),
-							'below' => __('Below Countdown', 'tminus'),
+							'tophtml' => __('Above Countdown', 'tminus'),
+							'bothtml' => __('Below Countdown', 'tminus'),
 							'countdown' => __('Entire Countdown', 'tminus'),
 							'countup' => __('Count Up', 'tminus')
 						);
