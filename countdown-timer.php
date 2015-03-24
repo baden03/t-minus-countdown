@@ -5,7 +5,7 @@ Text Domain: tminus
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.3.0i
+Version: 2.3.0k
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -15,7 +15,7 @@ License: GPL2
 
 class WP_TMinusCD {
 	var $plugin_name = 'T(-) Countdown';
-	var $version = '2.3.0i';
+	var $version = '2.3.0k';
 	var $domain = 'tminus';
 	var $plguin_options_page_title = 'T(-) Countdown Options';
 	var $plugin_options_menue_title = 'T(-) Countdown';
@@ -409,7 +409,7 @@ class CountDownTimer extends WP_Widget {
 			}
 
 			$content = '';
-			if($instance['launchhtml']){
+			if(!empty($instance['launchhtml'])){
 				$content = $instance['launchhtml'];
 				$instance['launchhtml'] = '';
 			}
@@ -576,7 +576,7 @@ class CountDownTimer extends WP_Widget {
 
 		<p><label><input type="checkbox" id="<?php echo $this->get_field_id('omitweeks'); ?>" name="<?php echo $this->get_field_name('omitweeks'); ?>" value="true"  <?php echo checked( $omitweeks, 'true' ); ?> /> <?php _e('Omit weeks from timer.', 'tminus'); ?></label></p>
 
-		<p><label><input type="checkbox" id="<?php echo $this->get_field_id('jsplacement'); ?>" name="<?php echo $this->get_field_name('jsplacement'); ?>" value="footer"  <?php echo checked( $jsplacement, 'footer' ); ?> /> <?php _e('Inject JavaScript Inline.', 'tminus'); ?></label></p>
+		<p><label><input type="checkbox" id="<?php echo $this->get_field_id('jsplacement'); ?>" name="<?php echo $this->get_field_name('jsplacement'); ?>" value="inline"  <?php echo checked( $jsplacement, 'inline' ); ?> /> <?php _e('Inject JavaScript Inline.', 'tminus'); ?></label></p>
 
 		<?php
 			echo '<h3>'.__('Rockstar Features', 'tminus').'</h3>';

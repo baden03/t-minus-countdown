@@ -84,10 +84,11 @@
 		var diffSecs = null;
 		$.ajax({
 			url: tminusnow,
-			cache: false,
+			type : "post",
+			dataType : "json",
 			success: $.proxy(function( data ) {
-				//console.log(data);
-				nowTime = new Date(data);
+				//console.log(data['now']);
+				nowTime = new Date(data['now']);
 				diffSecs = Math.floor((targetTime.valueOf()-nowTime.valueOf())/1000);
 				$(this).doCountDown($(this).attr('id'), diffSecs, 500);
 			}, this),
