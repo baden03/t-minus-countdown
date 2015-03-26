@@ -5,7 +5,7 @@ T(-) Countdown
 * Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, plugin-oven, pluginoven, G2, spaceBros, jQuery, javascript
 * Requires at least: 3.9
 * Tested up to: 4.2
-* Stable tag: 2.3.0k
+* Stable tag: 2.3.0
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,5 +48,6 @@ Frequently Asked Questions
 <b>Does Twinpictures do the Twitter?</b>
 * Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the Twitter.
 
-<b>Where may one view political news that gives giggle?</b>
+<b>Where may one enjoy U.S. news that gives giggle?</b>
 * The Daily Show with John Stewart
+* Last Week Tonight with John Oliver
