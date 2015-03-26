@@ -5,7 +5,7 @@ Text Domain: tminus
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.3.0
+Version: 2.3.1b
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -15,7 +15,7 @@ License: GPL2
 
 class WP_TMinusCD {
 	var $plugin_name = 'T(-) Countdown';
-	var $version = '2.3.0';
+	var $version = '2.3.1b';
 	var $domain = 'tminus';
 	var $plguin_options_page_title = 'T(-) Countdown Options';
 	var $plugin_options_menue_title = 'T(-) Countdown';
@@ -28,6 +28,7 @@ class WP_TMinusCD {
 	var $options = array(
 		'custom_css' => '',
 		'rockstar' => '',
+		'force_css' => '',
 	);
 
 	var $license_group = 'tminus_countdown_licenseing';
@@ -43,9 +44,11 @@ class WP_TMinusCD {
 
 		// add actions
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'tminus_admin_scripts' ) );
 		add_action( 'plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'plugin_actions' ) );
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 		add_action( 'wp_head', array( $this, 'plugin_head_inject' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'countdown_scripts' ) );
 	}
 
 	/**
@@ -77,6 +80,12 @@ class WP_TMinusCD {
 
 	//plugin header inject
 	function plugin_head_inject(){
+		// custom script
+		echo "<script type='text/javascript'>\n";
+		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
+		echo "var tminusnow = '".$plugin_url."/js/now.php';\n";
+		echo "</script>";
+
 		// custom css
 		if( !empty( $this->options['custom_css'] ) ){
 			echo "<style>\n";
@@ -84,6 +93,55 @@ class WP_TMinusCD {
 			echo "\n</style>\n";
 		}
 	}
+
+	//load scripts on the widget admin page
+	function tminus_admin_scripts($hook){
+		if( $hook == 'widgets.php' ){
+			//jquery datepicker
+			wp_enqueue_script( 'jquery-ui-datepicker' );
+			wp_enqueue_script( 'jquery-ui-slider' );
+
+			wp_register_style('jquery-ui-css', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css', array (), '1.10.4' );
+			wp_enqueue_style('jquery-ui-css');
+
+
+			$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
+
+			//jquery widget scripts
+			wp_register_script('jquery-ui-timepicker-addon', $plugin_url.'/js/jquery-ui-timepicker-addon.min.js', array ('jquery'), '1.5.2', true);
+			wp_enqueue_script('jquery-ui-timepicker-addon');
+
+			wp_register_script('tminus-admin-script', $plugin_url.'/js/jquery.collapse.js', array ('jquery', 'jquery-ui-datepicker', 'jquery-ui-slider', 'jquery-ui-timepicker-addon'), '1.2.2', true);
+			wp_enqueue_script('tminus-admin-script');
+
+			wp_register_style('collapse-admin-css', $plugin_url.'/admin/collapse-style.css' );
+			wp_enqueue_style('collapse-admin-css');
+		}
+	}
+
+	//load front-end countdown scripts
+	function countdown_scripts(){
+		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
+
+		//lwtCountdown script
+		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.5.4', 'true');
+		wp_enqueue_script('countdown-script');
+
+		//force load styles
+		if( !empty( $this->options['force_css'] ) ){
+			$style = $this->options['force_css'];
+			$style_file_url = plugins_url('/css/'.$style.'/style.css', __FILE__);
+			wp_register_style( 'countdown-'.$style.'-css', $style_file_url, array(), '2.0');
+			wp_enqueue_style( 'countdown-'.$style.'-css' );
+		}
+
+		// callback for t(-) events
+		wp_localize_script( 'countdown-script', 'tCountAjax', array(
+			'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			'countdownNonce' => wp_create_nonce( 'tountajax-countdownonce-nonce' ),
+		));
+	}
+
 
 	/**
 	 * Admin options page
@@ -141,6 +199,27 @@ class WP_TMinusCD {
 									<th><?php _e( 'Rockstar Features', $this->domain ) ?>:</th>
 									<td><label><input type="checkbox" id="<?php echo $this->options_name ?>[rockstar]" name="<?php echo $this->options_name ?>[rockstar]" value="rockstar"  <?php echo checked( $options['rockstar'], 'rockstar' ); ?> /> <?php _e('Enable', $this->domain); ?>
 										<br /><span class="description"><?php _e('Enable rockstar features.', $this->domain); ?></span></label>
+									</td>
+								</tr>
+
+
+								<tr>
+									<th><?php _e( 'Force Load CSS', $this->domain ) ?>:</th>
+									<td><label>
+										<select name="<?php echo $this->options_name ?>[force_css]" id="<?php echo $this->options_name ?>[force_css]">
+											<option value=''> </option>
+											<?php
+												$styles_arr = CountDownTimer::get_styles();
+												foreach($styles_arr as $style_name){
+													$selected = "";
+													if($options['force_css'] == $style_name){
+														$selected = 'SELECTED';
+													}
+													echo '<option value="'.$style_name.'" '.$selected.'>'.$style_name.'</option>';
+												}
+											?>
+										</select>
+										<br /><span class="description"><?php _e('Force a css style to load in the header', $this->domain); ?></span></label>
 									</td>
 								</tr>
 
@@ -282,60 +361,6 @@ class WP_TMinusCD {
 }
 $WP_TMinusCD = new WP_TMinusCD;
 
-//set global vars
-add_action( 'wp_head', 'tminus_js_vars' );
-function tminus_js_vars(){
-	echo "<script type='text/javascript'>\n";
-	$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
-	echo "var tminusnow = '".$plugin_url."/js/now.php';\n";
-	echo "</script>";
-}
-
-//load scripts on the widget admin page
-add_action( 'admin_enqueue_scripts', 'tminus_admin_scripts');
-function tminus_admin_scripts($hook){
-		if( $hook == 'widgets.php' ){
-				//jquery datepicker
-				wp_enqueue_script( 'jquery-ui-datepicker' );
-				wp_enqueue_script( 'jquery-ui-slider' );
-
-				wp_register_style('jquery-ui-css', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css', array (), '1.10.4' );
-				wp_enqueue_style('jquery-ui-css');
-
-
-				$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
-
-				//jquery widget scripts
-				wp_register_script('jquery-ui-timepicker-addon', $plugin_url.'/js/jquery-ui-timepicker-addon.min.js', array ('jquery'), '1.5.2', true);
-				wp_enqueue_script('jquery-ui-timepicker-addon');
-
-				wp_register_script('tminus-admin-script', $plugin_url.'/js/jquery.collapse.js', array ('jquery', 'jquery-ui-datepicker', 'jquery-ui-slider', 'jquery-ui-timepicker-addon'), '1.2.2', true);
-				wp_enqueue_script('tminus-admin-script');
-
-				wp_register_style('collapse-admin-css', $plugin_url.'/admin/collapse-style.css' );
-				wp_enqueue_style('collapse-admin-css');
-		}
-}
-
-//load front-end countdown scripts
-add_action('wp_enqueue_scripts', 'countdown_scripts' );
-function countdown_scripts(){
-		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
-
-		//lwtCountdown script
-		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.5.4', 'true');
-		wp_enqueue_script('countdown-script');
-
-		// callback for t(-) events if installed
-		if( is_plugin_active( 't-countdown-events/t-countdown-events.php' ) ){
-			wp_localize_script( 'countdown-script', 'tCountAjax', array(
-				'ajaxurl' => admin_url( 'admin-ajax.php' ),
-				'countdownNonce' => wp_create_nonce( 'tountajax-countdownonce-nonce' ),
-			));
-		}
-
-}
-
 //style folders array
 function folder_array($path, $exclude = ".|..") {
 	if(is_dir($path)){
@@ -348,7 +373,6 @@ function folder_array($path, $exclude = ".|..") {
 			}
 		}
 		closedir($dh);
-		print_r($result);
 		return $result;
 	}
 }
@@ -430,7 +454,7 @@ class CountDownTimer extends WP_Widget {
 			echo do_shortcode('[tminus '.$sc_atts.']'.$content.'[/tminus]');
 
 			echo $args['after_widget'];
-	  }
+		}
 
 		function get_styles($custom_css = null) {
 			//default styles
@@ -441,7 +465,6 @@ class CountDownTimer extends WP_Widget {
 			}
 			natcasesort($styles_arr);
 			return $styles_arr;
-
 	    }
 
 		function update( $new_instance, $old_instance ) {
@@ -454,7 +477,7 @@ class CountDownTimer extends WP_Widget {
 			return $instance;
 		}
 
-    /** Form */
+    	/** Form */
 		function form($instance) {
 			$options = get_option('WP_TMC_options');
 
@@ -734,7 +757,7 @@ function tminuscountdown($atts, $content=null) {
 
 	if ( file_exists( __DIR__ .'/css/'.$style.'/style.css' ) ) {
 		if (! wp_style_is( 'countdown-'.$style.'-css', 'registered' )) {
-		wp_register_style( 'countdown-'.$style.'-css', $style_file_url, array(), '2.0');
+			wp_register_style( 'countdown-'.$style.'-css', $style_file_url, array(), '2.0');
 		}
 		wp_enqueue_style( 'countdown-'.$style.'-css' );
 	}
