@@ -447,6 +447,9 @@ class CountDownTimer extends WP_Widget {
 			$sc_atts = '';
 			foreach($instance AS $key => $value){
 				if(!empty($value)){
+					if($key == 'before' || $key == 'after'){
+						$value = htmlspecialchars($value);
+					}
 					$sc_atts .= $key . '="'.$value.'" ';
 				}
 			}
@@ -824,7 +827,7 @@ function tminuscountdown($atts, $content=null) {
 	$tminus .= '<div class="'.$style.'-countdown '.$dash_omitweeks_class.'">';
 	$tminus .= '<div id="'.$id.'-tophtml" class="'.$style.'-tophtml">';
     if($before){
-        $tminus .=  $before;
+        $tminus .=  htmlspecialchars_decode($before);
     }
 	$tminus .=  '</div>';
 
@@ -877,7 +880,7 @@ function tminuscountdown($atts, $content=null) {
 
 	$tminus .= '<div id="'.$id.'-bothtml" class="'.$style.'-bothtml">';
 	if($after){
-		$tminus .= $after;
+		$tminus .= htmlspecialchars_decode($after);
 	}
 	$tminus .= '</div></div></div>';
 
