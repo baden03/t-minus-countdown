@@ -18,9 +18,12 @@
 	border-bottom: 1px solid #a37e39;
 	border-right: 1px solid #a37e39;
 	background: #fcff95; /* old browsers */
-	background: -moz-linear-gradient(top, #e39f1f 0%, #fcff95 12%, #fcffc8 25%, #fcff95 39%, #e39f1f 50%, #d8ab57 51%, #a37e39 60%, #685029 76%, #685029 91%, #5c4726 100%); /* firefox */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e39f1f), color-stop(12%,#fcff95), color-stop(25%,#fcffc8), color-stop(39%,#fcff95), color-stop(50%,#e39f1f), color-stop(51%,#d8ab57), color-stop(60%,#a37e39), color-stop(76%,#685029), color-stop(91%,#685029), color-stop(100%,#5c4726)); /* webkit */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d8ab57', endColorstr='#5c4726',GradientType=0 ); /* ie */
+	filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#d8ab57, endColorstr=#5c4726);
+	background:-moz-linear-gradient(top, #e39f1f 0%, #fcff95 12%, #fcffc8 25%, #fcff95 39%, #e39f1f 50%, #d8ab57 51%, #a37e39 60%, #685029 76%, #685029 91%, #5c4726 100%);
+	background:linear-gradient(top, #e39f1f 0%, #fcff95 12%, #fcffc8 25%, #fcff95 39%, #e39f1f 50%, #d8ab57 51%, #a37e39 60%, #685029 76%, #685029 91%, #5c4726 100%);
+	background:-o-linear-gradient(top, #e39f1f 0%, #fcff95 12%, #fcffc8 25%, #fcff95 39%, #e39f1f 50%, #d8ab57 51%, #a37e39 60%, #685029 76%, #685029 91%, #5c4726 100%);
+	background:-ms-linear-gradient(top, #e39f1f 0%, #fcff95 12%, #fcffc8 25%, #fcff95 39%, #e39f1f 50%, #d8ab57 51%, #a37e39 60%, #685029 76%, #685029 91%, #5c4726 100%);
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#e39f1f), color-stop(12%,#fcff95), color-stop(25%,#fcffc8), color-stop(39%,#fcff95), color-stop(50%,#e39f1f), color-stop(51%,#d8ab57), color-stop(60%,#a37e39), color-stop(76%,#685029), color-stop(91%,#685029), color-stop(100%,#5c4726)); /* webkit */
 	-moz-border-radius: 4px;
 	-webkit-border-radius:4px;
 	border-radius: 4px;
@@ -58,7 +61,7 @@
 	color: #5c4726;
 	border-top:1px solid #a37e39;
 	border-left:1px solid #a37e39;
-	border-bottom:1px solid #fcff95; 
+	border-bottom:1px solid #fcff95;
 	border-right:1px solid #fcff95;
 	-moz-border-radius: 4px; -webkit-border-radius:5px; border-radius: 4px;
 	background: #FFFFFF;
