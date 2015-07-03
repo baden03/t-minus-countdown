@@ -5,7 +5,7 @@ Text Domain: tminus
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.3.3a
+Version: 2.3.3
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -15,7 +15,7 @@ License: GPL2
 
 class WP_TMinusCD {
 	var $plugin_name = 'T(-) Countdown';
-	var $version = '2.3.3a';
+	var $version = '2.3.3';
 	var $domain = 'tminus';
 	var $plguin_options_page_title = 'T(-) Countdown Options';
 	var $plugin_options_menue_title = 'T(-) Countdown';
@@ -382,10 +382,16 @@ function folder_array($path, $exclude = ".|..") {
  */
 class CountDownTimer extends WP_Widget {
     /** constructor */
-    function CountDownTimer() {
-			load_plugin_textdomain( 'tminus', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-			$widget_ops = array('classname' => 'CountDownTimer', 'description' => __('A highly customizable jQuery countdown timer by Twinpictures', 'tminus') );
-			$this->WP_Widget('CountDownTimer', 'T(-) Countdown', $widget_ops);
+	public function __construct(){
+		parent::__construct(
+    		'CountDownTimer',
+        	__( 'A highly customizable jQuery countdown timer by Twinpictures', 'tminus' ),
+        	array(
+            	'classname'   => 'CountDownTimer',
+            	'description' => __( 'A highly customizable jQuery countdown timer by Twinpictures', 'tminus' )
+        	)
+	    );
+	    load_plugin_textdomain( 'tminus', false, basename( dirname( __FILE__ ) ) . '/languages' );
     }
 
     /** Widget */
@@ -673,8 +679,10 @@ class CountDownTimer extends WP_Widget {
 } // class CountDownTimer
 
 // register CountDownTimer widget
-add_action('widgets_init', create_function('', 'return register_widget("CountDownTimer");'));
-
+//add_action('widgets_init', create_function('', 'return register_widget("CountDownTimer");'));
+add_action( 'widgets_init', function(){
+     register_widget( 'CountDownTimer' );
+});
 
 //code for the footer
 add_action('wp_footer', 'print_my_script', 99);
