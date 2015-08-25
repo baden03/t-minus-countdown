@@ -5,7 +5,7 @@ Text Domain: tminus
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.3.4
+Version: 2.3.5a
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -382,17 +382,17 @@ function folder_array($path, $exclude = ".|..") {
  */
 class CountDownTimer extends WP_Widget {
     /** constructor */
-	public function __construct(){
-		parent::__construct(
-    		'CountDownTimer',
-        	__( 'T(-) Countdown', 'tminus' ),
-        	array(
-            	'classname'   => 'CountDownTimer',
-            	'description' => __( 'A highly customizable jQuery countdown timer by Twinpictures', 'tminus' )
-        	)
-	    );
-	    load_plugin_textdomain( 'tminus', false, basename( dirname( __FILE__ ) ) . '/languages' );
-    }
+	function __construct() {
+
+		$widget_ops = array(
+			'classname'		=> 'CountDownTimer',
+			'description'	=> __( 'A highly customizable jQuery countdown timer by Twinpictures', 'tminus' )
+		);
+
+		parent::__construct( 'CountDownTimer', __( 'T(-) Countdown', 'tminus' ), $widget_ops );
+
+	}
+
 
     /** Widget */
     function widget($args, $instance) {
@@ -679,9 +679,10 @@ class CountDownTimer extends WP_Widget {
 } // class CountDownTimer
 
 // register CountDownTimer widget
-add_action( 'widgets_init', function(){
-     register_widget( 'CountDownTimer' );
-});
+function tminus_register_widget() {
+	register_widget( 'CountDownTimer' );
+}
+add_action( 'widgets_init', 'tminus_register_widget' );
 
 //code for the footer
 add_action('wp_footer', 'print_my_script', 99);
