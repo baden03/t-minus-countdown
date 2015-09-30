@@ -5,7 +5,7 @@ Text Domain: jquery-t-countdown-widget
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.3.5
+Version: 2.3.6a
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -13,7 +13,7 @@ License: GPL2
 
 class WP_TMinusCD {
 	var $plugin_name = 'T(-) Countdown';
-	var $version = '2.3.5';
+	var $version = '2.3.6a';
 	var $domain = 'tminus';
 	var $plguin_options_page_title = 'T(-) Countdown Options';
 	var $plugin_options_menue_title = 'T(-) Countdown';
@@ -47,6 +47,7 @@ class WP_TMinusCD {
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 		add_action( 'wp_head', array( $this, 'plugin_head_inject' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'countdown_scripts' ) );
+		add_action( 'plugins_loaded', array( $this, 'myplugin_load_textdomain' ) );
 	}
 
 	/**
@@ -67,6 +68,15 @@ class WP_TMinusCD {
 		if( is_plugin_active( 't-countdown-events/t-countdown-events.php' ) ){
 			register_setting( $this->license_group, $this->license_name, array('WP_TminusEvents', 'edd_sanitize_license') );
 		}
+	}
+
+	/**
+	 * Load textdomain.
+	 *
+	 * @since 2.5.6
+	 */
+	function tminus_load_textdomain() {
+		load_plugin_textdomain( 'jquery-t-countdown-widget', false, basename( dirname( __FILE__ ) ) . '/languages' );
 	}
 
 	// Add link to options page from plugin list
