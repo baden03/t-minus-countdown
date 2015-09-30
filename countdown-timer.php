@@ -1,21 +1,19 @@
 <?php
 /*
 Plugin Name: T(-) Countdown
-Text Domain: tminus
+Text Domain: jquery-t-countdown-widget
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.3.5a
+Version: 2.3.5b
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
 */
 
-//delete_option('WP_TMC_options');
-
 class WP_TMinusCD {
 	var $plugin_name = 'T(-) Countdown';
-	var $version = '2.3.4';
+	var $version = '2.3.5b';
 	var $domain = 'tminus';
 	var $plguin_options_page_title = 'T(-) Countdown Options';
 	var $plugin_options_menue_title = 'T(-) Countdown';
@@ -74,7 +72,7 @@ class WP_TMinusCD {
 	// Add link to options page from plugin list
 	function plugin_actions($links) {
 		$new_links = array();
-		$new_links[] = '<a href="options-general.php?page='.$this->plugin_options_slug.'">' . __('Settings', $this->domain) . '</a>';
+		$new_links[] = '<a href="options-general.php?page='.$this->plugin_options_slug.'">' . __('Settings', 'jquery-t-countdown-widget') . '</a>';
 		return array_merge($new_links, $links);
 	}
 
@@ -148,22 +146,22 @@ class WP_TMinusCD {
 	 */
 	function options_page() {
 		$like_it_arr = array(
-						__('made you feel all warm and fuzzy on the inside', $this->domain),
-						__('restored your faith in humanity... even if only for a fleeting second', $this->domain),
-						__('rocked your world', 'provided a positive vision of future living', $this->domain),
-						__('inspired you to commit a random act of kindness', $this->domain),
-						__('encouraged more regular flossing of the teeth', $this->domain),
-						__('helped organize your life in the small ways that matter', $this->domain),
-						__('saved your minutes--if not tens of minutes--writing your own solution', $this->domain),
-						__('brightened your day... or darkened it if sleeping in', $this->domain),
-						__('caused you to dance a little jig of joy and joyousness', $this->domain),
-						__('inspired you to tweet a little @twinpictues social love', $this->domain),
-						__('tasted great, while also being less filling', $this->domain),
-						__('caused you to shout: "everybody spread love, give me some mo!"', $this->domain),
-						__('really tied the room together, Dude', $this->domain),
-						__('helped you keep the funk alive', $this->domain),
-						__('<a href="http://www.youtube.com/watch?v=dvQ28F5fOdU" target="_blank">soften hands while you do dishes</a>', $this->domain),
-						__('helped that little old lady <a href="http://www.youtube.com/watch?v=Ug75diEyiA0" target="_blank">find the beef</a>', $this->domain)
+						__('made you feel all warm and fuzzy on the inside', 'jquery-t-countdown-widget'),
+						__('restored your faith in humanity... even if only for a fleeting second', 'jquery-t-countdown-widget'),
+						__('rocked your world', 'provided a positive vision of future living', 'jquery-t-countdown-widget'),
+						__('inspired you to commit a random act of kindness', 'jquery-t-countdown-widget'),
+						__('encouraged more regular flossing of the teeth', 'jquery-t-countdown-widget'),
+						__('helped organize your life in the small ways that matter', 'jquery-t-countdown-widget'),
+						__('saved your minutes--if not tens of minutes--writing your own solution', 'jquery-t-countdown-widget'),
+						__('brightened your day... or darkened it if sleeping in', 'jquery-t-countdown-widget'),
+						__('caused you to dance a little jig of joy and joyousness', 'jquery-t-countdown-widget'),
+						__('inspired you to tweet a little @twinpictues social love', 'jquery-t-countdown-widget'),
+						__('tasted great, while also being less filling', 'jquery-t-countdown-widget'),
+						__('caused you to shout: "everybody spread love, give me some mo!"', 'jquery-t-countdown-widget'),
+						__('really tied the room together, Dude', 'jquery-t-countdown-widget'),
+						__('helped you keep the funk alive', 'jquery-t-countdown-widget'),
+						__('<a href="http://www.youtube.com/watch?v=dvQ28F5fOdU" target="_blank">soften hands while you do dishes</a>', 'jquery-t-countdown-widget'),
+						__('helped that little old lady <a href="http://www.youtube.com/watch?v=Ug75diEyiA0" target="_blank">find the beef</a>', 'jquery-t-countdown-widget')
 					);
 		$rand_key = array_rand($like_it_arr);
 		$like_it = $like_it_arr[$rand_key];
@@ -185,8 +183,8 @@ class WP_TMinusCD {
 		<div class="postbox-container metabox-holder meta-box-sortables" style="width: 69%">
 			<div style="margin:0 5px;">
 				<div class="postbox">
-					<div class="handlediv" title="<?php _e( 'Click to toggle', $this->domain ) ?>"><br/></div>
-					<h3 class="handle"><?php _e( 'T(-) Countdown Settings', $this->domain ) ?></h3>
+					<div class="handlediv" title="<?php _e( 'Click to toggle', 'jquery-t-countdown-widget' ) ?>"><br/></div>
+					<h3 class="handle"><?php _e( 'T(-) Countdown Settings', 'jquery-t-countdown-widget' ) ?></h3>
 					<div class="inside">
 						<form method="post" action="options.php">
 							<?php
@@ -196,15 +194,15 @@ class WP_TMinusCD {
 
 							<table class="form-table">
 								<tr>
-									<th><?php _e( 'Rockstar Features', $this->domain ) ?>:</th>
-									<td><label><input type="checkbox" id="<?php echo $this->options_name ?>[rockstar]" name="<?php echo $this->options_name ?>[rockstar]" value="rockstar"  <?php echo checked( $options['rockstar'], 'rockstar' ); ?> /> <?php _e('Enable', $this->domain); ?>
-										<br /><span class="description"><?php _e('Enable rockstar features.', $this->domain); ?></span></label>
+									<th><?php _e( 'Rockstar Features', 'jquery-t-countdown-widget' ) ?>:</th>
+									<td><label><input type="checkbox" id="<?php echo $this->options_name ?>[rockstar]" name="<?php echo $this->options_name ?>[rockstar]" value="rockstar"  <?php echo checked( $options['rockstar'], 'rockstar' ); ?> /> <?php _e('Enable', 'jquery-t-countdown-widget'); ?>
+										<br /><span class="description"><?php _e('Enable rockstar features.', 'jquery-t-countdown-widget'); ?></span></label>
 									</td>
 								</tr>
 
 
 								<tr>
-									<th><?php _e( 'Force Load CSS', $this->domain ) ?>:</th>
+									<th><?php _e( 'Force Load CSS', 'jquery-t-countdown-widget' ) ?>:</th>
 									<td><label>
 										<select name="<?php echo $this->options_name ?>[force_css]" id="<?php echo $this->options_name ?>[force_css]">
 											<option value=''> </option>
@@ -219,19 +217,19 @@ class WP_TMinusCD {
 												}
 											?>
 										</select>
-										<br /><span class="description"><?php _e('Force a css style to load in the header', $this->domain); ?></span></label>
+										<br /><span class="description"><?php _e('Force a css style to load in the header', 'jquery-t-countdown-widget'); ?></span></label>
 									</td>
 								</tr>
 
 								<tr>
-									<th><?php _e( 'Custom CSS', $this->domain ) ?>:</th>
+									<th><?php _e( 'Custom CSS', 'jquery-t-countdown-widget' ) ?>:</th>
 									<td><label><textarea id="<?php echo $this->options_name ?>[custom_css]" name="<?php echo $this->options_name ?>[custom_css]" style="width: 100%; height: 537px;"><?php echo $options['custom_css']; ?></textarea>
-										<br /><span class="description"><?php _e( 'Custom CSS style for <em>ultimate flexibility</em>', $this->domain ) ?></span></label>
+										<br /><span class="description"><?php _e( 'Custom CSS style for <em>ultimate flexibility</em>', 'jquery-t-countdown-widget' ) ?></span></label>
 									</td>
 								</tr>
 							</table>
 							<p class="submit" style="margin-bottom: 20px;">
-								<input class="button-primary" type="submit" value="<?php _e( 'Save Changes', $this->domain ) ?>" style="float: right;" />
+								<input class="button-primary" type="submit" value="<?php _e( 'Save Changes', 'jquery-t-countdown-widget' ) ?>" style="float: right;" />
 							</p>
 						</form>
 					</div>
@@ -244,12 +242,12 @@ class WP_TMinusCD {
 				<div class="postbox">
 					<h3><?php _e( 'About' ) ?></h3>
 					<div class="inside">
-						<h4><?php echo $this->plugin_name; ?> <?php _e('Version', $this->domain); ?> <?php echo $this->version; ?></h4>
-						<p><?php _e( 'T(-) Countdown is a highly customizable, HTML5 countdown timer that can be displayed as a sidebar widget or in a post or page using a shortcode.', $this->domain) ?></p>
+						<h4><?php echo $this->plugin_name; ?> <?php _e('Version', 'jquery-t-countdown-widget'); ?> <?php echo $this->version; ?></h4>
+						<p><?php _e( 'T(-) Countdown is a highly customizable, HTML5 countdown timer that can be displayed as a sidebar widget or in a post or page using a shortcode.', 'jquery-t-countdown-widget') ?></p>
 						<ul>
-							<li><?php printf( __( '%sDetailed documentation%s, complete with working demonstrations of all shortcode attributes, is availabel for your instructional enjoyment.', 'tminus'), '<a href="http://plugins.twinpictures.de/plugins/t-minus-countdown/documentation/" target="_blank">', '</a>'); ?></li>
-							<li><?php printf( __( 'A %sCommunity translation%s tool has been set up that allows anyone to assist in translating T(-) Countdown. All are %swelcome to participate%s.', 'tminus'), '<a href="http://translate.twinpictures.de/projects/t-countdown" target="_blank">', '</a>', '<a href="http://translate.twinpictures.de/wordpress/wp-login.php?action=register" target="_blank">', '</a>' ); ?></li>
-							<li><?php printf( __( 'If this plugin %s, please consider %ssharing your story%s with others.', 'tminus'), $like_it, '<a href="'.$share_it.'" target="_blank">', '</a>' ) ?></li>
+							<li><?php printf( __( '%sDetailed documentation%s, complete with working demonstrations of all shortcode attributes, is availabel for your instructional enjoyment.', 'jquery-t-countdown-widget'), '<a href="http://plugins.twinpictures.de/plugins/t-minus-countdown/documentation/" target="_blank">', '</a>'); ?></li>
+							<li><?php printf( __( 'A %sCommunity translation%s tool has been set up that allows anyone to assist in translating T(-) Countdown. All are %swelcome to participate%s.', 'jquery-t-countdown-widget'), '<a href="http://translate.twinpictures.de/projects/t-countdown" target="_blank">', '</a>', '<a href="http://translate.twinpictures.de/wordpress/wp-login.php?action=register" target="_blank">', '</a>' ); ?></li>
+							<li><?php printf( __( 'If this plugin %s, please consider %ssharing your story%s with others.', 'jquery-t-countdown-widget'), $like_it, '<a href="'.$share_it.'" target="_blank">', '</a>' ) ?></li>
 							<li><a href="https://wordpress.org/plugins/jquery-t-countdown-widget/" target="_blank">WordPress.org</a> | <a href="http://plugins.twinpictures.de/plugins/t-minus-countdown/" target="_blank">Twinpictues Plugin Oven</a></li>
 						</ul>
 						</ul>
@@ -264,12 +262,12 @@ class WP_TMinusCD {
 					<div class="handlediv" title="<?php _e( 'Click to toggle' ) ?>"><br/></div>
 					<h3 class="handle"><?php _e( 'T(-) Countdown Control' ) ?></h3>
 					<div class="inside">
-						<p><?php printf(__( '%sT(-) Countdown Control%s is our premium plugin that manages and schedules multiple recurring countdown timers for repeating events.', 'tminus' ), '<a href="http://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/?utm_source=t-countdown&utm_medium=plugin-settings-page&utm_content=t-countdown&utm_campaign=t-control-sidebar">', '</a>'); ?></p>
-						<h4><?php _e('Reasons To Go Pro', 'tminus'); ?></h4>
+						<p><?php printf(__( '%sT(-) Countdown Control%s is our premium plugin that manages and schedules multiple recurring countdown timers for repeating events.', 'jquery-t-countdown-widget' ), '<a href="http://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/?utm_source=t-countdown&utm_medium=plugin-settings-page&utm_content=t-countdown&utm_campaign=t-control-sidebar">', '</a>'); ?></p>
+						<h4><?php _e('Reasons To Go Pro', 'jquery-t-countdown-widget'); ?></h4>
 						<ol>
-							<li><?php _e('Schedule and manage multiple recurring countdowns', 'tminus'); ?></li>
-							<li><?php _e('Highly responsive professional support', 'tminus'); ?></li>
-							<li><?php printf(__('%sT(-) Countdown Control Testimonials%s', 'tminus'), '<a href="http://plugins.twinpictures.de/testimonial/t-countdown-control-testimonias/" target="_blank">', '</a>'); ?></li>
+							<li><?php _e('Schedule and manage multiple recurring countdowns', 'jquery-t-countdown-widget'); ?></li>
+							<li><?php _e('Highly responsive professional support', 'jquery-t-countdown-widget'); ?></li>
+							<li><?php printf(__('%sT(-) Countdown Control Testimonials%s', 'jquery-t-countdown-widget'), '<a href="http://plugins.twinpictures.de/testimonial/t-countdown-control-testimonias/" target="_blank">', '</a>'); ?></li>
 						</ol>
 					</div>
 				</div>
@@ -282,9 +280,9 @@ class WP_TMinusCD {
 			<div class="postbox-container side metabox-holder" style="width:29%;">
 				<div style="margin:0 5px;">
 					<div class="postbox">
-						<h3 class="handle"><?php _e( 'Register T(-) Countdown Events', $this->domain) ?></h3>
+						<h3 class="handle"><?php _e( 'Register T(-) Countdown Events', 'jquery-t-countdown-widget') ?></h3>
 						<div class="inside">
-							<p><?php printf( __('To receive plugin updates you must register your plugin. Enter your T(-) Countdown Events licence key below. Licence keys may be viewed and managed by logging into %syour account%s.', $this->domain), '<a href="http://plugins.twinpictures.de/your-account/" target="_blank">', '</a>'); ?></p>
+							<p><?php printf( __('To receive plugin updates you must register your plugin. Enter your T(-) Countdown Events licence key below. Licence keys may be viewed and managed by logging into %syour account%s.', 'jquery-t-countdown-widget'), '<a href="http://plugins.twinpictures.de/your-account/" target="_blank">', '</a>'); ?></p>
 							<form method="post" action="options.php">
 								<?php
 									settings_fields( $this->license_group );
@@ -295,16 +293,16 @@ class WP_TMinusCD {
 									<table style="width: 100%">
 										<tbody>
 											<tr>
-												<th><?php _e( 'License Key', $this->domain ) ?>:</th>
+												<th><?php _e( 'License Key', 'jquery-t-countdown-widget' ) ?>:</th>
 												<td><label for="<?php echo $this->license_name ?>[tminus_event_license_key]"><input type="password" id="<?php echo $this->license_name ?>[tminus_event_license_key]" name="<?php echo $this->license_name ?>[tminus_event_license_key]" value="<?php esc_attr_e( $tce_licence ); ?>" style="width: 100%" />
-													<br /><span class="description"><?php _e('Enter your license key', $this->domain); ?></span></label>
+													<br /><span class="description"><?php _e('Enter your license key', 'jquery-t-countdown-widget'); ?></span></label>
 	                                                                                        </td>
 
 											</tr>
 
 											<?php if( isset($options['tminus_event_license_key']) ) { ?>
 												<tr valign="top">
-													<th><?php _e('License Status', $this->domain); ?>:</th>
+													<th><?php _e('License Status', 'jquery-t-countdown-widget'); ?>:</th>
 													<td>
 														<?php if( isset($options['tminus_event_license_status']) && $options['tminus_event_license_status'] == 'valid' ) { ?>
 															<span style="color:green;"><?php _e('active'); ?></span><br/>
@@ -323,7 +321,7 @@ class WP_TMinusCD {
 										</tbody>
 									</table>
 								</fieldset>
-	                        	<?php submit_button( __( 'Register', $this->domain) ); ?>
+	                        	<?php submit_button( __( 'Register', 'jquery-t-countdown-widget') ); ?>
 							</form>
 						</div>
 					</div>
@@ -336,7 +334,7 @@ class WP_TMinusCD {
 						<div class="handlediv" title="<?php _e( 'Click to toggle', 'colomat' ) ?>"><br/></div>
 						<h3 class="hndle">T(-) Countdown Events</h3>
 							<div class="inside">
-								<p><?php printf( __('%sT(-) Countdown Events%s is a new add-on plugin for T(-) Countdown Control that adds multiple event scheduling. Trigger events, such as changing content or firing a javascript function at specific times while the countdown is running.', $this->domain), '<a href="http://plugins.twinpictures.de/premium-plugins/t-countdown-events/?utm_source=t-countdown&utm_medium=plugin-settings-page&utm_content=t-countdown&utm_campaign=t-events-sidebar" target="_blank">', '</a>'); ?></p>
+								<p><?php printf( __('%sT(-) Countdown Events%s is a new add-on plugin for T(-) Countdown Control that adds multiple event scheduling. Trigger events, such as changing content or firing a javascript function at specific times while the countdown is running.', 'jquery-t-countdown-widget'), '<a href="http://plugins.twinpictures.de/premium-plugins/t-countdown-events/?utm_source=t-countdown&utm_medium=plugin-settings-page&utm_content=t-countdown&utm_campaign=t-events-sidebar" target="_blank">', '</a>'); ?></p>
 							</div>
 					</div>
 				</div>
@@ -386,10 +384,10 @@ class CountDownTimer extends WP_Widget {
 
 		$widget_ops = array(
 			'classname'		=> 'CountDownTimer',
-			'description'	=> __( 'A highly customizable jQuery countdown timer by Twinpictures', 'tminus' )
+			'description'	=> __( 'A highly customizable jQuery countdown timer by Twinpictures', 'jquery-t-countdown-widget' )
 		);
 
-		parent::__construct( 'CountDownTimer', __( 'T(-) Countdown', 'tminus' ), $widget_ops );
+		parent::__construct( 'CountDownTimer', __( 'T(-) Countdown', 'jquery-t-countdown-widget' ), $widget_ops );
 
 	}
 
@@ -567,13 +565,13 @@ class CountDownTimer extends WP_Widget {
 				}
 			}
 	    ?>
-	    <p><label><?php _e('Title:', 'tminus'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label></p>
+	    <p><label><?php _e('Title:', 'jquery-t-countdown-widget'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label></p>
 
-		<p><label><?php _e('Target:', 'tminus'); ?> <input style="width: 230px;" id="<?php echo $this->get_field_id('t'); ?>" name="<?php echo $this->get_field_name('t'); ?>" type="text" value="<?php echo $t; ?>" class="t-datepicker"/></label></p>
+		<p><label><?php _e('Target:', 'jquery-t-countdown-widget'); ?> <input style="width: 230px;" id="<?php echo $this->get_field_id('t'); ?>" name="<?php echo $this->get_field_name('t'); ?>" type="text" value="<?php echo $t; ?>" class="t-datepicker"/></label></p>
 		<?php
 			if( is_plugin_active( 't-countdown-events/t-countdown-events.php' ) ){
 				echo '<p><label>Event: <select name="'.$this->get_field_name('event_id').'" id="'.$this->get_field_name('event_id').'">';
-				echo '<option value="">'.__('Select Event', 'tminus').'</option>';
+				echo '<option value="">'.__('Select Event', 'jquery-t-countdown-widget').'</option>';
 				$args = array(
 					'post_type' => 't-countdown-events',
 					'posts_per_page' => -1,
@@ -593,7 +591,7 @@ class CountDownTimer extends WP_Widget {
 				echo '</select></p>';
 			}
 		?>
-		<p><?php _e('Style:', 'tminus'); ?> <select name="<?php echo $this->get_field_name('style'); ?>" id="<?php echo $this->get_field_name('style'); ?>">
+		<p><?php _e('Style:', 'jquery-t-countdown-widget'); ?> <select name="<?php echo $this->get_field_name('style'); ?>" id="<?php echo $this->get_field_name('style'); ?>">
 			<?php
 				$styles_arr = $this->get_styles($options['custom_css']);
 				foreach($styles_arr as $style_name){
@@ -606,34 +604,34 @@ class CountDownTimer extends WP_Widget {
 			?>
 		</select></p>
 
-		<p><label><input type="checkbox" id="<?php echo $this->get_field_id('omitweeks'); ?>" name="<?php echo $this->get_field_name('omitweeks'); ?>" value="true"  <?php echo checked( $omitweeks, 'true' ); ?> /> <?php _e('Omit weeks from timer.', 'tminus'); ?></label></p>
+		<p><label><input type="checkbox" id="<?php echo $this->get_field_id('omitweeks'); ?>" name="<?php echo $this->get_field_name('omitweeks'); ?>" value="true"  <?php echo checked( $omitweeks, 'true' ); ?> /> <?php _e('Omit weeks from timer.', 'jquery-t-countdown-widget'); ?></label></p>
 
-		<p><label><input type="checkbox" id="<?php echo $this->get_field_id('jsplacement'); ?>" name="<?php echo $this->get_field_name('jsplacement'); ?>" value="inline"  <?php echo checked( $jsplacement, 'inline' ); ?> /> <?php _e('Inject JavaScript Inline.', 'tminus'); ?></label></p>
+		<p><label><input type="checkbox" id="<?php echo $this->get_field_id('jsplacement'); ?>" name="<?php echo $this->get_field_name('jsplacement'); ?>" value="inline"  <?php echo checked( $jsplacement, 'inline' ); ?> /> <?php _e('Inject JavaScript Inline.', 'jquery-t-countdown-widget'); ?></label></p>
 
 		<?php
-			echo '<h3>'.__('Rockstar Features', 'tminus').'</h3>';
+			echo '<h3>'.__('Rockstar Features', 'jquery-t-countdown-widget').'</h3>';
 			if($isrockstar){
 			?>
-			<a class="collapseomatic" id="tophtml<?php echo $this->get_field_id('tophtml'); ?>"><?php _e('Above Countdown', 'tminus'); ?></a>
+			<a class="collapseomatic" id="tophtml<?php echo $this->get_field_id('tophtml'); ?>"><?php _e('Above Countdown', 'jquery-t-countdown-widget'); ?></a>
 			<div id="target-tophtml<?php echo $this->get_field_id('tophtml'); ?>" class="collapseomatic_content">
-					<p><label for="<?php echo $this->get_field_id('tophtml'); ?>"><?php _e('Top HTML:', 'tminus'); ?></label> <textarea id="<?php echo $this->get_field_id('tophtml'); ?>" name="<?php echo $this->get_field_name('tophtml'); ?>"><?php echo $tophtml; ?></textarea></p>
+					<p><label for="<?php echo $this->get_field_id('tophtml'); ?>"><?php _e('Top HTML:', 'jquery-t-countdown-widget'); ?></label> <textarea id="<?php echo $this->get_field_id('tophtml'); ?>" name="<?php echo $this->get_field_name('tophtml'); ?>"><?php echo $tophtml; ?></textarea></p>
 			</div>
 			<br/>
-			<a class="collapseomatic" id="bothtml<?php echo $this->get_field_id('bothtml'); ?>"><?php _e('Below Countdown', 'tminus'); ?></a>
+			<a class="collapseomatic" id="bothtml<?php echo $this->get_field_id('bothtml'); ?>"><?php _e('Below Countdown', 'jquery-t-countdown-widget'); ?></a>
 			<div id="target-bothtml<?php echo $this->get_field_id('bothtml'); ?>" class="collapseomatic_content">
-					<p><label for="<?php echo $this->get_field_id('bothtml'); ?>"><?php _e('Bottom HTML:', 'tminus'); ?></label> <textarea id="<?php echo $this->get_field_id('bothtml'); ?>" name="<?php echo $this->get_field_name('bothtml'); ?>"><?php echo $bothtml; ?></textarea></p>
+					<p><label for="<?php echo $this->get_field_id('bothtml'); ?>"><?php _e('Bottom HTML:', 'jquery-t-countdown-widget'); ?></label> <textarea id="<?php echo $this->get_field_id('bothtml'); ?>" name="<?php echo $this->get_field_name('bothtml'); ?>"><?php echo $bothtml; ?></textarea></p>
 			</div>
 			<br/>
-			<a class="collapseomatic" id="launchhtml<?php echo $this->get_field_id('launchhtml'); ?>"><?php _e('When Countdown Reaches Zero', 'tminus'); ?></a>
+			<a class="collapseomatic" id="launchhtml<?php echo $this->get_field_id('launchhtml'); ?>"><?php _e('When Countdown Reaches Zero', 'jquery-t-countdown-widget'); ?></a>
 			<div id="target-launchhtml<?php echo $this->get_field_id('launchhtml'); ?>" class="collapseomatic_content">
-					<p><label for="<?php echo $this->get_field_id('launchhtml'); ?>"><?php _e('Launch Event HTML:', 'tminus'); ?></label> <textarea id="<?php echo $this->get_field_id('launchhtml'); ?>" name="<?php echo $this->get_field_name('launchhtml'); ?>"><?php echo $launchhtml; ?></textarea></p>
-					<p><?php _e('Launch Target:', 'tminus'); ?> <select name="<?php echo $this->get_field_name('launchtarget'); ?>" id="<?php echo $this->get_field_name('launchtarget'); ?>">
+					<p><label for="<?php echo $this->get_field_id('launchhtml'); ?>"><?php _e('Launch Event HTML:', 'jquery-t-countdown-widget'); ?></label> <textarea id="<?php echo $this->get_field_id('launchhtml'); ?>" name="<?php echo $this->get_field_name('launchhtml'); ?>"><?php echo $launchhtml; ?></textarea></p>
+					<p><?php _e('Launch Target:', 'jquery-t-countdown-widget'); ?> <select name="<?php echo $this->get_field_name('launchtarget'); ?>" id="<?php echo $this->get_field_name('launchtarget'); ?>">
 					<?php
 						$target_arr = array(
-							'tophtml' => __('Above Countdown', 'tminus'),
-							'bothtml' => __('Below Countdown', 'tminus'),
-							'countdown' => __('Entire Countdown', 'tminus'),
-							'countup' => __('Count Up', 'tminus')
+							'tophtml' => __('Above Countdown', 'jquery-t-countdown-widget'),
+							'bothtml' => __('Below Countdown', 'jquery-t-countdown-widget'),
+							'countdown' => __('Entire Countdown', 'jquery-t-countdown-widget'),
+							'countup' => __('Count Up', 'jquery-t-countdown-widget')
 						);
 						foreach($target_arr as $key => $val){
 							$selected = "";
@@ -646,13 +644,13 @@ class CountDownTimer extends WP_Widget {
 					</select></p>
 			</div>
 			<br/>
-			<a class="collapseomatic" id="titles<?php echo $this->get_field_id('weeks'); ?>"><?php _e('Digit Titles', 'tminus'); ?></a>
+			<a class="collapseomatic" id="titles<?php echo $this->get_field_id('weeks'); ?>"><?php _e('Digit Titles', 'jquery-t-countdown-widget'); ?></a>
 			<div id="target-titles<?php echo $this->get_field_id('weeks'); ?>" class="collapseomatic_content">
-					<p><label for="<?php echo $this->get_field_id('weeks'); ?>"><?php _e('How do you spell "weeks"?:', 'tminus'); ?> <input class="widefat" id="<?php echo $this->get_field_id('weeks'); ?>" name="<?php echo $this->get_field_name('weeks'); ?>" type="text" value="<?php echo $weeks; ?>" /></label></p>
-					<p><label for="<?php echo $this->get_field_id('days'); ?>"><?php _e('How do you spell "days"?:', 'tminus'); ?> <input class="widefat" id="<?php echo $this->get_field_id('days'); ?>" name="<?php echo $this->get_field_name('days'); ?>" type="text" value="<?php echo $days; ?>" /></label></p>
-					<p><label for="<?php echo $this->get_field_id('hours'); ?>"><?php _e('How do you spell "hours"?:', 'tminus'); ?> <input class="widefat" id="<?php echo $this->get_field_id('hours'); ?>" name="<?php echo $this->get_field_name('hours'); ?>" type="text" value="<?php echo $hours; ?>" /></label></p>
-					<p><label for="<?php echo $this->get_field_id('minutes'); ?>"><?php _e('How do you spell "minutes"?:', 'tminus'); ?> <input class="widefat" id="<?php echo $this->get_field_id('minutes'); ?>" name="<?php echo $this->get_field_name('minutes'); ?>" type="text" value="<?php echo $minutes; ?>" /></label></p>
-					<p><label for="<?php echo $this->get_field_id('seconds'); ?>"><?php _e('And "seconds" are spelled:', 'tminus'); ?> <input class="widefat" id="<?php echo $this->get_field_id('seconds'); ?>" name="<?php echo $this->get_field_name('seconds'); ?>" type="text" value="<?php echo $seconds; ?>" /></label></p>
+					<p><label for="<?php echo $this->get_field_id('weeks'); ?>"><?php _e('How do you spell "weeks"?:', 'jquery-t-countdown-widget'); ?> <input class="widefat" id="<?php echo $this->get_field_id('weeks'); ?>" name="<?php echo $this->get_field_name('weeks'); ?>" type="text" value="<?php echo $weeks; ?>" /></label></p>
+					<p><label for="<?php echo $this->get_field_id('days'); ?>"><?php _e('How do you spell "days"?:', 'jquery-t-countdown-widget'); ?> <input class="widefat" id="<?php echo $this->get_field_id('days'); ?>" name="<?php echo $this->get_field_name('days'); ?>" type="text" value="<?php echo $days; ?>" /></label></p>
+					<p><label for="<?php echo $this->get_field_id('hours'); ?>"><?php _e('How do you spell "hours"?:', 'jquery-t-countdown-widget'); ?> <input class="widefat" id="<?php echo $this->get_field_id('hours'); ?>" name="<?php echo $this->get_field_name('hours'); ?>" type="text" value="<?php echo $hours; ?>" /></label></p>
+					<p><label for="<?php echo $this->get_field_id('minutes'); ?>"><?php _e('How do you spell "minutes"?:', 'jquery-t-countdown-widget'); ?> <input class="widefat" id="<?php echo $this->get_field_id('minutes'); ?>" name="<?php echo $this->get_field_name('minutes'); ?>" type="text" value="<?php echo $minutes; ?>" /></label></p>
+					<p><label for="<?php echo $this->get_field_id('seconds'); ?>"><?php _e('And "seconds" are spelled:', 'jquery-t-countdown-widget'); ?> <input class="widefat" id="<?php echo $this->get_field_id('seconds'); ?>" name="<?php echo $this->get_field_name('seconds'); ?>" type="text" value="<?php echo $seconds; ?>" /></label></p>
 			</div>
 
 			<?php
@@ -663,15 +661,15 @@ class CountDownTimer extends WP_Widget {
 				$like_it = $like_it_arr[$rand_key];
 		?>
 		<p>
-			<?php printf( __('T(-) Countdown %s!', 'tminus'), $like_it); ?>
-			<a href="options-general.php?page=t-countdown"><?php _e('Enable Rockstar Features', 'tminus'); ?></a>
+			<?php printf( __('T(-) Countdown %s!', 'jquery-t-countdown-widget'), $like_it); ?>
+			<a href="options-general.php?page=t-countdown"><?php _e('Enable Rockstar Features', 'jquery-t-countdown-widget'); ?></a>
 		</p>
 		<?php } //end if not rockstar ?>
 
 		<br/>
-		<a class="collapseomatic" id="tccc<?php echo $this->get_field_id('isrockstar'); ?>"><?php _e('Schedule Recurring Countdown', 'tminus'); ?></a>
+		<a class="collapseomatic" id="tccc<?php echo $this->get_field_id('isrockstar'); ?>"><?php _e('Schedule Recurring Countdown', 'jquery-t-countdown-widget'); ?></a>
 		<div id="target-tccc<?php echo $this->get_field_id('isrockstar'); ?>" class="collapseomatic_content">
-			<p><?php printf(__('%sT(-) Countdown Control%s is a premium countdown plugin that includes the ability to schedule and manage multiple recurring T(-) Countdowns... the Jedi way.', 'tminus'), '<a href="http://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/?utm_source=t-countdown&utm_medium=widget-settings&utm_content=t-countdown-control&utm_campaign=t-countdown-widget" target="blank" title="(-) Countdown Control">', '</a>'); ?></p>
+			<p><?php printf(__('%sT(-) Countdown Control%s is a premium countdown plugin that includes the ability to schedule and manage multiple recurring T(-) Countdowns... the Jedi way.', 'jquery-t-countdown-widget'), '<a href="http://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/?utm_source=t-countdown&utm_medium=widget-settings&utm_content=t-countdown-control&utm_campaign=t-countdown-widget" target="blank" title="(-) Countdown Control">', '</a>'); ?></p>
 		</div>
 		<br/><br/>
 		<?php
@@ -741,11 +739,11 @@ function tminuscountdown($atts, $content=null) {
     extract(shortcode_atts(array(
 		'id' => $ran,
 		't' => '',
-		'weeks' => __('weeks', 'tminus'),
-		'days' => __('days', 'tminus'),
-		'hours' => __('hours', 'tminus'),
-		'minutes' => __('minutes', 'tminus'),
-		'seconds' => __('seconds', 'tminus'),
+		'weeks' => __('weeks', 'jquery-t-countdown-widget'),
+		'days' => __('days', 'jquery-t-countdown-widget'),
+		'hours' => __('hours', 'jquery-t-countdown-widget'),
+		'minutes' => __('minutes', 'jquery-t-countdown-widget'),
+		'seconds' => __('seconds', 'jquery-t-countdown-widget'),
 		'omitweeks' => 'false',
 		'style' => 'jedi',
 		'before' => '',
