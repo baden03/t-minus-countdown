@@ -127,7 +127,7 @@
 	};
 
 	$.fn.doCountDown = function (id, diffSecs, duration) {
-		console.log(id, diffSecs, duration);
+		//console.log(id, diffSecs, duration);
 		$this = $('#' + id);
 
 		if (diffSecs <= 0){
