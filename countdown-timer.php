@@ -5,7 +5,7 @@ Text Domain: jquery-t-countdown-widget
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.3.7
+Version: 2.3.8b
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -13,7 +13,7 @@ License: GPL2
 
 class WP_TMinusCD {
 	var $plugin_name = 'T(-) Countdown';
-	var $version = '2.3.6';
+	var $version = '2.3.8b';
 	var $domain = 'tminus';
 	var $plguin_options_page_title = 'T(-) Countdown Options';
 	var $plugin_options_menue_title = 'T(-) Countdown';
@@ -27,6 +27,7 @@ class WP_TMinusCD {
 		'custom_css' => '',
 		'rockstar' => '',
 		'force_css' => '',
+		'skip_cache' => '',
 	);
 
 	var $license_group = 'tminus_countdown_licenseing';
@@ -91,7 +92,10 @@ class WP_TMinusCD {
 		// custom script
 		echo "<script type='text/javascript'>\n";
 		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
-		echo "var tminusnow = '".$plugin_url."/js/now.php';\n";
+		if( !empty( $this->options['skip_cache'] ) ){
+			echo "var tminusnow = '".$plugin_url."/js/now.php';\n";
+		}
+
 		echo "</script>";
 
 		// custom css
@@ -132,7 +136,7 @@ class WP_TMinusCD {
 		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
 
 		//lwtCountdown script
-		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.5.4', 'true');
+		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.5.6', 'true');
 		wp_enqueue_script('countdown-script');
 
 		//force load styles
@@ -228,6 +232,13 @@ class WP_TMinusCD {
 											?>
 										</select>
 										<br /><span class="description"><?php _e('Force a css style to load in the header', 'jquery-t-countdown-widget'); ?></span></label>
+									</td>
+								</tr>
+
+								<tr>
+									<th><?php _e( 'Force Current Server Time', 'jquery-t-countdown-widget' ) ?>:</th>
+									<td><label><input type="checkbox" id="<?php echo $this->options_name ?>[skip_cache]" name="<?php echo $this->options_name ?>[skip_cache]" value="1"  <?php echo checked( $options['skip_cache'], '1' ); ?> /> <?php _e('Enable', 'jquery-t-countdown-widget'); ?>
+										<br /><span class="description"><?php _e('Force plugin to request current server time even on cached pages.', 'jquery-t-countdown-widget'); ?></span></label>
 									</td>
 								</tr>
 
