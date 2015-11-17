@@ -1,5 +1,5 @@
 /*
- * T- Countdown v1.5.6
+ * T- Countdown v1.5.5
  * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
  * Copyright 2015, Twinpictures
@@ -77,36 +77,27 @@
 
 	$.fn.startCountDown = function () {
 		$.data(this[0], 'status', 'play');
-		$(this).doCountDown( $(this).attr('id'), $.data(this[0], 'diffSecs'), 500);
+		this.doCountDown($(this).attr('id'),$.data(this[0], 'diffSecs'), 500);
 	};
 
 	$.fn.setDiffSecs = function (targetTime, backuptime) {
 		var diffSecs = null;
-		//check if tminusnow is defined
-		if( typeof tminusnow == 'undefined' ){
-			nowTime = new Date(backuptime);
-			diffSecs = Math.floor((targetTime.valueOf()-nowTime.valueOf())/1000);
-			$.data(this[0], 'diffSecs', diffSecs);
-			$(this).startCountDown();
-		}
-		else{
-			$.ajax({
-				url: tminusnow,
-				type : "post",
-				dataType : "json",
-				success: $.proxy(function( data ) {
-					//console.log(data['now']);
-					nowTime = new Date(data['now']);
-					diffSecs = Math.floor((targetTime.valueOf()-nowTime.valueOf())/1000);
-					$(this).doCountDown($(this).attr('id'), diffSecs, 500);
-				}, this),
-				error: $.proxy(function( request, status, error ) {
-					nowTime = new Date(backuptime);
-					diffSecs = Math.floor((targetTime.valueOf()-nowTime.valueOf())/1000);
-					$(this).doCountDown($(this).attr('id'), diffSecs, 500);
-				}, this)
-			});
-		}
+		$.ajax({
+			url: tminusnow,
+			type : "post",
+			dataType : "json",
+			success: $.proxy(function( data ) {
+				//console.log(data['now']);
+				nowTime = new Date(data['now']);
+				diffSecs = Math.floor((targetTime.valueOf()-nowTime.valueOf())/1000);
+				$(this).doCountDown($(this).attr('id'), diffSecs, 500);
+			}, this),
+			error: $.proxy(function( request, status, error ) {
+				nowTime = new Date(backuptime);
+				diffSecs = Math.floor((targetTime.valueOf()-nowTime.valueOf())/1000);
+				$(this).doCountDown($(this).attr('id'), diffSecs, 500);
+			}, this)
+		});
 	};
 
 	$.fn.setTargetTime = function (options) {
@@ -127,7 +118,6 @@
 	};
 
 	$.fn.doCountDown = function (id, diffSecs, duration) {
-		//console.log(id, diffSecs, duration);
 		$this = $('#' + id);
 
 		if (diffSecs <= 0){
@@ -169,14 +159,8 @@
 				var delta = 0;
 				delay = 1000;
 				now = new Date();
-				if($.data($this[0], 'before')){
-					before = $.data($this[0], 'before');
-				}
-				else{
-					before = new Date();
-				}
+				before = $.data($this[0], 'before');
 				elapsedTime = (now.getTime() - before.getTime());
-
 				if(elapsedTime >= delay + 1000){
 					delta += Math.floor(1*(elapsedTime/delay));
 				}
@@ -186,7 +170,7 @@
 				before = new Date();
 				$.data($this[0], 'before', before);
 				t = setTimeout( function() {
-					$this.doCountDown(id, diffSecs-delta, 500);
+					$this.doCountDown(id, diffSecs-delta);
 					} , 1000);
 			}
 		}
