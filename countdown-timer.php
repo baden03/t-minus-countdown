@@ -5,7 +5,7 @@ Text Domain: jquery-t-countdown-widget
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.3.10a
+Version: 2.3.10
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -13,7 +13,7 @@ License: GPL2
 
 class WP_TMinusCD {
 	var $plugin_name = 'T(-) Countdown';
-	var $version = '2.3.10a';
+	var $version = '2.3.10';
 	var $domain = 'tminus';
 	var $plguin_options_page_title = 'T(-) Countdown Options';
 	var $plugin_options_menue_title = 'T(-) Countdown';
@@ -273,11 +273,13 @@ class WP_TMinusCD {
 					<h3 class="handle"><?php _e( 'T(-) Countdown Control' ) ?></h3>
 					<div class="inside">
 						<p><?php printf(__( '%sT(-) Countdown Control%s is our premium plugin that manages and schedules multiple recurring countdown timers for repeating events.', 'jquery-t-countdown-widget' ), '<a href="http://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/?utm_source=t-countdown&utm_medium=plugin-settings-page&utm_content=t-countdown&utm_campaign=t-control-sidebar">', '</a>'); ?></p>
+						<p style="padding: 5px; border: 1px dashed #cccc66; background: #EEE;"><strong>Last Chance for 2015 Prices:</strong> <a href="http://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/?utm_source=t-countdown-widget&utm_medium=plugin-settings-page&utm_content=t-countdown-control&utm_campaign=t-control-year-end">Update to T(-) Countdown Control</a> before January 2016 to take advantage of 2015 pricing.</p>
 						<h4><?php _e('Reasons To Go Pro', 'jquery-t-countdown-widget'); ?></h4>
 						<ol>
 							<li><?php _e('Schedule and manage multiple recurring countdowns', 'jquery-t-countdown-widget'); ?></li>
 							<li><?php _e('Highly responsive professional support', 'jquery-t-countdown-widget'); ?></li>
 							<li><?php printf(__('%sT(-) Countdown Control Testimonials%s', 'jquery-t-countdown-widget'), '<a href="http://plugins.twinpictures.de/testimonial/t-countdown-control-testimonias/" target="_blank">', '</a>'); ?></li>
+							<li><?php _e("You'd like to take advantage of 2015 pricing while it's still 2015", "jquery-t-countdown-widget"); ?></li>
 						</ol>
 					</div>
 				</div>
