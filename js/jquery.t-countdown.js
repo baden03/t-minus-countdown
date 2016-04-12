@@ -1,8 +1,8 @@
 /*
- * T- Countdown v1.5.5
+ * T- Countdown v1.5.6
  * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
- * Copyright 2015, Twinpictures
+ * Copyright 2016, Twinpictures
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
