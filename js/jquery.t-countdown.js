@@ -1,5 +1,5 @@
 /*
- * T- Countdown v1.5.6
+ * T- Countdown v1.5.7
  * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
  * Copyright 2016, Twinpictures
@@ -67,7 +67,7 @@
 		if (config.omitWeeks){
 			$.data($(this)[0], 'omitWeeks', config.omitWeeks);
 		}
-		$('#' + $(this).attr('id') + ' .' + style + '-digit').html('<div class="top"></div><div class="bottom"></div>');
+		$('#' + $(this).attr('id') + ' .' + style + '-digit').html('<div class="tc_top"></div><div class="tc_bottom"></div>');
 		return this;
 	};
 
@@ -198,14 +198,14 @@
 		if (!duration){
 			duration = 500;
 		}
-		if ($(digit + ' div.top').html() != n + ''){
-			$(digit + ' div.top').css({'display': 'none'});
-			$(digit + ' div.top').html((n ? n : '0')).stop(true, true).slideDown(duration);
+		if ($(digit + ' div.tc_top').html() != n + ''){
+			$(digit + ' div.tc_top').css({'display': 'none'});
+			$(digit + ' div.tc_top').html((n ? n : '0')).stop(true, true).slideDown(duration);
 
-			$(digit + ' div.bottom').stop(true, true).animate({'height': ''}, duration, function() {
-				$(digit + ' div.bottom').html($(digit + ' div.top').html());
-				$(digit + ' div.bottom').css({'display': 'block', 'height': ''});
-				$(digit + ' div.top').hide().slideUp(10);
+			$(digit + ' div.tc_bottom').stop(true, true).animate({'height': ''}, duration, function() {
+				$(digit + ' div.tc_bottom').html($(digit + ' div.tc_top').html());
+				$(digit + ' div.tc_bottom').css({'display': 'block', 'height': ''});
+				$(digit + ' div.tc_top').hide().slideUp(10);
 			});
 		}
 	};
