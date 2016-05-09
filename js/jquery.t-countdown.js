@@ -1,5 +1,5 @@
 /*
- * T- Countdown v1.5.7
+ * T- Countdown v1.5.8
  * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
  * Copyright 2016, Twinpictures
@@ -25,12 +25,12 @@
  */
 
 (function($){
-	$.fn.countDown = function (options) {
+	$.fn.tminusCountDown = function (options) {
 		config = {};
 		$.extend(config, options);
-		targetTime = this.setTargetTime(config);
+		tminusTargetTime = this.setTminustminusTargetTime(config);
 		//set diffSecs and launch the countdown once the ajax for now loads
-		diffSecs = this.setDiffSecs(targetTime, options.targetDate.localtime);
+		diffSecs = this.setTminusDiffSecs(tminusTargetTime, options.targetDate.localtime);
 		before = new Date();
 		$.data($(this)[0], 'before', before);
 		$.data($(this)[0], 'status', 'play');
@@ -71,16 +71,16 @@
 		return this;
 	};
 
-	$.fn.stopCountDown = function () {
+	$.fn.stopTminusCountDown = function () {
 		$.data(this[0], 'status', 'stop');
 	};
 
-	$.fn.startCountDown = function () {
+	$.fn.startTminusCountDown = function () {
 		$.data(this[0], 'status', 'play');
-		this.doCountDown($(this).attr('id'),$.data(this[0], 'diffSecs'), 500);
+		this.doTminusCountDown($(this).attr('id'),$.data(this[0], 'diffSecs'), 500);
 	};
 
-	$.fn.setDiffSecs = function (targetTime, backuptime) {
+	$.fn.setTminusDiffSecs = function (tminusTargetTime, backuptime) {
 		var diffSecs = null;
 		$.ajax({
 			url: tminusnow,
@@ -89,35 +89,35 @@
 			success: $.proxy(function( data ) {
 				//console.log(data['now']);
 				nowTime = new Date(data['now']);
-				diffSecs = Math.floor((targetTime.valueOf()-nowTime.valueOf())/1000);
-				$(this).doCountDown($(this).attr('id'), diffSecs, 500);
+				diffSecs = Math.floor((tminusTargetTime.valueOf()-nowTime.valueOf())/1000);
+				$(this).doTminusCountDown($(this).attr('id'), diffSecs, 500);
 			}, this),
 			error: $.proxy(function( request, status, error ) {
 				nowTime = new Date(backuptime);
-				diffSecs = Math.floor((targetTime.valueOf()-nowTime.valueOf())/1000);
-				$(this).doCountDown($(this).attr('id'), diffSecs, 500);
+				diffSecs = Math.floor((tminusTargetTime.valueOf()-nowTime.valueOf())/1000);
+				$(this).doTminusCountDown($(this).attr('id'), diffSecs, 500);
 			}, this)
 		});
 	};
 
-	$.fn.setTargetTime = function (options) {
-		var targetTime = new Date();
+	$.fn.setTminustminusTargetTime = function (options) {
+		var tminusTargetTime = new Date();
 		if (options.targetDate){
-			targetTime = new Date(options.targetDate.month + '/' + options.targetDate.day + '/' + options.targetDate.year + ' ' + options.targetDate.hour + ':' + options.targetDate.min + ':' + options.targetDate.sec + (options.targetDate.utc ? ' UTC' : ''));
+			tminusTargetTime = new Date(options.targetDate.month + '/' + options.targetDate.day + '/' + options.targetDate.year + ' ' + options.targetDate.hour + ':' + options.targetDate.min + ':' + options.targetDate.sec + (options.targetDate.utc ? ' UTC' : ''));
 		}
 		else if (options.targetOffset){
-			targetTime.setFullYear(options.targetOffset.year + targetTime.getFullYear());
-			targetTime.setMonth(options.targetOffset.month + targetTime.getMonth());
-			targetTime.setDate(options.targetOffset.day + targetTime.getDate());
-			targetTime.setHours(options.targetOffset.hour + targetTime.getHours());
-			targetTime.setMinutes(options.targetOffset.min + targetTime.getMinutes());
-			targetTime.setSeconds(options.targetOffset.sec + targetTime.getSeconds());
+			tminusTargetTime.setFullYear(options.targetOffset.year + tminusTargetTime.getFullYear());
+			tminusTargetTime.setMonth(options.targetOffset.month + tminusTargetTime.getMonth());
+			tminusTargetTime.setDate(options.targetOffset.day + tminusTargetTime.getDate());
+			tminusTargetTime.setHours(options.targetOffset.hour + tminusTargetTime.getHours());
+			tminusTargetTime.setMinutes(options.targetOffset.min + tminusTargetTime.getMinutes());
+			tminusTargetTime.setSeconds(options.targetOffset.sec + tminusTargetTime.getSeconds());
 		}
 
-		return targetTime;
+		return tminusTargetTime;
 	};
 
-	$.fn.doCountDown = function (id, diffSecs, duration) {
+	$.fn.doTminusCountDown = function (id, diffSecs, duration) {
 		$this = $('#' + id);
 
 		if (diffSecs <= 0){
@@ -138,13 +138,13 @@
 			weeks = Math.floor(Math.abs(diffSecs/60/60/24/7));
 		}
 		style = $.data($this[0], 'style');
-		$this.dashChangeTo(id, style + '-seconds_dash', secs, duration ? duration : 500);
-		$this.dashChangeTo(id, style + '-minutes_dash', mins, duration ? duration : 1000);
-		$this.dashChangeTo(id, style + '-hours_dash', hours, duration ? duration : 1000);
-		$this.dashChangeTo(id, style + '-days_dash', days, duration ? duration : 1000);
-		$this.dashChangeTo(id, style + '-days_trip_dash', days, duration ? duration : 1000);
-		$this.dashChangeTo(id, style + '-weeks_dash', weeks, duration ? duration : 1000);
-		$this.dashChangeTo(id, style + '-weeks_trip_dash', weeks, duration ? duration : 1000);
+		$this.dashTminusChangeTo(id, style + '-seconds_dash', secs, duration ? duration : 500);
+		$this.dashTminusChangeTo(id, style + '-minutes_dash', mins, duration ? duration : 1000);
+		$this.dashTminusChangeTo(id, style + '-hours_dash', hours, duration ? duration : 1000);
+		$this.dashTminusChangeTo(id, style + '-days_dash', days, duration ? duration : 1000);
+		$this.dashTminusChangeTo(id, style + '-days_trip_dash', days, duration ? duration : 1000);
+		$this.dashTminusChangeTo(id, style + '-weeks_dash', weeks, duration ? duration : 1000);
+		$this.dashTminusChangeTo(id, style + '-weeks_trip_dash', weeks, duration ? duration : 1000);
 
 		$.data($this[0], 'diffSecs', diffSecs);
 
@@ -170,7 +170,7 @@
 				before = new Date();
 				$.data($this[0], 'before', before);
 				t = setTimeout( function() {
-					$this.doCountDown(id, diffSecs-delta);
+					$this.doTminusCountDown(id, diffSecs-delta);
 					} , 1000);
 			}
 		}
@@ -184,17 +184,17 @@
 
 	};
 
-	$.fn.dashChangeTo = function(id, dash, n, duration) {
+	$.fn.dashTminusChangeTo = function(id, dash, n, duration) {
 		$this = $('#' + id);
 		style = $.data($this[0], 'style');
 		for (var i=($this.find('.' + dash + ' .' + style + '-digit').length-1); i>=0; i--){
 			var d = n%10;
 			n = (n - d) / 10;
-			$this.digitChangeTo('#' + $this.attr('id') + ' .' + dash + ' .' + style + '-digit:eq('+i+')', d, duration);
+			$this.digitTminusChangeTo('#' + $this.attr('id') + ' .' + dash + ' .' + style + '-digit:eq('+i+')', d, duration);
 		}
 	};
 
-	$.fn.digitChangeTo = function (digit, n, duration) {
+	$.fn.digitTminusChangeTo = function (digit, n, duration) {
 		if (!duration){
 			duration = 500;
 		}
