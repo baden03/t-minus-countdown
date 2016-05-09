@@ -4,7 +4,7 @@ Plugin Name: T(-) Countdown
 Text Domain: jquery-t-countdown-widget
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.3.12a
+Version: 2.3.12b
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -12,7 +12,7 @@ License: GPL2
 
 class WP_TMinusCD {
 	var $plugin_name = 'T(-) Countdown';
-	var $version = '2.3.12a';
+	var $version = '2.3.12b';
 	var $domain = 'tminus';
 	var $plguin_options_page_title = 'T(-) Countdown Options';
 	var $plugin_options_menue_title = 'T(-) Countdown';
@@ -131,7 +131,7 @@ class WP_TMinusCD {
 		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
 
 		//lwtCountdown script
-		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.5.7', 'true');
+		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.5.8', 'true');
 		wp_enqueue_script('countdown-script');
 
 		//force load styles
@@ -709,7 +709,7 @@ function print_my_script() {
 	//var_dump('hey dude', $add_my_script);
 	foreach((array) $add_my_script as $script){
 	?>
-		$('#<?php echo $script['id']; ?>-dashboard').countDown({
+		$('#<?php echo $script['id']; ?>-dashboard').tminusCountDown({
 			targetDate: {
 				'day': 	<?php echo $script['day']; ?>,
 				'month': <?php echo $script['month']; ?>,
@@ -935,7 +935,7 @@ function tminuscountdown($atts, $content=null) {
 	else{
 		$tminus .= "<script language='javascript' type='text/javascript'>
 			jQuery(document).ready(function($) {
-				$('#".$id."-dashboard').countDown({
+				$('#".$id."-dashboard').tminusCountDown({
 					targetDate: {
 						'day': 	".$day.",
 						'month': ".$month.",
