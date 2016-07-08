@@ -1,99 +1,100 @@
-.cloud-city-tophtml, 
-.cloud-city-bothtml { 
-    margin: 0 auto; 
-    padding: 0; 
-    text-align: center; 
-    font-size: 12px; 
-    clear: both; 
-}
-.cloud-city-dashboard { 
-    width: 100%; 
-    margin: 0 auto; 
-    padding: 12px 0 10px 0; 
-    text-align: center; 
-}
-.cloud-city-dash {	
-    width: 17%; 
-    min-width: 23px; 
-    height: 6em; 
-    display: inline-block; 
-    vertical-align: top; 
-    margin-left: 1%; 
-    margin-right: auto; 
-    position: relative; 
-    color: #fff; 
+.cloud-city-tophtml,
+.cloud-city-bothtml {
+    margin: 0 auto;
+    padding: 0;
     text-align: center;
-    white-space: nowrap; 
+    font-size: 12px;
+    clear: both;
 }
-.cloud-city-tripdash { 
-    width: 18%;	
-    min-width: 40px; 
-    max-width: 90px; 
+.cloud-city-dashboard {
+    width: 100%;
+    margin: 0 auto;
+    padding: 12px 0 10px 0;
+    text-align: center;
+}
+.cloud-city-dash {
+    width: 17%;
+    min-width: 23px;
+    height: 6em;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 1%;
+    margin-right: auto;
+    position: relative;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+}
+.cloud-city-tripdash {
+    width: 18%;
+    min-width: 40px;
+    max-width: 90px;
     height: 48px;
-    display: inline-block; 
-    vertical-align: top; 
-    margin-left: 1%; 
-    margin-right: auto; 
-    position: relative; 
-    color: #fff; 
-    text-align: center; 
-    white-space: nowrap; 
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 1%;
+    margin-right: auto;
+    position: relative;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
 }
-.cloud-city-weeks_trip_dash{ 
-    clear: both; 
-    margin-left: 13%; 
-    display: block !important; 
+.cloud-city-weeks_trip_dash{
+    clear: both;
+    margin-left: 13%;
+    display: block !important;
 }
-.cloud-city-digit { 
-    font-size: 2.5em; 
-    line-height: 1.5em; 
-    display: inline-block; 
-    vertical-align: top; 
-    width: 1em; 
-    height: 1.5em; 
-    position: relative; 
-    margin-top: 4px; 
-    margin-left: 0; 
-    margin-right: -2px; 
-    border-radius: 5px; 
-    background: #faf9f6; 
-    color: rgb(49, 49, 49); 
-    text-shadow: 0 1px 0 #fff; 
+.cloud-city-digit {
+    font-size: 2.5em;
+    line-height: 1.5em;
+    display: inline-block;
+    vertical-align: top;
+    width: 1em;
+    height: 1.5em;
+    position: relative;
+    margin-top: 4px;
+    margin-left: 0;
+    margin-right: -2px;
+    border-radius: 5px;
+    background: #faf9f6;
+    color: rgb(49, 49, 49);
+    text-shadow: 0 1px 0 #fff;
     border-bottom: 1px solid #c6c6c6;
 }
 
-.cloud-city-dash {	
-    height: 5em; 
+.cloud-city-dash {
+    height: 5em;
 }
 
-.cloud-city-tripdash .cloud-city-digit { 
+.cloud-city-tripdash .cloud-city-digit {
     margin-right: 0 !important;
 }
-.cloud-city-dash_title { 
-    display: block; 
-    position: absolute; 
-    width: 100%; 
-    color: #999; 
-    text-align: center;	
-    font-size: 0.8em; 
-    height: 2em; 
-    margin: 0px; 
+.cloud-city-dash_title {
+    display: block;
+    position: absolute;
+    width: 100%;
+    color: #999;
+    text-align: center;
+    font-size: 0.8em;
+    height: 2em;
+    margin: 0px;
     bottom: -1em;
-    white-space: nowrap; 
+    white-space: nowrap;
     overflow: hidden;}
 
 @media screen and (max-width: 650px) {
-    .cloud-city-digit { 
-        font-size: 2em; 
+    .cloud-city-digit {
+        font-size: 2em;
     }
 }
 
 @media screen and (max-width: 480px) {
-    .cloud-city-digit { 
-        width: 1em; 
-        font-size: 1.5em; 
+    .cloud-city-digit {
+        width: 1em;
+        font-size: 1.5em;
     }
-    .cloud-city-dash { 
-        height: 4em; 
+    .cloud-city-dash {
+        height: 4em;
+        margin-left: 6px; 
     }
  }
