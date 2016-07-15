@@ -4,7 +4,7 @@ Plugin Name: T(-) Countdown
 Text Domain: jquery-t-countdown-widget
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.3.13c
+Version: 2.3.13d
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -12,7 +12,7 @@ License: GPL2
 
 class WP_TMinusCD {
 	var $plugin_name = 'T(-) Countdown';
-	var $version = '2.3.13c';
+	var $version = '2.3.13d';
 	var $domain = 'tminus';
 	var $plguin_options_page_title = 'T(-) Countdown Options';
 	var $plugin_options_menue_title = 'T(-) Countdown';
@@ -117,6 +117,9 @@ class WP_TMinusCD {
 			//jquery widget scripts
 			wp_register_script('jquery-ui-timepicker-addon', $plugin_url.'/js/jquery-ui-timepicker-addon.min.js', array ('jquery'), '1.5.2', true);
 			wp_enqueue_script('jquery-ui-timepicker-addon');
+
+			wp_register_style('jquery-datepicker-css', $plugin_url.'/admin/jquery-ui-timepicker-addon.min.css' );
+			wp_enqueue_style('jquery-datepicker-css');
 
 			wp_register_script('tminus-admin-script', $plugin_url.'/js/jquery.collapse.js', array ('jquery', 'jquery-ui-datepicker', 'jquery-ui-slider', 'jquery-ui-timepicker-addon'), '1.2.2', true);
 			wp_enqueue_script('tminus-admin-script');
@@ -725,7 +728,7 @@ function print_my_script() {
 			id: '<?php echo $script['id']; ?>',
 			event_id: '<?php echo $script['event_id']; ?>'
 				<?php
-				if($script['content']){
+				if(!empty($script['content'])){
 					echo ", onComplete: function() {
 						$('#".$script['id']."-".$script['launchtarget']."').css({'width' : '".$script['launchwidth']."', 'height' : '".$script['launchheight']."'});
 						$('#".$script['id']."-".$script['launchtarget']."').html(".$script['content'].");
@@ -911,7 +914,7 @@ function tminuscountdown($atts, $content=null) {
 	}
 
 	$content = json_encode(do_shortcode($content));
-	$content = str_replace(array('\r\n', '\r', '\n<p>', '\n'), '', $content);
+	$content = str_replace(array('\r\n', '\r', '\n<p>', '\n', '""'), '', $content);
 
 	if($jsplacement == "footer"){
 		$add_my_script[$id] = array(
@@ -951,7 +954,7 @@ function tminuscountdown($atts, $content=null) {
 					launchtarget: '".$launchtarget."',
 					omitWeeks: '".$omitweeks."'";
 
-		if($content){
+		if(!empty($content)){
 			$tminus .= ", onComplete: function() {
 								$('#".$id."-".$launchtarget."').css({'width' : '".$launchwidth."', 'height' : '".$launchheight."'});
 								$('#".$id."-".$launchtarget."').html(".$content.");
