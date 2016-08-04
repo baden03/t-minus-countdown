@@ -1,5 +1,5 @@
 /*
- * T- Countdown v1.5.8
+ * T- Countdown v1.5.9
  * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
  * Copyright 2016, Twinpictures
@@ -198,6 +198,26 @@
 		if (!duration){
 			duration = 500;
 		}
+
+		//check for number translation object
+		/* for example *****
+		var numTransObj = {
+			0: 'a',
+			1: 'b',
+			2: 'c',
+			3: 'd',
+			4: 'e',
+			5: 'f',
+			6: 'g',
+			7: 'h',
+			8: 'i',
+			9: 'j'
+		};
+		*******************/
+		if(typeof numTransObj != "undefined"){
+			n = numTransObj[n];
+		}
+
 		if ($(digit + ' div.tc_top').html() != n + ''){
 			$(digit + ' div.tc_top').css({'display': 'none'});
 			$(digit + ' div.tc_top').html((n ? n : '0')).stop(true, true).slideDown(duration);
