@@ -26,15 +26,13 @@
 
 jQuery(document).ready(function() {
 
-	jQuery(document).on('click', '.t-datepicker', function(event) {
-		jQuery(this).datetimepicker('destroy').datetimepicker(
-			{
+	jQuery(document).on('click', '.t-datepicker', function() {
+		jQuery(this).datetimepicker({
 				dateFormat : 'yy-mm-dd',
 				timeFormat: 'HH:mm:ss'
 			}
 		).focus();
 	});
-
 
 	jQuery('.collapseomatic:not(.colomat-close)').each(function(index) {
 		var thisid = jQuery(this).attr('id');
