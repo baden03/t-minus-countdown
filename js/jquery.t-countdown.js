@@ -220,9 +220,9 @@
 
 		if ($(digit + ' div.tc_top').html() != n + ''){
 			$(digit + ' div.tc_top').css({'display': 'none'});
-			$(digit + ' div.tc_top').html((n ? n : '0')).stop(true, true).slideDown(duration);
+			$(digit + ' div.tc_top').html((n ? n : '0')).stop(true, true, true).slideDown(duration);
 
-			$(digit + ' div.tc_bottom').stop(true, true).animate({'height': ''}, duration, function() {
+			$(digit + ' div.tc_bottom').stop(true, true, true).animate({'height': ''}, duration, function() {
 				$(digit + ' div.tc_bottom').html($(digit + ' div.tc_top').html());
 				$(digit + ' div.tc_bottom').css({'display': 'block', 'height': ''});
 				$(digit + ' div.tc_top').hide().slideUp(10);
