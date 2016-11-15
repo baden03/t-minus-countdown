@@ -5,7 +5,7 @@ Donate link: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, plugin-oven, pluginoven, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 4.0
 Tested up to: 4.6.1
-Stable tag: 2.3.15b
+Stable tag: 2.3.15
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,11 +65,13 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the
 
 == Changelog ==
 
+= 2.3.15 =
+* widget scripts are only called on widget page
+* updated method jQuery datepicker was being called in Widget
+
 = 2.3.14 =
 * accepts numTransObj as object that holds number translations non arabic numerals
 * fully tested with WordPress 4.6.1
-* widget scripts are only called on widget page
-* updated method jQuery datepicker was being called in Widget
 
 = 2.3.13 =
 * updated version and method of loading remote jQuery UI from google cdn
