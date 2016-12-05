@@ -4,7 +4,7 @@ Plugin Name: T(-) Countdown
 Text Domain: jquery-t-countdown-widget
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.3.15
+Version: 2.3.16a
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -89,8 +89,12 @@ class WP_TMinusCD {
 	function plugin_head_inject(){
 		// custom script
 		echo "<script type='text/javascript'>\n";
+		/*
 		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
 		echo "var tminusnow = '".$plugin_url."/js/now.php';\n";
+		*/
+		$response = array( 'now' => date( 'n/j/Y H:i:s', strtotime(current_time('mysql'))));
+	    echo "var tminusnow = '".json_encode($response)."';\n";
 		echo "</script>";
 
 		// custom css
