@@ -4,7 +4,7 @@ Plugin Name: T(-) Countdown
 Text Domain: jquery-t-countdown-widget
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.3.16a
+Version: 2.3.16b
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -12,7 +12,7 @@ License: GPL2
 
 class WP_TMinusCD {
 	var $plugin_name = 'T(-) Countdown';
-	var $version = '2.3.15';
+	var $version = '2.3.16b';
 	var $domain = 'tminus';
 	var $plguin_options_page_title = 'T(-) Countdown Options';
 	var $plugin_options_menue_title = 'T(-) Countdown';
@@ -467,8 +467,17 @@ class CountDownTimer extends WP_Widget {
 			}
 
 			$sc_atts = '';
+			/* on by one */
+			/*
+			if(!empty($instance['id'])){
+				$sc_atts .= 'id = "'.$instance['id'].'" ';
+			}
+			*/
+
+			/* filter by key */
+			$ok_keys_arr = array('id','t','weeks','days','hours','minutes','seconds','omitweeks','style','before','after','width','height','launchwidth','launchheight','launchtarget','jsplacement','event_id');
 			foreach($instance AS $key => $value){
-				if(!empty($value)){
+				if(in_array($key, $ok_keys_arr) && !empty($value)){
 					if($key == 'before' || $key == 'after'){
 						$value = htmlspecialchars($value);
 					}

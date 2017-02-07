@@ -4,8 +4,8 @@ Contributors: twinpictures, baden03
 Donate link: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, plugin-oven, pluginoven, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 4.0
-Tested up to: 4.6.1
-Stable tag: 2.3.16a
+Tested up to: 4.7.2
+Stable tag: 2.3.16b
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,7 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the
 == Changelog ==
 = 2.3.16 =
 * no longer requires now.php
+* widget now accepts only expected values
 
 = 2.3.15 =
 * widget scripts are only called on widget page
