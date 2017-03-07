@@ -2,17 +2,17 @@
 /*
 Plugin Name: T(-) Countdown
 Text Domain: jquery-t-countdown-widget
-Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
+Plugin URI: https://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.3.16b
+Version: 2.3.16
 Author: twinpictures, baden03
-Author URI: http://www.twinpictures.de/
+Author URI: https://www.twinpictures.de/
 License: GPL2
 */
 
 class WP_TMinusCD {
 	var $plugin_name = 'T(-) Countdown';
-	var $version = '2.3.16b';
+	var $version = '2.3.16';
 	var $domain = 'tminus';
 	var $plguin_options_page_title = 'T(-) Countdown Options';
 	var $plugin_options_menue_title = 'T(-) Countdown';
@@ -176,16 +176,16 @@ class WP_TMinusCD {
 						__('caused you to shout: "everybody spread love, give me some mo!"', 'jquery-t-countdown-widget'),
 						__('really tied the room together, Dude', 'jquery-t-countdown-widget'),
 						__('helped you keep the funk alive', 'jquery-t-countdown-widget'),
-						__('<a href="http://www.youtube.com/watch?v=dvQ28F5fOdU" target="_blank">soften hands while you do dishes</a>', 'jquery-t-countdown-widget'),
-						__('helped that little old lady <a href="http://www.youtube.com/watch?v=Ug75diEyiA0" target="_blank">find the beef</a>', 'jquery-t-countdown-widget')
+						__('<a href="https://www.youtube.com/watch?v=dvQ28F5fOdU" target="_blank">soften hands while you do dishes</a>', 'jquery-t-countdown-widget'),
+						__('helped that little old lady <a href="https://www.youtube.com/watch?v=Ug75diEyiA0" target="_blank">find the beef</a>', 'jquery-t-countdown-widget')
 					);
 		$rand_key = array_rand($like_it_arr);
 		$like_it = $like_it_arr[$rand_key];
 
 		$share_it_arr = array(
-						'http://www.facebook.com/twinpictures',
-						'http://twitter.com/twinpictures',
-						'http://plus.google.com/+TwinpicturesDe',
+						'https://www.facebook.com/twinpictures',
+						'https://twitter.com/twinpictures',
+						'https://plus.google.com/+TwinpicturesDe',
 						'https://wordpress.org/support/view/plugin-reviews/jquery-t-countdown-widget'
 					);
 		$rand_key = array_rand($share_it_arr);
@@ -261,10 +261,10 @@ class WP_TMinusCD {
 						<h4><?php echo $this->plugin_name; ?> <?php _e('Version', 'jquery-t-countdown-widget'); ?> <?php echo $this->version; ?></h4>
 						<p><?php _e( 'T(-) Countdown is a highly customizable, HTML5 countdown timer that can be displayed as a sidebar widget or in a post or page using a shortcode.', 'jquery-t-countdown-widget') ?></p>
 						<ul>
-							<li><?php printf( __( '%sDetailed documentation%s, complete with working demonstrations of all shortcode attributes, is available for your instructional enjoyment.', 'jquery-t-countdown-widget'), '<a href="http://plugins.twinpictures.de/plugins/t-minus-countdown/documentation/" target="_blank">', '</a>'); ?></li>
-							<li><?php printf( __( 'A %sCommunity translation%s tool has been set up that allows anyone to assist in translating T(-) Countdown. All are %swelcome to participate%s.', 'jquery-t-countdown-widget'), '<a href="http://translate.twinpictures.de/projects/t-countdown" target="_blank">', '</a>', '<a href="http://translate.twinpictures.de/wordpress/wp-login.php?action=register" target="_blank">', '</a>' ); ?></li>
+							<li><?php printf( __( '%sDetailed documentation%s, complete with working demonstrations of all shortcode attributes, is available for your instructional enjoyment.', 'jquery-t-countdown-widget'), '<a href="https://plugins.twinpictures.de/plugins/t-minus-countdown/documentation/" target="_blank">', '</a>'); ?></li>
+							<li><?php printf( __( 'A %sCommunity translation%s tool has been set up that allows anyone to assist in translating T(-) Countdown. All are %swelcome to participate%s.', 'jquery-t-countdown-widget'), '<a href="https://translate.twinpictures.de/projects/t-countdown" target="_blank">', '</a>', '<a href="https://translate.twinpictures.de/wordpress/wp-login.php?action=register" target="_blank">', '</a>' ); ?></li>
 							<li><?php printf( __( 'If this plugin %s, please consider %ssharing your story%s with others.', 'jquery-t-countdown-widget'), $like_it, '<a href="'.$share_it.'" target="_blank">', '</a>' ) ?></li>
-							<li><a href="https://wordpress.org/plugins/jquery-t-countdown-widget/" target="_blank">WordPress.org</a> | <a href="http://plugins.twinpictures.de/plugins/t-minus-countdown/" target="_blank">Twinpictues Plugin Oven</a></li>
+							<li><a href="https://wordpress.org/plugins/jquery-t-countdown-widget/" target="_blank">WordPress.org</a> | <a href="https://plugins.twinpictures.de/plugins/t-minus-countdown/" target="_blank">Twinpictues Plugin Oven</a></li>
 						</ul>
 						</ul>
 					</div>
@@ -278,13 +278,13 @@ class WP_TMinusCD {
 					<div class="handlediv" title="<?php _e( 'Click to toggle' ) ?>"><br/></div>
 					<h3 class="handle"><?php _e( 'T(-) Countdown Control' ) ?></h3>
 					<div class="inside">
-						<p><?php printf(__( '%sT(-) Countdown Control%s is our premium plugin that manages and schedules multiple recurring countdown timers for repeating events.', 'jquery-t-countdown-widget' ), '<a href="http://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/?utm_source=t-countdown&utm_medium=plugin-settings-page&utm_content=t-countdown&utm_campaign=t-control-sidebar">', '</a>'); ?></p>
-						<?php /*<p style="padding: 5px; border: 1px dashed #cccc66; background: #EEE;"><strong>Last Chance for 2015 Prices:</strong> <a href="http://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/?utm_source=t-countdown-widget&utm_medium=plugin-settings-page&utm_content=t-countdown-control&utm_campaign=t-control-year-end">Update to T(-) Countdown Control</a> before January 2016 to take advantage of 2015 pricing.</p>*/ ?>
+						<p><?php printf(__( '%sT(-) Countdown Control%s is our premium plugin that manages and schedules multiple recurring countdown timers for repeating events.', 'jquery-t-countdown-widget' ), '<a href="https://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/?utm_source=t-countdown&utm_medium=plugin-settings-page&utm_content=t-countdown&utm_campaign=t-control-sidebar">', '</a>'); ?></p>
+						<?php /*<p style="padding: 5px; border: 1px dashed #cccc66; background: #EEE;"><strong>Last Chance for 2015 Prices:</strong> <a href="https://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/?utm_source=t-countdown-widget&utm_medium=plugin-settings-page&utm_content=t-countdown-control&utm_campaign=t-control-year-end">Update to T(-) Countdown Control</a> before January 2016 to take advantage of 2015 pricing.</p>*/ ?>
 						<h4><?php _e('Reasons To Go Pro', 'jquery-t-countdown-widget'); ?></h4>
 						<ol>
 							<li><?php _e('Schedule and manage multiple recurring countdowns', 'jquery-t-countdown-widget'); ?></li>
 							<li><?php _e('Highly responsive professional support', 'jquery-t-countdown-widget'); ?></li>
-							<li><?php printf(__('%sT(-) Countdown Control Testimonials%s', 'jquery-t-countdown-widget'), '<a href="http://plugins.twinpictures.de/testimonial/t-countdown-control-testimonias/" target="_blank">', '</a>'); ?></li>
+							<li><?php printf(__('%sT(-) Countdown Control Testimonials%s', 'jquery-t-countdown-widget'), '<a href="https://plugins.twinpictures.de/testimonial/t-countdown-control-testimonias/" target="_blank">', '</a>'); ?></li>
 							<?php /*<li><?php _e("You'd like to take advantage of 2015 pricing while it's still 2015", "jquery-t-countdown-widget"); ?></li>*/ ?>
 						</ol>
 					</div>
@@ -300,7 +300,7 @@ class WP_TMinusCD {
 					<div class="postbox">
 						<h3 class="handle"><?php _e( 'Register T(-) Countdown Events', 'jquery-t-countdown-widget') ?></h3>
 						<div class="inside">
-							<p><?php printf( __('To receive plugin updates you must register your plugin. Enter your T(-) Countdown Events licence key below. Licence keys may be viewed and managed by logging into %syour account%s.', 'jquery-t-countdown-widget'), '<a href="http://plugins.twinpictures.de/your-account/" target="_blank">', '</a>'); ?></p>
+							<p><?php printf( __('To receive plugin updates you must register your plugin. Enter your T(-) Countdown Events licence key below. Licence keys may be viewed and managed by logging into %syour account%s.', 'jquery-t-countdown-widget'), '<a href="https://plugins.twinpictures.de/your-account/" target="_blank">', '</a>'); ?></p>
 							<form method="post" action="options.php">
 								<?php
 									settings_fields( $this->license_group );
@@ -352,7 +352,7 @@ class WP_TMinusCD {
 						<div class="handlediv" title="<?php _e( 'Click to toggle', 'colomat' ) ?>"><br/></div>
 						<h3 class="hndle">T(-) Countdown Events</h3>
 							<div class="inside">
-								<p><?php printf( __('%sT(-) Countdown Events%s is a new add-on plugin for T(-) Countdown Control that adds multiple event scheduling. Trigger events, such as changing content or firing a javascript function at specific times while the countdown is running.', 'jquery-t-countdown-widget'), '<a href="http://plugins.twinpictures.de/premium-plugins/t-countdown-events/?utm_source=t-countdown&utm_medium=plugin-settings-page&utm_content=t-countdown&utm_campaign=t-events-sidebar" target="_blank">', '</a>'); ?></p>
+								<p><?php printf( __('%sT(-) Countdown Events%s is a new add-on plugin for T(-) Countdown Control that adds multiple event scheduling. Trigger events, such as changing content or firing a javascript function at specific times while the countdown is running.', 'jquery-t-countdown-widget'), '<a href="https://plugins.twinpictures.de/premium-plugins/t-countdown-events/?utm_source=t-countdown&utm_medium=plugin-settings-page&utm_content=t-countdown&utm_campaign=t-events-sidebar" target="_blank">', '</a>'); ?></p>
 							</div>
 					</div>
 				</div>
@@ -696,7 +696,7 @@ class CountDownTimer extends WP_Widget {
 		<br/>
 		<a class="collapseomatic" id="tccc<?php echo $this->get_field_id('isrockstar'); ?>"><?php _e('Schedule Recurring Countdown', 'jquery-t-countdown-widget'); ?></a>
 		<div id="target-tccc<?php echo $this->get_field_id('isrockstar'); ?>" class="collapseomatic_content">
-			<p><?php printf(__('%sT(-) Countdown Control%s is a premium countdown plugin that includes the ability to schedule and manage multiple recurring T(-) Countdowns... the Jedi way.', 'jquery-t-countdown-widget'), '<a href="http://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/?utm_source=t-countdown&utm_medium=widget-settings&utm_content=t-countdown-control&utm_campaign=t-countdown-widget" target="blank" title="(-) Countdown Control">', '</a>'); ?></p>
+			<p><?php printf(__('%sT(-) Countdown Control%s is a premium countdown plugin that includes the ability to schedule and manage multiple recurring T(-) Countdowns... the Jedi way.', 'jquery-t-countdown-widget'), '<a href="https://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/?utm_source=t-countdown&utm_medium=widget-settings&utm_content=t-countdown-control&utm_campaign=t-countdown-widget" target="blank" title="(-) Countdown Control">', '</a>'); ?></p>
 		</div>
 		<br/><br/>
 		<?php

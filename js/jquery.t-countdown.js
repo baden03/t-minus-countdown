@@ -2,7 +2,7 @@
  * T- Countdown v1.5.9
  * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
- * Copyright 2016, Twinpictures
+ * Copyright 2017, Twinpictures
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
