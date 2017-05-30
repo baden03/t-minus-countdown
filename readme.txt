@@ -4,8 +4,8 @@ Contributors: twinpictures, baden03
 Donate link: https://plugins.twinpictures.de/plugins/t-minus-countdown/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, t(-), t(-) countdown, t-countdown, t (-) countdown, plugin-oven, pluginoven, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 4.0
-Tested up to: 4.7.3
-Stable tag: 2.3.17a
+Tested up to: 4.7.5
+Stable tag: 2.3.17b
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,6 +67,7 @@ Ah yes! <a href='https://twitter.com/#!/twinpictures'>@Twinpictures</a> is on th
 
 = 2.3.17 =
 * scripts do not load on customize.php page
+* removed now.php from js
 
 = 2.3.16 =
 * no longer requires now.php

@@ -1,5 +1,5 @@
 /*
- * T- Countdown v1.5.9
+ * T- Countdown v1.5.10
  * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
  * Copyright 2017, Twinpictures
@@ -30,13 +30,17 @@
 		$.extend(config, options);
 		tminusTargetTime = this.setTminustminusTargetTime(config);
 		//set diffSecs and launch the countdown once the ajax for now loads
-		diffSecs = this.setTminusDiffSecs(tminusTargetTime, options.targetDate.localtime);
+		//diffSecs = this.setTminusDiffSecs(tminusTargetTime, options.targetDate.localtime);
+		var nowobj = $.parseJSON( tminusnow );
+		nowTime = new Date(nowobj.now);
+
+		style = config.style;
+		$.data($(this)[0], 'style', config.style);
+
 		before = new Date();
 		$.data($(this)[0], 'before', before);
 		$.data($(this)[0], 'status', 'play');
 		$.data($(this)[0], 'id', config.id);
-		style = config.style;
-		$.data($(this)[0], 'style', config.style);
 
 		if ( config.event_id ) {
 			$.data($(this)[0], 'event_id', config.event_id);
@@ -68,6 +72,10 @@
 			$.data($(this)[0], 'omitWeeks', config.omitWeeks);
 		}
 		$('#' + $(this).attr('id') + ' .' + style + '-digit').html('<div class="tc_top"></div><div class="tc_bottom"></div>');
+
+		diffSecs = Math.floor((tminusTargetTime.valueOf()-nowTime.valueOf())/1000);
+		$(this).doTminusCountDown($(this).attr('id'), diffSecs, 500);
+
 		return this;
 	};
 
@@ -80,6 +88,7 @@
 		this.doTminusCountDown($(this).attr('id'),$.data(this[0], 'diffSecs'), 500);
 	};
 
+	/*
 	$.fn.setTminusDiffSecs = function (tminusTargetTime, backuptime) {
 		var diffSecs = null;
 		$.ajax({
@@ -99,6 +108,7 @@
 			}, this)
 		});
 	};
+	*/
 
 	$.fn.setTminustminusTargetTime = function (options) {
 		var tminusTargetTime = new Date();
@@ -137,7 +147,7 @@
 			days = Math.floor(Math.abs(diffSecs/60/60/24)%7);
 			weeks = Math.floor(Math.abs(diffSecs/60/60/24/7));
 		}
-		style = $.data($this[0], 'style');
+		style = $.data($(this)[0], 'style');
 		$this.dashTminusChangeTo(id, style + '-seconds_dash', secs, duration ? duration : 500);
 		$this.dashTminusChangeTo(id, style + '-minutes_dash', mins, duration ? duration : 1000);
 		$this.dashTminusChangeTo(id, style + '-hours_dash', hours, duration ? duration : 1000);
@@ -169,6 +179,7 @@
 				}
 				before = new Date();
 				$.data($this[0], 'before', before);
+				style = $.data($this[0], 'style');
 				t = setTimeout( function() {
 					$this.doTminusCountDown(id, diffSecs-delta);
 					} , 1000);
