@@ -29,8 +29,6 @@
 		config = {};
 		$.extend(config, options);
 		tminusTargetTime = this.setTminustminusTargetTime(config);
-		//set diffSecs and launch the countdown once the ajax for now loads
-		//diffSecs = this.setTminusDiffSecs(tminusTargetTime, options.targetDate.localtime);
 		var nowobj = $.parseJSON( tminusnow );
 		nowTime = new Date(nowobj.now);
 
@@ -88,28 +86,6 @@
 		this.doTminusCountDown($(this).attr('id'),$.data(this[0], 'diffSecs'), 500);
 	};
 
-	/*
-	$.fn.setTminusDiffSecs = function (tminusTargetTime, backuptime) {
-		var diffSecs = null;
-		$.ajax({
-			url: tminusnow,
-			type : "post",
-			dataType : "json",
-			success: $.proxy(function( data ) {
-				//console.log(data['now']);
-				nowTime = new Date(data['now']);
-				diffSecs = Math.floor((tminusTargetTime.valueOf()-nowTime.valueOf())/1000);
-				$(this).doTminusCountDown($(this).attr('id'), diffSecs, 500);
-			}, this),
-			error: $.proxy(function( request, status, error ) {
-				nowTime = new Date(backuptime);
-				diffSecs = Math.floor((tminusTargetTime.valueOf()-nowTime.valueOf())/1000);
-				$(this).doTminusCountDown($(this).attr('id'), diffSecs, 500);
-			}, this)
-		});
-	};
-	*/
-
 	$.fn.setTminustminusTargetTime = function (options) {
 		var tminusTargetTime = new Date();
 		if (options.targetDate){
@@ -162,7 +138,6 @@
 		if( $.data($this[0], 'event_id') ){
 			$this.checkEvent(id, diffSecs);
 		}
-
 
 		if (diffSecs > 0 || $.data($this[0], 'launchtarget') == 'countup'){
 			if($.data($this[0], 'status') == 'play'){
