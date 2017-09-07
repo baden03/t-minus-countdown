@@ -1,5 +1,5 @@
 /*
- * T- Countdown v1.5.10
+ * T- Countdown v1.5.11
  * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
  * Copyright 2017, Twinpictures
@@ -29,14 +29,14 @@
 		config = {};
 		$.extend(config, options);
 		tminusTargetTime = this.setTminustminusTargetTime(config);
+		$.data($(this)[0], 'tminusTargetTime', tminusTargetTime);
+
 		var nowobj = $.parseJSON( tminusnow );
 		nowTime = new Date(nowobj.now);
 
 		style = config.style;
 		$.data($(this)[0], 'style', config.style);
 
-		before = new Date();
-		$.data($(this)[0], 'before', before);
 		$.data($(this)[0], 'status', 'play');
 		$.data($(this)[0], 'id', config.id);
 
@@ -71,7 +71,9 @@
 		}
 		$('#' + $(this).attr('id') + ' .' + style + '-digit').html('<div class="tc_top"></div><div class="tc_bottom"></div>');
 
+		//caculate the initial difference in seconds between now and launch
 		diffSecs = Math.floor((tminusTargetTime.valueOf()-nowTime.valueOf())/1000);
+		//console.log(diffSecs);
 		$(this).doTminusCountDown($(this).attr('id'), diffSecs, 500);
 
 		return this;
@@ -124,6 +126,7 @@
 			weeks = Math.floor(Math.abs(diffSecs/60/60/24/7));
 		}
 		style = $.data($(this)[0], 'style');
+
 		$this.dashTminusChangeTo(id, style + '-seconds_dash', secs, duration ? duration : 500);
 		$this.dashTminusChangeTo(id, style + '-minutes_dash', mins, duration ? duration : 1000);
 		$this.dashTminusChangeTo(id, style + '-hours_dash', hours, duration ? duration : 1000);
@@ -132,8 +135,10 @@
 		$this.dashTminusChangeTo(id, style + '-weeks_dash', weeks, duration ? duration : 1000);
 		$this.dashTminusChangeTo(id, style + '-weeks_trip_dash', weeks, duration ? duration : 1000);
 
+		//why exactly are we doing this?
 		$.data($this[0], 'diffSecs', diffSecs);
 
+		//console.log('update diffSecs to: ', diffSecs);
 		//events
 		if( $.data($this[0], 'event_id') ){
 			$this.checkEvent(id, diffSecs);
@@ -141,23 +146,19 @@
 
 		if (diffSecs > 0 || $.data($this[0], 'launchtarget') == 'countup'){
 			if($.data($this[0], 'status') == 'play'){
-				var delta = 0;
-				delay = 1000;
-				now = new Date();
-				before = $.data($this[0], 'before');
-				elapsedTime = (now.getTime() - before.getTime());
-				if(elapsedTime >= delay + 1000){
-					delta += Math.floor(1*(elapsedTime/delay));
-				}
-				else{
-					delta = 1;
-				}
-				before = new Date();
-				$.data($this[0], 'before', before);
-				style = $.data($this[0], 'style');
+
+				//why set the style here?
+				//style = $.data($this[0], 'style');
+
+				//recaculate diffSecs
+				nowTime = new Date();
+				//console.log('hey dude: ', tminusTargetTime.valueOf(), $.data($this[0], 'tminusTargetTime').valueOf() );
+
+				diffSecs = Math.floor(($.data($this[0], 'tminusTargetTime').valueOf()-nowTime.valueOf())/1000);
+
 				t = setTimeout( function() {
-					$this.doTminusCountDown(id, diffSecs-delta);
-					} , 1000);
+					$this.doTminusCountDown(id, diffSecs);
+				} , 1000);
 			}
 		}
 		//cb = $.data($this[0], 'callback')

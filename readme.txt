@@ -4,8 +4,8 @@ Contributors: twinpictures, baden03
 Donate link: https://plugins.twinpictures.de/plugins/t-minus-countdown/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, t(-), t(-) countdown, t-countdown, t (-) countdown, plugin-oven, pluginoven, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 4.0
-Tested up to: 4.8
-Stable tag: 2.3.17
+Tested up to: 4.8.1
+Stable tag: 2.3.18a
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,10 @@ Ah yes! <a href='https://twitter.com/#!/twinpictures'>@Twinpictures</a> is on th
 1. Plugin options page with Custom CSS section
 
 == Changelog ==
+
+= 2.3.18 =
+* rebuilt method of keeping countdown timer in sync
+* fully tested with WordPress 4.8.1
 
 = 2.3.17 =
 * scripts do not load on customize.php page
