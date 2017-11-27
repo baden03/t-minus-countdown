@@ -26,6 +26,9 @@
 
 (function($){
 	$.fn.tminusCountDown = function (options) {
+		if ($(this)[0] == undefined)
+			return;
+
 		config = {};
 		$.extend(config, options);
 		tminusTargetTime = this.setTminustminusTargetTime(config);
