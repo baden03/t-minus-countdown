@@ -1,5 +1,5 @@
 /*
- * T- Countdown v1.5.11
+ * T- Countdown v1.5.12
  * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
  * Copyright 2017, Twinpictures
@@ -175,8 +175,11 @@
 	};
 
 	$.fn.dashTminusChangeTo = function(id, dash, n, duration) {
+
 		$this = $('#' + id);
 		style = $.data($this[0], 'style');
+
+		//console.log('.' + dash + ' .' + style + '-digit');
 		for (var i=($this.find('.' + dash + ' .' + style + '-digit').length-1); i>=0; i--){
 			var d = n%10;
 			n = (n - d) / 10;
@@ -185,6 +188,7 @@
 	};
 
 	$.fn.digitTminusChangeTo = function (digit, n, duration) {
+
 		if (!duration){
 			duration = 500;
 		}
