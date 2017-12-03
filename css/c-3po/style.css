@@ -1,4 +1,7 @@
 /*above the dashboard*/
+.tminus_countdown {
+	text-align: center;
+}
 .c-3po-tophtml, .c-3po-bothtml {
 	margin: 0 auto;
 	padding: 0;
@@ -8,11 +11,10 @@
 
 /*above the dashboard*/
 .c-3po-dashboard {
-	height: 27px;
-	width: 237px;
-	margin: auto;
-	background: transparent;
-	padding: 6px 4px 4px 0;
+	display: inline-block;
+	height: 43px;
+	margin: 0 auto;
+	padding: 6px;
 	border-top: 1px solid #fcff95;
 	border-left: 1px solid #fcff95;
 	border-bottom: 1px solid #a37e39;
@@ -33,7 +35,7 @@
 }
 
 .c-3po-dash {
-	width: 29px;
+	width: auto;
 	height: 23px;
 	float: left;
 	margin-left: 13px;
@@ -50,11 +52,16 @@
 	/*-webkit-box-shadow: 2px 2px 5px a37e39; -moz-box-shadow: 2px 2px 5px #a37e39;box-shadow: 2px 2px 5px #a37e39;*/
 }
 
+.c-3po-dash:last-of-type {
+   margin-right: 13px;
+   padding-right: 3px;
+}
+
 .c-3po-tripdash {
-	width: 49px;
+	width: auto;
 	height: 23px;
 	float: left;
-	margin-left: 20px;
+	margin-left: 13px;
 	padding-left: 3px;
 	margin-top: -2px;
 	position: relative;
@@ -84,7 +91,7 @@
 	position: absolute;
 	left: -4px;
 	top: 21px;
-	width: 32px;
+	width: auto;
 	padding: 0 3px;
 	color: #fcffc8;
 	text-align: center;

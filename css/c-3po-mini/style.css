@@ -1,3 +1,7 @@
+.tminus_countdown {
+	text-align: center;
+}
+
 /*above the dashboard*/
 .c-3po-mini-tophtml, .c-3po-mini-bothtml {
 	margin: 0 auto;
@@ -8,11 +12,10 @@
 
 /*above the dashboard*/
 .c-3po-mini-dashboard {
-	height: 20px;
-	width: 160px;
+	display: inline-block;
+	height: 30px;
 	margin: auto;
-	background: transparent;
-	padding: 4px 2px 2px 0;
+	padding: 4px;
 	border-top: 1px solid #fcff95;
 	border-left: 1px solid #fcff95;
 	border-bottom: 1px solid #a37e39;
@@ -33,7 +36,7 @@
 }
 
 .c-3po-mini-dash {
-	width: 23px;
+	width: auto;
 	height: 15px;
 	float: left;
 	margin-left: 5px;
@@ -50,8 +53,13 @@
 	/*-webkit-box-shadow: 2px 2px 5px a37e39; -moz-box-shadow: 2px 2px 5px #a37e39;box-shadow: 2px 2px 5px #a37e39;*/
 }
 
+.c-3po-mini-dash:last-of-type {
+   margin-right: 5px;
+   padding-right: 2px;
+}
+
 .c-3po-mini-tripdash {
-	width: 33px;
+	width: auto;
 	height: 15px;
 	float: left;
 	margin-left: 5px;
@@ -83,7 +91,7 @@
 	display: block;
 	position: absolute;
 	top: 14px;
-	width: 25px;
+	width: auto;
 	padding: 0;
 	color: #fcffc8;
 	text-align: left;

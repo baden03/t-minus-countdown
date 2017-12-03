@@ -1,5 +1,5 @@
 /*
- * T- Countdown v1.5.12
+ * T- Countdown v1.5.13
  * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
  * Copyright 2017, Twinpictures
@@ -128,7 +128,7 @@
 			days = Math.floor(Math.abs(diffSecs/60/60/24)%7);
 			weeks = Math.floor(Math.abs(diffSecs/60/60/24/7));
 		}
-    style = $.data($this[0], 'style');
+    	style = $.data($this[0], 'style');
 
 		$this.dashTminusChangeTo(id, style + '-seconds_dash', secs, duration ? duration : 500);
 		$this.dashTminusChangeTo(id, style + '-minutes_dash', mins, duration ? duration : 1000);
