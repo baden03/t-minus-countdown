@@ -1,3 +1,6 @@
+.tminus_countdown {
+	text-align: center;
+}
 /*above the dashboard*/
 .sith-tophtml,.sith-bothtml {
 	margin: 0 auto;
@@ -10,14 +13,14 @@
 	}
 .sith-bothtml{
 	font-size: 24px;
-	}
+}
 
 /*above the dashboard*/
 .sith-dashboard {
+	display: inline-block;
 	height: 60px;
-	width: 360px;
+	width: auto;
 	margin: auto;
-	background: transparent;
 	padding: 5px 5px 5px 0;
 	border:3px solid #222;
 	background: #4c4c4c; /* old browsers */
@@ -29,11 +32,11 @@
 }
 
 .sith-dash {
-	width: 65px;
 	height: 50px;
+	width: 75px;
 	float: left;
-	margin-left: 18px;
-	padding-left:5px;
+	margin-left: 20px;
+	padding-left: 5px;
 	position: relative;
 	color: #333;
 	border:1px solid #333;
@@ -46,14 +49,25 @@
 }
 
 .sith-tripdash {
-	width: 93px;
-	height: 44px;
+	height: 50px;
+	width: 105px;
 	float: left;
-	margin-left: 2px;
-	padding-left: 10px;
-	padding-top: 5px;
+	margin-left: 20px;
+	padding-left: 5px;
 	position: relative;
 	color: #333;
+	border:1px solid #333;
+	-moz-border-radius: 5px; -webkit-border-radius:5px; border-radius: 5px;
+	background: #FFFFFF; /* old browsers */
+	background: -moz-linear-gradient(top, #FFFFFF 0%, #D6D6D6 52%, #C9C9C9 57%, #E5E5E5 100%); /* firefox */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFFFFF), color-stop(52%,#D6D6D6), color-stop(57%,#C9C9C9), color-stop(100%,#E5E5E5)); /* webkit */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#E5E5E5',GradientType=0 ); /* ie */
+	-webkit-box-shadow: 2px 2px 5px #000; -moz-box-shadow: 2px 2px 5px #000;box-shadow: 2px 2px 5px #000;
+}
+
+.sith-dash:last-of-type {
+   margin-right: 10px;
+   padding-right: 5px;
 }
 
 .sith-weeks_dash, .sith-days_dash, .sith-minutes_dash, .sith-seconds_dash  {
@@ -89,11 +103,9 @@
 	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 	display: block;
 	position: absolute;
-	left: -35px;
-	top: 16px;
-	left: -20px\9;
-	top: 0px\9;	
-	width:50px;
+	left: -34px;
+	top: 13px;
+	width: 50px;
 	color: #fff;
 	text-align: left;
 	font-size: 12px;

@@ -6,18 +6,18 @@
 
 /*above the dashboard*/
 .carbonlite-dashboard {
-	height: 60px;
+	height: 63px;
 	width: 250px;
 	margin: 0 auto;
 	padding-top: 10px;
-	padding-left: 10px;
 	background: transparent url('images/bg_countdown.png') 0 0 no-repeat;
+	text-align: center;
 }
 
 .carbonlite-dash {
+    display: inline-block;
 	width: 42px;
 	height: 44px;
-	float: left;
 	margin-left: 2px;
 	padding-left: 2px;
 	padding-top: 10px;
@@ -26,9 +26,9 @@
 }
 
 .carbonlite-tripdash {
+	display: inline-block;
 	width: 62px;
 	height: 44px;
-	float: left;
 	margin-left: 2px;
 	padding-left: 2px;
 	padding-top: 10px;
@@ -43,7 +43,7 @@
 .carbonlite-days_dash  {
 	margin-left: 2px;
 	background: transparent url('images/bg_dash.png') 0 0 no-repeat;
-	
+
 }
 
 .carbonlite-days_trip_dash  {
