@@ -1,8 +1,8 @@
 /*
- * T- Countdown v1.5.13
+ * T- Countdown v2.4.0
  * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
- * Copyright 2017, Twinpictures
+ * Copyright 2018, Twinpictures
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,6 +36,11 @@
 
 		var nowobj = $.parseJSON( tminusnow );
 		nowTime = new Date(nowobj.now);
+
+		//ofset from browser time
+		browserTime = new Date();
+		timeOffset = Math.floor((nowTime.valueOf()-browserTime.valueOf())/1000);
+		$.data($(this)[0], 'timeOffset', timeOffset);
 
 		style = config.style;
 		$.data($(this)[0], 'style', config.style);
@@ -150,11 +155,12 @@
 		if (diffSecs > 0 || $.data($this[0], 'launchtarget') == 'countup'){
 			if($.data($this[0], 'status') == 'play'){
 
-				//why set the style here?
-				//style = $.data($this[0], 'style');
-
 				//recaculate diffSecs
+
+				//this is the current browser time, not so good, as we also need an offset
 				nowTime = new Date();
+				timeOffset = $.data($this[0], 'timeOffset');
+				nowTime.setSeconds(nowTime.getSeconds() + timeOffset);
 				//console.log('hey dude: ', tminusTargetTime.valueOf(), $.data($this[0], 'tminusTargetTime').valueOf() );
 
 				diffSecs = Math.floor(($.data($this[0], 'tminusTargetTime').valueOf()-nowTime.valueOf())/1000);

@@ -5,7 +5,7 @@ T(-) Countdown
 * Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, plugin-oven, pluginoven, G2, spaceBros, jQuery, javascript
 * Requires at least: 4.7
 * Tested up to: 5.0-alpha
-* Stable tag: 2.3.19a
+* Stable tag: 2.3.19b
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
