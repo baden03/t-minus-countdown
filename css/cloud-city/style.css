@@ -60,7 +60,7 @@
 }
 
 .cloud-city-dash, .cloud-city-tripdash  {
-    height: 5em;
+    height: 5.5em;
 }
 
 .cloud-city-tripdash .cloud-city-digit {
@@ -83,6 +83,9 @@
     .cloud-city-digit {
         font-size: 2em;
     }
+    .cloud-city-dash, .cloud-city-tripdash  {
+        height: 4.5em;
+    }
 }
 
 @media screen and (max-width: 480px) {
@@ -91,10 +94,9 @@
         font-size: 1.5em;
     }
     .cloud-city-dash {
-        height: 4em;
         margin-left: 6px;
     }
-    .cloud-city-tripdash {
+    .cloud-city-dash, .cloud-city-tripdash  {
         height: 4em;
     }
  }
