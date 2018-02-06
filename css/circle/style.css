@@ -1,0 +1,27 @@
+/* countdown timer */
+.circle-dash, .circle-tripdash {
+	display: inline-block;
+	width: 25%;
+	text-align: center;
+	width: 140px;
+	height: 140px;
+	border: 1px solid #000;
+	-moz-border-radius: 70px;
+	-webkit-border-radius: 70px;
+	border-radius: 70px;
+	background-color: transparent;
+	margin: 10px 5%;
+	font-size: 1.2em;
+}
+
+.circle-digit {
+    display: inline-table;
+    min-height: 50px;
+    height: 50px;
+    overflow: hidden !important;
+}
+
+.circle-dash_title {
+	margin-top: 40px;
+	text-transform: uppercase;
+}
