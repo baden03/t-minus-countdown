@@ -4,8 +4,8 @@ T(-) Countdown
 * Donate link: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 * Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, plugin-oven, pluginoven, G2, spaceBros, jQuery, javascript
 * Requires at least: 4.7
-* Tested up to: 5.0-alpha
-* Stable tag: 2.3.19
+* Tested up to: 5.0.3
+* Stable tag: 2.3.20b
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
