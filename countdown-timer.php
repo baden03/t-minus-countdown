@@ -487,7 +487,7 @@ class CountDownTimer extends WP_Widget {
 			echo $args['after_widget'];
 		}
 
-		function get_styles($custom_css = null) {
+		static function get_styles($custom_css = null) {
 			//default styles
 			$styles_arr = folder_array(WP_PLUGIN_DIR.'/'. dirname( plugin_basename(__FILE__) ).'/css');
 			if( !empty( $custom_css ) ){
