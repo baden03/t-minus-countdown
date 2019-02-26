@@ -395,16 +395,16 @@ function folder_array($path, $exclude = ".|..") {
  */
 class CountDownTimer extends WP_Widget {
     /** constructor */
-	function __construct() {
+		function __construct() {
 
-		$widget_ops = array(
-			'classname'		=> 'CountDownTimer',
-			'description'	=> __( 'A highly customizable jQuery countdown timer by Twinpictures', 'jquery-t-countdown-widget' )
-		);
+			$widget_ops = array(
+				'classname'		=> 'CountDownTimer',
+				'description'	=> __( 'A highly customizable jQuery countdown timer by Twinpictures', 'jquery-t-countdown-widget' )
+			);
 
-		parent::__construct( 'CountDownTimer', __( 'T(-) Countdown', 'jquery-t-countdown-widget' ), $widget_ops );
+			parent::__construct( 'CountDownTimer', __( 'T(-) Countdown', 'jquery-t-countdown-widget' ), $widget_ops );
 
-	}
+		}
 
 
     /** Widget */
@@ -464,12 +464,6 @@ class CountDownTimer extends WP_Widget {
 			}
 
 			$sc_atts = '';
-			/* on by one */
-			/*
-			if(!empty($instance['id'])){
-				$sc_atts .= 'id = "'.$instance['id'].'" ';
-			}
-			*/
 
 			/* filter by key */
 			$ok_keys_arr = array('id','t','weeks','days','hours','minutes','seconds','omitweeks','style','before','after','width','height','launchwidth','launchheight','launchtarget','jsplacement','event_id');
@@ -591,7 +585,7 @@ class CountDownTimer extends WP_Widget {
 	    ?>
 	    <p><label><?php _e('Title:', 'jquery-t-countdown-widget'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label></p>
 
-		<p><label><?php _e('Target:', 'jquery-t-countdown-widget'); ?> <input style="width: 230px;" id="<?php echo $this->get_field_id('t'); ?>" name="<?php echo $this->get_field_name('t'); ?>" type="text" value="<?php echo $t; ?>" class="t-datepicker"/></label></p>
+			<p><label><?php _e('Target:', 'jquery-t-countdown-widget'); ?> <input style="width: 230px;" id="<?php echo $this->get_field_id('t'); ?>" name="<?php echo $this->get_field_name('t'); ?>" type="text" value="<?php echo $t; ?>" class="t-datepicker"/></label></p>
 		<?php
 			if( is_plugin_active( 't-countdown-events/t-countdown-events.php' ) ){
 				echo '<p><label>Event: <select name="'.$this->get_field_name('event_id').'" id="'.$this->get_field_name('event_id').'">';
