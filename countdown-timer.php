@@ -788,6 +788,9 @@ function tminuscountdown($atts, $content=null) {
 		wp_enqueue_style( 'countdown-'.$style.'-css' );
 	}
 
+	// TODO: rework to use date_create & date_diff introduced in php 5.3.0 since we are now explicitly setting the min php requirement to 7.0
+  // TODO: add in option to display years and months
+	// TODO: add in optoin to adjust UTC Timezone
 	$now = strtotime(current_time('mysql'));
 	$target = strtotime($t, $now);
 
