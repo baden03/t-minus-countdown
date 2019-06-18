@@ -832,20 +832,26 @@ function tminuscountdown($atts, $content=null) {
 
 	// TODO: use the interval to calculate these values
 	// TODO: add months and years
-	$date_arr = array();
-	$date_arr['secs'] = $diffSecs % 60;
-	$date_arr['mins'] = floor($diffSecs/60)%60;
-	$date_arr['hours'] = floor($diffSecs/60/60)%24;
+	$date_arr = array(
+		'secs' => $interval->s,
+		'mins' => $interval->i,
+		'hours' => $interval->h,
+		/*
+		'days' => $interval->d,
+		'months' => $interval->m,
+		'years' => $interval->y
+		*/
+ 	);
 
 	if($omitweeks == 'false'){
 		$dash_omitweeks_class = '';
-		$date_arr['days'] = floor($diffSecs/60/60/24)%7;
+		$date_arr['days'] = floor($interval->days)%7;
 	}
 	else{
 		$dash_omitweeks_class = 'omitweeks';
-		$date_arr['days'] = floor($diffSecs/60/60/24);
+		$date_arr['days'] = $interval->days;
 	}
-	$date_arr['weeks']	= floor($diffSecs/60/60/24/7);
+	$date_arr['weeks']	= floor($interval->days / 7);
 
 	// break numbers into single digits (bet there is a smarter way)
 	foreach ($date_arr as $i => $d) {
@@ -855,10 +861,14 @@ function tminuscountdown($atts, $content=null) {
 		}
 		$date_arr[$i] = array_map('intval', str_split($d));
 	}
-
+	//var_dump($date_arr);
+	//die();
 	/*
 	array(5) { ["secs"]=> array(4) { [0]=> int(0) [1]=> int(0) [2]=> int(0) [3]=> int(0) } ["mins"]=> array(4) { [0]=> int(0) [1]=> int(0) [2]=> int(0) [3]=> int(0) } ["hours"]=> array(4) { [0]=> int(0) [1]=> int(0) [2]=> int(0) [3]=> int(0) } ["days"]=> array(4) { [0]=> int(0) [1]=> int(5) [2]=> int(0) [3]=> int(50) } ["weeks"]=> array(4) { [0]=> int(0) [1]=> int(0) [2]=> int(7) [3]=> int(7) } }
   array(5) { ["secs"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["mins"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["hours"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["days"]=> array(2) { [0]=> int(5) [1]=> int(0) } ["weeks"]=> array(2) { [0]=> int(0) [1]=> int(7) } }
+  array(5) { ["secs"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["mins"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["hours"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["days"]=> array(2) { [0]=> int(5) [1]=> int(0) } ["weeks"]=> array(2) { [0]=> int(0) [1]=> int(7) } }
+  array(5) { ["secs"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["mins"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["hours"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["days"]=> array(2) { [0]=> int(5) [1]=> int(0) } ["weeks"]=> array(2) { [0]=> int(0) [1]=> int(7) } }
+	array(6) { ["secs"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["mins"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["hours"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["days"]=> array(2) { [0]=> int(2) [1]=> int(0) } ["months"]=> array(2) { [0]=> int(0) [1]=> int(1) } ["years"]=> array(2) { [0]=> int(0) [1]=> int(0) } }
 	*/
 
 
