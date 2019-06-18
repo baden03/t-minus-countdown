@@ -756,6 +756,7 @@ function tminuscountdown($atts, $content=null) {
     extract(shortcode_atts(array(
 		'id' => $ran,
 		't' => '',
+		'timezone' => get_option('timezone_string'),
 		'weeks' => __('weeks', 'jquery-t-countdown-widget'),
 		'days' => __('days', 'jquery-t-countdown-widget'),
 		'hours' => __('hours', 'jquery-t-countdown-widget'),
@@ -788,23 +789,49 @@ function tminuscountdown($atts, $content=null) {
 		wp_enqueue_style( 'countdown-'.$style.'-css' );
 	}
 
-	// TODO: rework to use date_create & date_diff introduced in php 5.3.0 since we are now explicitly setting the min php requirement to 7.0
   // TODO: add in option to display years and months
-	// TODO: add in optoin to adjust UTC Timezone
-	$now = strtotime(current_time('mysql'));
-	$target = strtotime($t, $now);
+	// TODO: remove 3 digit limit on weeks and days... years and months as well.
+
+	//$now = strtotime(current_time('mysql'));
+	//$now = new DateTime(current_time('mysql'), new DateTimeZone( get_option('timezone_string') ) );
+
+	$now = new DateTime( );
+	$now->setTimezone( new DateTimeZone( get_option('timezone_string') ) );
+
+	//$target = strtotime($t, $now);
+	$target = new DateTime($t, new DateTimeZone( $timezone ) );
 
 	//difference in seconds
-	$diffSecs = $target - $now;
+	//$diffSecs = $target - $now;
+	$diffSecs = $target->getTimestamp() - $now->getTimestamp();
 
-	$day = date ( 'd', $target );
-	$month = date ( 'm', $target );
-	$year = date ( 'Y', $target );
-	$hour = date ( 'H', $target );
-	$min = date ( 'i', $target );
-	$sec = date ( 's', $target );
+	$day = $target->format('d');
+	$month = $target->format('m');
+	$year = $target->format('Y');
+	$hour = $target->format('H');
+	$min = $target->format('i');
+	$sec = $target->format('s');
+
+	/*
+	echo 'The difference is ';
+	echo  $diff->y . ' years, ';
+	echo  $diff->m . ' months, ';
+	echo  $diff->d . ' days, ';
+	echo  $diff->h . ' hours, ';
+	echo  $diff->i . ' minutes, ';
+	echo  $diff->s . ' seconds';
+	// Output: The difference is 28 years, 5 months, 19 days, 20 hours, 34 minutes, 36 seconds
+
+	echo 'The difference in days : ' . $diff->days;
+	// Output: The difference in days : 10398
+	*/
 
 	//countdown digits
+	//interval
+	$interval = $now->diff($target);
+
+	// TODO: use the interval to calculate these values
+	// TODO: add months and years
 	$date_arr = array();
 	$date_arr['secs'] = $diffSecs % 60;
 	$date_arr['mins'] = floor($diffSecs/60)%60;
@@ -820,28 +847,20 @@ function tminuscountdown($atts, $content=null) {
 	}
 	$date_arr['weeks']	= floor($diffSecs/60/60/24/7);
 
+	// break numbers into single digits (bet there is a smarter way)
 	foreach ($date_arr as $i => $d) {
-		$d1 = $d%10;
-		if($d < 100){
-			$d2 = ($d-$d1) / 10;
-			$d3 = 0;
-		}
-		else{
-			$dr = $d%100;
-			$dm = $d-$dr;
-			$d2 = ($d-$dm-$d1) / 10;
-			$d3 = $dm / 100;
-		}
-		/* here is where the 1000's support will go... someday. */
-
 		//now assign all the digits to the array
-		$date_arr[$i] = array(
-			(int)$d3,
-			(int)$d2,
-			(int)$d1,
-			(int)$d
-		);
+		if($d < 10){
+			$d = sprintf("%02d", $d);
+		}
+		$date_arr[$i] = array_map('intval', str_split($d));
 	}
+
+	/*
+	array(5) { ["secs"]=> array(4) { [0]=> int(0) [1]=> int(0) [2]=> int(0) [3]=> int(0) } ["mins"]=> array(4) { [0]=> int(0) [1]=> int(0) [2]=> int(0) [3]=> int(0) } ["hours"]=> array(4) { [0]=> int(0) [1]=> int(0) [2]=> int(0) [3]=> int(0) } ["days"]=> array(4) { [0]=> int(0) [1]=> int(5) [2]=> int(0) [3]=> int(50) } ["weeks"]=> array(4) { [0]=> int(0) [1]=> int(0) [2]=> int(7) [3]=> int(7) } }
+  array(5) { ["secs"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["mins"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["hours"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["days"]=> array(2) { [0]=> int(5) [1]=> int(0) } ["weeks"]=> array(2) { [0]=> int(0) [1]=> int(7) } }
+	*/
+
 
 	if(is_numeric($width)){
 		$width .= 'px';
@@ -860,47 +879,67 @@ function tminuscountdown($atts, $content=null) {
 	//drop in the dashboard
 	$tminus .=  '<div id="'.$id.'-dashboard" class="'.$style.'-dashboard">';
 	if($omitweeks == 'false'){
-		//set up correct style class for double or triple digit love
+		//set up correct style class for double or triple digits
+		// TODO: this should not be limited to 3 digits
 		$wclass = $style.'-dash '.$style.'-weeks_dash';
-		if($date_arr['weeks'][0] > 0){
+		if(count($date_arr['weeks']) > 2){
 			$wclass = $style.'-tripdash '.$style.'-weeks_trip_dash';
 		}
 
 		$tminus .=  '<div class="'.$wclass.'"><div class="'.$style.'-dash_title">'.$weeks.'</div>';
+		/*
 		if($date_arr['weeks'][0] > 0){
 			$tminus .=  '<div class="'.$style.'-digit">'.$date_arr['weeks'][0].'</div>';
 		}
-		$tminus .=  '<div class="'.$style.'-digit">'.$date_arr['weeks'][1].'</div><div class="'.$style.'-digit">'.$date_arr['weeks'][2].'</div></div>';
+		$tminus .=  '<div class="'.$style.'-digit">'.$date_arr['weeks'][1].'</div>';
+		$tminus .= '<div class="'.$style.'-digit">'.$date_arr['weeks'][2].'</div>';
+		*/
+
+		foreach( $date_arr['weeks'] AS $digit ){
+			$tminus .=  '<div class="'.$style.'-digit">'.$digit.'</div>';
+		}
+
+		$tminus .= '</div>';
 	}
 
 	//set up correct style class for double or triple digit love
 	$dclass = $style.'-dash '.$style.'-days_dash';
 
-	if($omitweeks == 'true' && abs($date_arr['days'][3]) > 99){
+	//if($omitweeks == 'true' && abs($date_arr['days'][3]) > 99){
+	// TODO: this should not be limited to 3 digits
+	if($omitweeks == 'true' && count($date_arr['days']) > 2){
 		$dclass = $style.'-tripdash '.$style.'-days_trip_dash';
 	}
 
 	$tminus .= '<div class="'.$dclass.'"><div class="'.$style.'-dash_title">'.$days.'</div>';
 
+	/*
 	if($omitweeks == 'true' && abs($date_arr['days'][3]) > 99){
 		$tminus .= '<div class="'.$style.'-digit">'.$date_arr['days'][0].'</div>';
 	}
-	$tminus .= '<div class="'.$style.'-digit">'.$date_arr['days'][1].'</div><div class="'.$style.'-digit">'.$date_arr['days'][2].'</div>';
+	*/
+
+	foreach( $date_arr['days'] AS $digit ){
+		$tminus .=  '<div class="'.$style.'-digit">'.$digit.'</div>';
+	}
 	$tminus .= '</div>';
 	$tminus .= '<div class="'.$style.'-dash '.$style.'-hours_dash">';
 		$tminus .= '<div class="'.$style.'-dash_title">'.$hours.'</div>';
-		$tminus .= '<div class="'.$style.'-digit">'.$date_arr['hours'][1].'</div>';
-		$tminus .= '<div class="'.$style.'-digit">'.$date_arr['hours'][2].'</div>';
+		foreach( $date_arr['hours'] AS $digit ){
+			$tminus .=  '<div class="'.$style.'-digit">'.$digit.'</div>';
+		}
 	$tminus .= '</div>';
 		$tminus .= '<div class="'.$style.'-dash '.$style.'-minutes_dash">';
 		$tminus .= '<div class="'.$style.'-dash_title">'.$minutes.'</div>';
-		$tminus .= '<div class="'.$style.'-digit">'.$date_arr['mins'][1].'</div>';
-		$tminus .= '<div class="'.$style.'-digit">'.$date_arr['mins'][2].'</div>';
+		foreach( $date_arr['mins'] AS $digit ){
+			$tminus .=  '<div class="'.$style.'-digit">'.$digit.'</div>';
+		}
 	$tminus .= '</div>';
 		$tminus .= '<div class="'.$style.'-dash '.$style.'-seconds_dash">';
 		$tminus .= '<div class="'.$style.'-dash_title">'.$seconds.'</div>';
-		$tminus .= '<div class="'.$style.'-digit">'.$date_arr['secs'][1].'</div>';
-		$tminus .= '<div class="'.$style.'-digit">'.$date_arr['secs'][2].'</div>';
+		foreach( $date_arr['secs'] AS $digit ){
+			$tminus .=  '<div class="'.$style.'-digit">'.$digit.'</div>';
+		}
 	$tminus .= '</div>';
 	$tminus .= '</div>'; //close the dashboard
 
