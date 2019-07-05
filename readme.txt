@@ -4,8 +4,8 @@ Contributors: twinpictures, baden03
 Donate link: https://plugins.twinpictures.de/plugins/t-minus-countdown/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, t(-), t(-) countdown, t-countdown, t (-) countdown, plugin-oven, pluginoven, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 4.7
-Tested up to: 5.2.1
-Stable tag: 2.3.20
+Tested up to: 5.2.2
+Stable tag: 2.4.0
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -66,8 +66,13 @@ Ah yes! <a href='https://twitter.com/#!/twinpictures'>@Twinpictures</a> is on th
 
 == Changelog ==
 
-= 2.3.20 =
+= 2.4.0 =
 * get_styles() is now a static function
+* uses PHP DateTime function for date caculation
+* new timezone attribute to target time to different timezone
+* weeks are no longer limited to 3 digits
+* added optional years and months with omityears and omitmonths attributes
+
 
 = 2.3.19 =
 * updated CSS to deal with omit-weeks and trip dash issues
@@ -319,3 +324,7 @@ Ah yes! <a href='https://twitter.com/#!/twinpictures'>@Twinpictures</a> is on th
 
 == Upgrade Notice ==
 * get_styles() is now a static function
+* uses PHP DateTime function for date caculation
+* new timezone attribute to target time to different timezone
+* weeks are no longer limited to 3 digits
+* added optional years and months with omityears and omitmonths attributes
