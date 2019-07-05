@@ -28,35 +28,15 @@
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
 	box-sizing: content-box;
-	
+
 }
 
 .TIE-fighter-dash {
-	width: 29px;
+	width: auto;
 	height: 23px;
 	float: left;
 	margin-left: 13px;
-	padding-left: 3px;
-	position: relative;
-	color: #333;
-	border:1px solid #333;
-	-moz-border-radius: 4px; -webkit-border-radius:5px; border-radius: 4px;
-	background: #FFFFFF; /* old browsers */
-	background: -moz-linear-gradient(top, #FFFFFF 0%, #D6D6D6 52%, #C9C9C9 57%, #E5E5E5 100%); /* firefox */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFFFFF), color-stop(52%,#D6D6D6), color-stop(57%,#C9C9C9), color-stop(100%,#E5E5E5)); /* webkit */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#E5E5E5',GradientType=0 ); /* ie */
-	-webkit-box-shadow: 2px 2px 5px #000; -moz-box-shadow: 2px 2px 5px #000;box-shadow: 2px 2px 5px #000;
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	box-sizing: content-box;
-}
-
-.TIE-fighter-tripdash {
-	width: 49px;
-	height: 23px;
-	float: left;
-	margin-left: 20px;
-	padding-left: 3px;
+	padding: 0 4px;
 	position: relative;
 	color: #333;
 	border:1px solid #333;
@@ -80,7 +60,7 @@
 	position: relative;
 	height: 30px;
 	text-shadow: 3px 3px 4px #aaa;
-	}
+}
 
 .TIE-fighter-dash_title {
 	-webkit-transform: rotate(-90deg);

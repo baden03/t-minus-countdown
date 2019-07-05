@@ -14,47 +14,41 @@
 }
 
 .jedi-dash {
-	width: 62px;
 	height: 44px;
 	float: left;
 	margin-left: 2px;
-	padding-left: 10px;
+	margin-right: 10px;
+  padding-left: 7px;
 	padding-top: 5px;
 	position: relative;
 	color: #333;
-}
-
-.jedi-tripdash {
-	width: 93px;
-	height: 44px;
-	float: left;
-	margin-left: 2px;
-	padding-left: 10px;
-	padding-top: 5px;
-	position: relative;
-	color: #333;
-}
-
-.jedi-weeks_dash, .jedi-days_dash, .jedi-minutes_dash, .jedi-seconds_dash  {
-	background: transparent url('images/light_bg_dash.png') 0 0 no-repeat;
-}
-
-.jedi-weeks_trip_dash, .jedi-days_trip_dash {
-	background: transparent url('images/light_bg_trip_dash.png') 0 0 no-repeat;
 }
 
 .jedi-hours_dash {
 	clear: left;
-	background: transparent url('images/light_bg_dash.png') 0 0 no-repeat;
 }
 
 .jedi-digit {
 	font: bold 20pt Verdana;
 	font-weight: bold;
+	height: 34px;
 	float: left;
-	width: 22px;
 	text-align: center;
 	position: relative;
+	padding: 0 2px;
+	border-top: 1px solid #000;
+	border-bottom: 1px solid #000;
+	background: rgb(204,204,204);
+	background: linear-gradient(0deg, rgba(204,204,204,0.19791666666666663) 27%, rgba(204,204,204,0.6012780112044818) 50%, rgba(204,204,204,0.20351890756302526) 73%);
+	border-left: 1px dotted #aaa;
+}
+
+.jedi-digit:nth-child(2) {
+		border-left: 1px solid #000;
+}
+
+.jedi-digit:last-of-type {
+		border-right: 1px solid #000;
 }
 
 .jedi-dash_title {

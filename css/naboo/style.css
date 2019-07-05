@@ -3,17 +3,12 @@
 	color: #fffff;
 	margin: 0 auto;
 	padding: 10px 0;
-	max-width: 360px;
 	text-align: center;
-}
-
-.naboo-countdown.omitweeks {
-	max-width: 295px;
 }
 
 .naboo-dashboard {
 	margin: 0 auto;
-        padding-bottom: 10px;
+  padding-bottom: 10px;
 }
 
 .naboo-tophtml, .naboo-bothtml {
@@ -33,7 +28,7 @@
 	display: none;
 }
 
-.naboo-dash, .naboo-tripdash {
+.naboo-dash {
 	display: inline-block;
   padding: 5px;
   margin-left: 10px;
@@ -58,10 +53,10 @@
 	font-weight: 100;
 	overflow: visible;
 	white-space: nowrap;
-	width: 23px;
+	/*width: 23px;*/
 	color: #ffffff;
 	position: absolute;
-	margin-top: 10px;
+	margin-top: 14px;
 	margin-left: -20px;
 	font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
 }

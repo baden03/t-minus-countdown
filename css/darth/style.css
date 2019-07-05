@@ -14,47 +14,41 @@
 }
 
 .darth-dash {
-	width: 62px;
 	height: 44px;
 	float: left;
 	margin-left: 2px;
-	padding-left: 10px;
+	margin-right: 10px;
+  padding-left: 7px;
 	padding-top: 5px;
 	position: relative;
 	color: #333;
-}
-
-.darth-tripdash {
-	width: 93px;
-	height: 44px;
-	float: left;
-	margin-left: 2px;
-	padding-left: 10px;
-	padding-top: 5px;
-	position: relative;
-	color: #333;
-}
-
-.darth-weeks_dash, .darth-days_dash, .darth-minutes_dash, .darth-seconds_dash  {
-	background: transparent url('images/dark_bg_dash.png') 0 0 no-repeat;
-}
-
-.darth-weeks_trip_dash, .darth-days_trip_dash {
-	background: transparent url('images/dark_bg_trip_dash.png') 0 0 no-repeat;
 }
 
 .darth-hours_dash {
 	clear: left;
-	background: transparent url('images/dark_bg_dash.png') 0 0 no-repeat;
 }
 
 .darth-digit {
 	font: bold 20pt Verdana;
+	height: 34px;
 	font-weight: bold;
 	float: left;
-	width: 22px;
+	padding: 0 2px;
 	text-align: center;
 	position: relative;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #fff;
+	border-left: 1px dotted #fff;
+	background: rgb(255,255,255);
+  background: linear-gradient(0deg, rgba(255,255,255,1) 27%, rgba(204,204,204,1) 50%, rgba(255,255,255,1) 73%);
+}
+
+.darth-digit:nth-child(2) {
+		border-left: 1px solid #fff;
+}
+
+.darth-digit:last-of-type {
+		border-right: 1px solid #fff;
 }
 
 .darth-dash_title {

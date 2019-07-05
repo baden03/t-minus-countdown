@@ -10,63 +10,37 @@
 	width: 250px;
 	margin: 0 auto;
 	padding-top: 10px;
-	padding-left: 10px;
 	background: transparent url('images/bg_countdown.png') 0 0 no-repeat;
 }
 
 .carbonite-dash {
-	width: 44px;
 	height: 44px;
 	float: left;
 	margin-left: 2px;
-	padding-left: 6px;
-	padding-top: 12px;
+	padding-left: 10px;
+	padding-top: 5px;
 	position: relative;
 	color: #FFF;
-}
-
-.carbonite-tripdash {
-	width: 64px;
-	height: 44px;
-	float: left;
-	margin-left: 2px;
-	padding-left: 6px;
-	padding-top: 12px;
-	position: relative;
-	color: #FFF;
-}
-
-.carbonite-hours_dash, .carbonite-minutes_dash, .carbonite-seconds_dash  {
-	background: transparent url('images/bg_dash.png') 0 0 no-repeat;
 }
 
 .carbonite-days_dash  {
 	clear: left;
-	margin-left: 10px;
-	background: transparent url('images/bg_dash.png') 0 0 no-repeat;
-}
-
-.carbonite-days_trip_dash  {
-	clear: left;
-	background: transparent url('images/bg_trip_dash.png') 0 0 no-repeat;
-}
-
-.carbonite-weeks_dash  {
-	margin-left: 10px;
-	background: transparent url('images/bg_dash.png') 0 0 no-repeat;
-}
-
-.carbonite-weeks_trip_dash  {
-	margin-left: 10px;
-	background: transparent url('images/bg_trip_dash.png') 0 0 no-repeat;
 }
 
 .carbonite-digit {
 	font: 16pt Arial;
+	padding-top: 3px;
+	height: 29px;
 	float: left;
 	width: 19px;
 	text-align: center;
 	position: relative;
+	background: rgb(42,42,42);
+	background: linear-gradient(0deg, rgba(42,42,42,1) 0%, rgba(0,0,0,1) 56%, rgba(89,90,98,1) 62%, rgba(34,34,34,1) 79%);
+	border-top: 1px solid #000;
+	border-right: 1px solid #555;
+	border-bottom: 1px solid #555;
+	border-left: 1px solid #000;
 }
 
 .carbonite-dash .carbonite-dash_title {
@@ -75,17 +49,6 @@
 	text-transform:uppercase;
 	top: 41px;
 	width: 44px;
-	color: #AAA;
-	text-align: center;
-	font-size: 9px;
-}
-
-.carbonite-tripdash .carbonite-dash_title {
-	display: block;
-	position: absolute;
-	text-transform: uppercase;
-	top: 41px;
-	width: 62px;
 	color: #AAA;
 	text-align: center;
 	font-size: 9px;

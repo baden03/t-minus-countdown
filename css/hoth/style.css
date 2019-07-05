@@ -15,29 +15,12 @@
 }
 
 .hoth-dash {
-	width: 21%;
-	min-width: 32px;
-	max-width: 80px;
-	height: 48px;
+	height: 42px;
 	display: inline-block;
 	vertical-align: top;
-	margin-left: 1%;
+	margin-left: 10px;
 	margin-right: auto;
-	position: relative;
-	color: #000;
-	background: #f1f1f1;
-	text-align: center;
-}
-
-.hoth-tripdash {
-	width: 21%;
-	min-width: 40px;
-	max-width: 80px;
-	height: 48px;
-	display: inline-block;
-	vertical-align: top;
-	margin-left: 1%;
-	margin-right: auto;
+	padding: 0 7px;
 	position: relative;
 	color: #000;
 	background: #f1f1f1;
@@ -46,26 +29,23 @@
 
 .hoth-digit {
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 1.9em;
-	font-weight: 600;
-	line-height: 1.2em;
+	font-size: 1.7em;
+	font-weight: 200;
 	display: inline-block;
 	vertical-align: top;
-	width: auto;
-	height: .8em;
+	height: .7em;
 	position: relative;
-	margin-top:4px;
+	margin-top: 3px;
 	}
 
 .hoth-dash_title {
 	display: block;
 	position: absolute;
-	width: 100%;
 	color: #000;
 	text-align: center;
 	font-size: 10px;
 	margin: 0px;
-	top: 23px;
+	top: 50px;
 	white-space: nowrap;
 	overflow: hidden;
 }

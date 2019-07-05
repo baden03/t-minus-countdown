@@ -13,33 +13,14 @@
     text-align: center;
 }
 .cloud-city-dash {
-    width: 17%;
-    min-width: 23px;
     display: inline-block;
     vertical-align: top;
-    margin-left: 1%;
+    margin-left: 10px;
     margin-right: auto;
     position: relative;
     color: #fff;
     text-align: center;
     white-space: nowrap;
-}
-.cloud-city-tripdash {
-    width: 25%%;
-    min-width: 40px;
-    display: inline-block;
-    vertical-align: top;
-    margin-left: 1%;
-    margin-right: auto;
-    position: relative;
-    color: #fff;
-    text-align: center;
-    white-space: nowrap;
-}
-.cloud-city-weeks_trip_dash{
-    clear: both;
-    margin-left: 13%;
-    display: block !important;
 }
 .cloud-city-digit {
     font-size: 2.5em;
@@ -59,11 +40,11 @@
     border-bottom: 1px solid #c6c6c6;
 }
 
-.cloud-city-dash, .cloud-city-tripdash  {
+.cloud-city-dash  {
     height: 5.5em;
 }
 
-.cloud-city-tripdash .cloud-city-digit {
+.cloud-city-digit {
     margin-right: 0 !important;
 }
 .cloud-city-dash_title {
@@ -83,7 +64,7 @@
     .cloud-city-digit {
         font-size: 2em;
     }
-    .cloud-city-dash, .cloud-city-tripdash  {
+    .cloud-city-dash  {
         height: 4.5em;
     }
 }
@@ -96,7 +77,7 @@
     .cloud-city-dash {
         margin-left: 6px;
     }
-    .cloud-city-dash, .cloud-city-tripdash  {
+    .cloud-city-dash {
         height: 4em;
     }
  }

@@ -15,57 +15,29 @@
 }
 
 .carbonlite-dash {
-    display: inline-block;
-	width: 42px;
+  display: inline-block;
 	height: 44px;
 	margin-left: 2px;
-	padding-left: 2px;
-	padding-top: 10px;
+	padding-left: 10px;
+	padding-top: 5px;
 	position: relative;
 	color: #FFF;
-}
-
-.carbonlite-tripdash {
-	display: inline-block;
-	width: 62px;
-	height: 44px;
-	margin-left: 2px;
-	padding-left: 2px;
-	padding-top: 10px;
-	position: relative;
-	color: #FFF;
-}
-
-.carbonlite-hours_dash, .carbonlite-minutes_dash, .carbonlite-seconds_dash  {
-	background: transparent url('images/bg_dash.png') 0 0 no-repeat;
-}
-
-.carbonlite-days_dash  {
-	margin-left: 2px;
-	background: transparent url('images/bg_dash.png') 0 0 no-repeat;
-
-}
-
-.carbonlite-days_trip_dash  {
-	background: transparent url('images/bg_trip_dash.png') 0 0 no-repeat;
-}
-
-.carbonlite-weeks_dash  {
-	margin-left: 2px;
-	background: transparent url('images/bg_dash.png') 0 0 no-repeat;
-}
-
-.carbonlite-weeks_trip_dash  {
-	margin-left: 2px;
-	background: transparent url('images/bg_trip_dash.png') 0 0 no-repeat;
 }
 
 .carbonlite-digit {
 	font: normal normal normal 12pt/normal arial;
+	height: 22px;
 	float: left;
 	width: 17px;
+	padding-top: 2px;
 	text-align: center;
 	position: relative;
+	background: rgb(42,42,42);
+	background: linear-gradient(0deg, rgba(42,42,42,1) 0%, rgba(0,0,0,1) 56%, rgba(89,90,98,1) 62%, rgba(34,34,34,1) 79%);
+	border-top: 1px solid #000;
+	border-right: 1px solid #555;
+	border-bottom: 1px solid #555;
+	border-left: 1px solid #000;
 }
 
 .carbonlite-dash .carbonlite-dash_title {
@@ -78,16 +50,6 @@
 	font-size: 9px;
 }
 
-.carbonlite-tripdash .carbonlite-dash_title {
-	display: block;
-	position: absolute;
-	text-transform: uppercase;
-	top: 33px;
-	left: 17px;
-	color: #AAA;
-	text-align: center;
-	font-size: 9px;
-}
 
 /*below the dashboard*/
 .carbonlite-bothtml {

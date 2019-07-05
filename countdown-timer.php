@@ -4,7 +4,7 @@ Plugin Name: T(-) Countdown
 Text Domain: jquery-t-countdown-widget
 Plugin URI: https://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.3.20
+Version: 2.4.0
 Author: twinpictures, baden03
 Author URI: https://www.twinpictures.de/
 License: GPL2
@@ -12,7 +12,7 @@ License: GPL2
 
 class WP_TMinusCD {
 	var $plugin_name = 'T(-) Countdown';
-	var $version = '2.3.20';
+	var $version = '2.4.0';
 	var $domain = 'tminus';
 	var $plguin_options_page_title = 'T(-) Countdown Options';
 	var $plugin_options_menue_title = 'T(-) Countdown';
@@ -182,8 +182,7 @@ class WP_TMinusCD {
 		$share_it_arr = array(
 						'https://www.facebook.com/twinpictures',
 						'https://twitter.com/twinpictures',
-						'https://plus.google.com/+TwinpicturesDe',
-						'https://wordpress.org/support/view/plugin-reviews/jquery-t-countdown-widget'
+						'https://wordpress.org/plugins/jquery-t-countdown-widget/#reviews'
 					);
 		$rand_key = array_rand($share_it_arr);
 		$share_it = $share_it_arr[$rand_key];
@@ -259,7 +258,7 @@ class WP_TMinusCD {
 						<p><?php _e( 'T(-) Countdown is a highly customizable, HTML5 countdown timer that can be displayed as a sidebar widget or in a post or page using a shortcode.', 'jquery-t-countdown-widget') ?></p>
 						<ul>
 							<li><?php printf( __( '%sDetailed documentation%s, complete with working demonstrations of all shortcode attributes, is available for your instructional enjoyment.', 'jquery-t-countdown-widget'), '<a href="https://plugins.twinpictures.de/plugins/t-minus-countdown/documentation/" target="_blank">', '</a>'); ?></li>
-							<li><?php printf( __( 'A %sCommunity translation%s tool has been set up that allows anyone to assist in translating T(-) Countdown. All are %swelcome to participate%s.', 'jquery-t-countdown-widget'), '<a href="https://translate.twinpictures.de/projects/t-countdown" target="_blank">', '</a>', '<a href="https://translate.twinpictures.de/wordpress/wp-login.php?action=register" target="_blank">', '</a>' ); ?></li>
+							<li><?php printf( __( 'A %sCommunity translation%s tool has been set up that allows anyone to assist in translating T(-) Countdown.', 'jquery-t-countdown-widget'), '<a href="https://translate.wordpress.org/projects/wp-plugins/jquery-t-countdown-widget/" target="_blank">', '</a>' ); ?></li>
 							<li><?php printf( __( 'If this plugin %s, please consider %ssharing your story%s with others.', 'jquery-t-countdown-widget'), $like_it, '<a href="'.$share_it.'" target="_blank">', '</a>' ) ?></li>
 							<li><a href="https://wordpress.org/plugins/jquery-t-countdown-widget/" target="_blank">WordPress.org</a> | <a href="https://plugins.twinpictures.de/plugins/t-minus-countdown/" target="_blank">Twinpictues Plugin Oven</a></li>
 						</ul>
@@ -276,13 +275,11 @@ class WP_TMinusCD {
 					<h3 class="handle"><?php _e( 'T(-) Countdown Control' ) ?></h3>
 					<div class="inside">
 						<p><?php printf(__( '%sT(-) Countdown Control%s is our premium plugin that manages and schedules multiple recurring countdown timers for repeating events.', 'jquery-t-countdown-widget' ), '<a href="https://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/?utm_source=t-countdown&utm_medium=plugin-settings-page&utm_content=t-countdown&utm_campaign=t-control-sidebar">', '</a>'); ?></p>
-						<?php /*<p style="padding: 5px; border: 1px dashed #cccc66; background: #EEE;"><strong>Last Chance for 2015 Prices:</strong> <a href="https://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/?utm_source=t-countdown-widget&utm_medium=plugin-settings-page&utm_content=t-countdown-control&utm_campaign=t-control-year-end">Update to T(-) Countdown Control</a> before January 2016 to take advantage of 2015 pricing.</p>*/ ?>
 						<h4><?php _e('Reasons To Go Pro', 'jquery-t-countdown-widget'); ?></h4>
 						<ol>
 							<li><?php _e('Schedule and manage multiple recurring countdowns', 'jquery-t-countdown-widget'); ?></li>
 							<li><?php _e('Highly responsive professional support', 'jquery-t-countdown-widget'); ?></li>
 							<li><?php printf(__('%sT(-) Countdown Control Testimonials%s', 'jquery-t-countdown-widget'), '<a href="https://plugins.twinpictures.de/testimonial/t-countdown-control-testimonias/" target="_blank">', '</a>'); ?></li>
-							<?php /*<li><?php _e("You'd like to take advantage of 2015 pricing while it's still 2015", "jquery-t-countdown-widget"); ?></li>*/ ?>
 						</ol>
 					</div>
 				</div>
@@ -336,7 +333,7 @@ class WP_TMinusCD {
 										</tbody>
 									</table>
 								</fieldset>
-	                        	<?php submit_button( __( 'Register', 'jquery-t-countdown-widget') ); ?>
+	              <?php submit_button( __( 'Register', 'jquery-t-countdown-widget') ); ?>
 							</form>
 						</div>
 					</div>
@@ -437,7 +434,7 @@ class CountDownTimer extends WP_Widget {
 				}
 				//empty
 				else{
-					$instance['t'] = '2015-05-04 12:00:00';
+					$instance['t'] = '2020-05-04 12:00:00';
 				}
 			}
 
@@ -757,11 +754,15 @@ function tminuscountdown($atts, $content=null) {
 		'id' => $ran,
 		't' => '',
 		'timezone' => get_option('timezone_string'),
+		'years' => __('years', 'jquery-t-countdown-widget'),
+		'months' => __('months', 'jquery-t-countdown-widget'),
 		'weeks' => __('weeks', 'jquery-t-countdown-widget'),
 		'days' => __('days', 'jquery-t-countdown-widget'),
 		'hours' => __('hours', 'jquery-t-countdown-widget'),
 		'minutes' => __('minutes', 'jquery-t-countdown-widget'),
 		'seconds' => __('seconds', 'jquery-t-countdown-widget'),
+		'omityears' => 'false',
+		'omitmonths' => 'false',
 		'omitweeks' => 'false',
 		'style' => 'jedi',
 		'before' => '',
@@ -789,20 +790,11 @@ function tminuscountdown($atts, $content=null) {
 		wp_enqueue_style( 'countdown-'.$style.'-css' );
 	}
 
-  // TODO: add in option to display years and months
-	// TODO: remove 3 digit limit on weeks and days... years and months as well.
-
-	//$now = strtotime(current_time('mysql'));
-	//$now = new DateTime(current_time('mysql'), new DateTimeZone( get_option('timezone_string') ) );
-
 	$now = new DateTime( );
 	$now->setTimezone( new DateTimeZone( get_option('timezone_string') ) );
 
-	//$target = strtotime($t, $now);
 	$target = new DateTime($t, new DateTimeZone( $timezone ) );
 
-	//difference in seconds
-	//$diffSecs = $target - $now;
 	$diffSecs = $target->getTimestamp() - $now->getTimestamp();
 
 	$day = $target->format('d');
@@ -812,64 +804,114 @@ function tminuscountdown($atts, $content=null) {
 	$min = $target->format('i');
 	$sec = $target->format('s');
 
-	/*
-	echo 'The difference is ';
-	echo  $diff->y . ' years, ';
-	echo  $diff->m . ' months, ';
-	echo  $diff->d . ' days, ';
-	echo  $diff->h . ' hours, ';
-	echo  $diff->i . ' minutes, ';
-	echo  $diff->s . ' seconds';
-	// Output: The difference is 28 years, 5 months, 19 days, 20 hours, 34 minutes, 36 seconds
 
-	echo 'The difference in days : ' . $diff->days;
-	// Output: The difference in days : 10398
-	*/
-
-	//countdown digits
-	//interval
+	// interval
 	$interval = $now->diff($target);
 
-	// TODO: use the interval to calculate these values
-	// TODO: add months and years
+	// next digits
+	$pop_day = new DateInterval('P1D');
+	$tomorrow_target = $target->sub($pop_day);
+	$tomorrow_interval = $now->diff($tomorrow_target);
+
+	// countdown digits
 	$date_arr = array(
 		'secs' => $interval->s,
 		'mins' => $interval->i,
 		'hours' => $interval->h,
-		/*
 		'days' => $interval->d,
 		'months' => $interval->m,
-		'years' => $interval->y
-		*/
+		'years' => $interval->y,
  	);
 
-	if($omitweeks == 'false'){
-		$dash_omitweeks_class = '';
-		$date_arr['days'] = floor($interval->days)%7;
-	}
-	else{
-		$dash_omitweeks_class = 'omitweeks';
-		$date_arr['days'] = $interval->days;
-	}
-	$date_arr['weeks']	= floor($interval->days / 7);
+	$next_arr = array(
+		'next_day' => $tomorrow_interval->d
+	);
 
-	// break numbers into single digits (bet there is a smarter way)
+	if($interval->m != $tomorrow_interval->m){
+		$next_arr['next_month'] = $tomorrow_interval->m;
+	}
+
+	if($interval->y != $tomorrow_interval->y){
+		$next_arr['next_year'] = $tomorrow_interval->y;
+	}
+
+  // deal with omit years
+	if(!empty($interval->y) && $omityears != 'false'){
+		// if no months, calculate everyting with total days
+		if($omitmonths != 'false'){
+			$date_arr['days'] = $interval->days;
+			$next_arr['next_day'] = $tomorrow_interval->days;
+		}
+		// add years to months.
+		else{
+			$date_arr['months'] = $date_arr['months'] + ($interval->y * 12);
+			if(isset($next_arr['next_month'])){
+				$next_arr['next_month'] = $next_arr['next_month'] + ($tomorrow_interval->y * 12);
+			}
+			else{
+				$next_arr['next_month'] = ($tomorrow_interval->y * 12);
+			}
+
+		}
+	}
+
+	// deal with omit months
+	if(!empty($date_arr['months']) && $omitmonths != 'false'){
+		if(!empty($interval->y) && $omityears == 'false'){
+			$pop_years = new DateInterval('P'.$interval->y.'Y');
+			$adjusted_target = $target->sub($pop_years);
+			$interval = $now->diff($adjusted_target);
+
+			if(!empty($next_arr['next_year'])){
+				$pop_tomorrow_time = new DateInterval('P'.$interval->y.'Y1D');
+				$adjusted_tomorrow = $target->sub($pop_tomorrow_time);
+				$tomorrow_interval = $now->diff($adjusted_tomorrow);
+			}
+
+			$date_arr['days'] = $interval->days;
+			$next_arr['next_day'] = $tomorrow_interval->days;
+		}
+	}
+
+	//but what if months where empty, but next day we have months...
+	else if(!empty($next_arr['next_month']) && $omitmonths != 'false'){
+		$next_arr['next_day'] = $tomorrow_interval->days;
+	}
+
+	// just days
+	if($omitweeks != 'false'){
+		$dash_omitweeks_class = 'omitweeks';
+	}
+	//weeks and days
+	else{
+		$dash_omitweeks_class = '';
+
+		$date_arr['weeks'] = (int) floor( $date_arr['days'] / 7 );
+		$date_arr['days'] = (int) floor($date_arr['days'] %7);
+
+		$next_week = (int) floor( $next_arr['next_day'] / 7 );
+		if($date_arr['weeks'] != $next_week ){
+			$next_arr['next_week'] = $next_week;
+		}
+		$next_arr['next_day'] = (int) floor($next_arr['next_day'] %7);
+	}
+
+	// break numbers into digit elements
 	foreach ($date_arr as $i => $d) {
-		//now assign all the digits to the array
-		if($d < 10){
+		if($i == 'days' && $next_arr['next_day'] > 99){
+			if($d > 9){
+				$d = sprintf("%02d", $d);
+			}
+			if($d < 10){
+				$d = sprintf("%03d", $d);
+			}
+		}
+		//single digits get a padding zero
+		else if($d < 10){
 			$d = sprintf("%02d", $d);
 		}
 		$date_arr[$i] = array_map('intval', str_split($d));
 	}
-	//var_dump($date_arr);
-	//die();
-	/*
-	array(5) { ["secs"]=> array(4) { [0]=> int(0) [1]=> int(0) [2]=> int(0) [3]=> int(0) } ["mins"]=> array(4) { [0]=> int(0) [1]=> int(0) [2]=> int(0) [3]=> int(0) } ["hours"]=> array(4) { [0]=> int(0) [1]=> int(0) [2]=> int(0) [3]=> int(0) } ["days"]=> array(4) { [0]=> int(0) [1]=> int(5) [2]=> int(0) [3]=> int(50) } ["weeks"]=> array(4) { [0]=> int(0) [1]=> int(0) [2]=> int(7) [3]=> int(7) } }
-  array(5) { ["secs"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["mins"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["hours"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["days"]=> array(2) { [0]=> int(5) [1]=> int(0) } ["weeks"]=> array(2) { [0]=> int(0) [1]=> int(7) } }
-  array(5) { ["secs"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["mins"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["hours"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["days"]=> array(2) { [0]=> int(5) [1]=> int(0) } ["weeks"]=> array(2) { [0]=> int(0) [1]=> int(7) } }
-  array(5) { ["secs"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["mins"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["hours"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["days"]=> array(2) { [0]=> int(5) [1]=> int(0) } ["weeks"]=> array(2) { [0]=> int(0) [1]=> int(7) } }
-	array(6) { ["secs"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["mins"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["hours"]=> array(2) { [0]=> int(0) [1]=> int(0) } ["days"]=> array(2) { [0]=> int(2) [1]=> int(0) } ["months"]=> array(2) { [0]=> int(0) [1]=> int(1) } ["years"]=> array(2) { [0]=> int(0) [1]=> int(0) } }
-	*/
 
 
 	if(is_numeric($width)){
@@ -888,67 +930,69 @@ function tminuscountdown($atts, $content=null) {
 
 	//drop in the dashboard
 	$tminus .=  '<div id="'.$id.'-dashboard" class="'.$style.'-dashboard">';
-	if($omitweeks == 'false'){
-		//set up correct style class for double or triple digits
-		// TODO: this should not be limited to 3 digits
-		$wclass = $style.'-dash '.$style.'-weeks_dash';
-		if(count($date_arr['weeks']) > 2){
-			$wclass = $style.'-tripdash '.$style.'-weeks_trip_dash';
-		}
 
-		$tminus .=  '<div class="'.$wclass.'"><div class="'.$style.'-dash_title">'.$weeks.'</div>';
-		/*
-		if($date_arr['weeks'][0] > 0){
-			$tminus .=  '<div class="'.$style.'-digit">'.$date_arr['weeks'][0].'</div>';
+	if(!empty($date_arr['years']) && $omityears == 'false'){
+		$class = $style.'-dash '.$style.'-years_dash';
+		$next_year = '';
+		if(isset($next_arr['next_year'])){
+			$next_year = 'data-next="'.$next_arr['next_year'].'"';
 		}
-		$tminus .=  '<div class="'.$style.'-digit">'.$date_arr['weeks'][1].'</div>';
-		$tminus .= '<div class="'.$style.'-digit">'.$date_arr['weeks'][2].'</div>';
-		*/
-
-		foreach( $date_arr['weeks'] AS $digit ){
-			$tminus .=  '<div class="'.$style.'-digit">'.$digit.'</div>';
+		$tminus .=  '<div class="'.$class.'" '.$next_year.'"><div class="'.$style.'-dash_title">'.$years.'</div>';
+		foreach( $date_arr['years'] AS $digit ){
+			$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
 		}
-
 		$tminus .= '</div>';
 	}
 
-	//set up correct style class for double or triple digit love
+	if(!empty($date_arr['months']) && $omitmonths == 'false'){
+		$class = $style.'-dash '.$style.'-months_dash';
+		$next_month = '';
+		if(isset($next_arr['next_month'])){
+			$next_month = 'data-next="'.$next_arr['next_month'].'"';
+		}
+		$tminus .=  '<div class="'.$class.'" '.$next_month.'><div class="'.$style.'-dash_title">'.$months.'</div>';
+		foreach( $date_arr['months'] AS $digit ){
+			$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
+		}
+		$tminus .= '</div>';
+	}
+
+	if($omitweeks == 'false'){
+		$wclass = $style.'-dash '.$style.'-weeks_dash';
+		$next_week = '';
+		if(isset($next_arr['next_week'])){
+			$next_week = 'data-next="'.$next_arr['next_week'].'"';
+		}
+		$tminus .=  '<div class="'.$wclass.'" '.$next_week.'><div class="'.$style.'-dash_title">'.$weeks.'</div>';
+		foreach( $date_arr['weeks'] AS $digit ){
+			$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
+		}
+		$tminus .= '</div>';
+	}
+
 	$dclass = $style.'-dash '.$style.'-days_dash';
 
-	//if($omitweeks == 'true' && abs($date_arr['days'][3]) > 99){
-	// TODO: this should not be limited to 3 digits
-	if($omitweeks == 'true' && count($date_arr['days']) > 2){
-		$dclass = $style.'-tripdash '.$style.'-days_trip_dash';
-	}
-
-	$tminus .= '<div class="'.$dclass.'"><div class="'.$style.'-dash_title">'.$days.'</div>';
-
-	/*
-	if($omitweeks == 'true' && abs($date_arr['days'][3]) > 99){
-		$tminus .= '<div class="'.$style.'-digit">'.$date_arr['days'][0].'</div>';
-	}
-	*/
-
+	$tminus .= '<div class="'.$dclass.'" data-next="'.$next_arr['next_day'].'"><div class="'.$style.'-dash_title">'.$days.'</div>';
 	foreach( $date_arr['days'] AS $digit ){
-		$tminus .=  '<div class="'.$style.'-digit">'.$digit.'</div>';
+		$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
 	}
 	$tminus .= '</div>';
 	$tminus .= '<div class="'.$style.'-dash '.$style.'-hours_dash">';
 		$tminus .= '<div class="'.$style.'-dash_title">'.$hours.'</div>';
 		foreach( $date_arr['hours'] AS $digit ){
-			$tminus .=  '<div class="'.$style.'-digit">'.$digit.'</div>';
+			$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
 		}
 	$tminus .= '</div>';
 		$tminus .= '<div class="'.$style.'-dash '.$style.'-minutes_dash">';
 		$tminus .= '<div class="'.$style.'-dash_title">'.$minutes.'</div>';
 		foreach( $date_arr['mins'] AS $digit ){
-			$tminus .=  '<div class="'.$style.'-digit">'.$digit.'</div>';
+			$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
 		}
 	$tminus .= '</div>';
 		$tminus .= '<div class="'.$style.'-dash '.$style.'-seconds_dash">';
 		$tminus .= '<div class="'.$style.'-dash_title">'.$seconds.'</div>';
 		foreach( $date_arr['secs'] AS $digit ){
-			$tminus .=  '<div class="'.$style.'-digit">'.$digit.'</div>';
+			$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
 		}
 	$tminus .= '</div>';
 	$tminus .= '</div>'; //close the dashboard
@@ -959,7 +1003,7 @@ function tminuscountdown($atts, $content=null) {
 	}
 	$tminus .= '</div></div></div>';
 
-	$t = date( 'n/j/Y H:i:s', strtotime(current_time('mysql')) );
+	$lt = date( 'n/j/Y H:i:s', strtotime(current_time('mysql')) );
 
 	if(is_numeric($launchwidth)){
 		$launchwidth .= 'px';
@@ -980,9 +1024,11 @@ function tminuscountdown($atts, $content=null) {
 			'hour' => $hour,
 			'min' => $min,
 			'sec' => $sec,
-			'localtime' => $t,
+			'localtime' => $lt,
 			'style' => $style,
 			'omitweeks' => $omitweeks,
+			'omitmonths' => $omitmonths,
+			'omityears' => $omityears,
 			'content' => $content,
 			'launchtarget' => $launchtarget,
 			'launchwidth' => $launchwidth,
@@ -1001,13 +1047,15 @@ function tminuscountdown($atts, $content=null) {
 						'hour': ".$hour.",
 						'min': 	".$min.",
 						'sec': 	".$sec.",
-						'localtime': '".$t."'
+						'localtime': '".$lt."'
 					},
 					style: '".$style."',
 					id: '".$id."',
 					event_id: '".$event_id."',
 					launchtarget: '".$launchtarget."',
-					omitWeeks: '".$omitweeks."'";
+					omitWeeks: '".$omitweeks."',
+					omitmonths: '".$omitmonths."',
+					omityears: '".$omityears."'";
 
 		if(!empty($content)){
 			$tminus .= ", onComplete: function() {
