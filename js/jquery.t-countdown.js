@@ -2,7 +2,7 @@
  * T- Countdown v2.4.0
  * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
- * Copyright 2018, Twinpictures
+ * Copyright 2019, Twinpictures
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -77,7 +77,11 @@
 		if (config.omitWeeks){
 			$.data($(this)[0], 'omitWeeks', config.omitWeeks);
 		}
-		$('#' + $(this).attr('id') + ' .' + style + '-digit').html('<div class="tc_top"></div><div class="tc_bottom"></div>');
+
+		$('#' + $(this).attr('id') + ' .' + style + '-digit').each(function(index) {
+			digit = $(this).data('digit');
+			$(this).html('<div class="tc_top"></div><div class="tc_bottom">'+digit+'</div>');
+		});
 
 		//caculate the initial difference in seconds between now and launch
 		diffSecs = Math.floor((tminusTargetTime.valueOf()-nowTime.valueOf())/1000);
@@ -123,28 +127,38 @@
 			}
 		}
 		secs = Math.abs(diffSecs % 60);
-		mins = Math.floor(Math.abs(diffSecs/60)%60);
-		hours = Math.floor(Math.abs(diffSecs/60/60)%24);
-		if ($.data($this[0], 'omitWeeks') == 'true'){
-			days = Math.floor(Math.abs(diffSecs/60/60/24));
-			weeks = 0;
-		}
-		else{
-			days = Math.floor(Math.abs(diffSecs/60/60/24)%7);
-			weeks = Math.floor(Math.abs(diffSecs/60/60/24/7));
-		}
-    	style = $.data($this[0], 'style');
+		style = $.data($this[0], 'style');
 
 		$this.dashTminusChangeTo(id, style + '-seconds_dash', secs, duration ? duration : 500);
-		$this.dashTminusChangeTo(id, style + '-minutes_dash', mins, duration ? duration : 1000);
-		$this.dashTminusChangeTo(id, style + '-hours_dash', hours, duration ? duration : 1000);
-		$this.dashTminusChangeTo(id, style + '-days_dash', days, duration ? duration : 1000);
-		$this.dashTminusChangeTo(id, style + '-days_trip_dash', days, duration ? duration : 1000);
-		$this.dashTminusChangeTo(id, style + '-weeks_dash', weeks, duration ? duration : 1000);
-		$this.dashTminusChangeTo(id, style + '-weeks_trip_dash', weeks, duration ? duration : 1000);
+		if(secs == 59){
+			mins = Math.floor(Math.abs(diffSecs/60)%60);
+			$this.dashTminusChangeTo(id, style + '-minutes_dash', mins, duration ? duration : 1000);
+			if(mins == 59){
+				hours = Math.floor(Math.abs(diffSecs/60/60)%24);
+				$this.dashTminusChangeTo(id, style + '-hours_dash', hours, duration ? duration : 1000);
+				if(hours == 23){
+					$this.dashTminusChangeTo(id, style + '-days_dash', $('#' + id + ' .' + style + '-days_dash').data('next'), duration ? duration : 1000);
+					weeks_elm = $('#' + id + ' .' + style + '-weeks_dash');
+					if( weeks_elm.length && weeks_elm.data('next') !== undefined){
+						//console.log('weeks:',weeks_elm.data('next'));
+						$this.dashTminusChangeTo(id, style + '-weeks_dash', weeks_elm.data('next'), duration ? duration : 1000);
+					}
+					months_elm = $('#' + id + ' .' + style + '-months_dash');
+					if( months_elm.length && months_elm.data('next') !== undefined){
+						//console.log('months:',months_elm.data('next'));
+						$this.dashTminusChangeTo(id, style + '-months_dash', months_elm.data('next'), duration ? duration : 1000);
+					}
+					years_elm = $('#' + id + ' .' + style + '-years_dash');
+					if( years_elm.length && years_elm.data('next') !== undefined){
+						//console.log('years:',years_elm.data('next'));
+						$this.dashTminusChangeTo(id, style + '-years_dash', years_elm.data('next'), duration ? duration : 1000);
+					}
+				}
+			}
+		}
 
 		//why exactly are we doing this?
-		$.data($this[0], 'diffSecs', diffSecs);
+		//$.data($this[0], 'diffSecs', diffSecs);
 
 		//console.log('update diffSecs to: ', diffSecs);
 		//events
@@ -194,7 +208,6 @@
 	};
 
 	$.fn.digitTminusChangeTo = function (digit, n, duration) {
-
 		if (!duration){
 			duration = 500;
 		}
@@ -221,7 +234,6 @@
 		if ($(digit + ' div.tc_top').html() != n + ''){
 			$(digit + ' div.tc_top').css({'display': 'none'});
 			$(digit + ' div.tc_top').html((n ? n : '0')).stop(true, true, true).slideDown(duration);
-
 			$(digit + ' div.tc_bottom').stop(true, true, true).animate({'height': ''}, duration, function() {
 				$(digit + ' div.tc_bottom').html($(digit + ' div.tc_top').html());
 				$(digit + ' div.tc_bottom').css({'display': 'block', 'height': ''});
