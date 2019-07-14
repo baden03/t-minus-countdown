@@ -4,7 +4,7 @@ Plugin Name: T(-) Countdown
 Text Domain: t-countdown
 Plugin URI: https://plugins.twinpictures.de/plugins/t-countdown/
 Description: Display and configure multiple countdown timers in years, months, weeks, days, hours and seconds in a number of different styles.
-Version: 2.4.1
+Version: 2.4.2
 Author: twinpictures
 Author URI: https://plugins.twinpictures.de/
 License: GPL2
@@ -12,7 +12,7 @@ License: GPL2
 
 class WP_TMinus {
 	var $plugin_name = 'T(-) Countdown';
-	var $version = '2.4.1';
+	var $version = '2.4.2';
 	var $domain = 'tminus';
 	var $plguin_options_page_title = 'T(-) Countdown Options';
 	var $plugin_options_menue_title = 'T(-) Countdown';
@@ -24,7 +24,6 @@ class WP_TMinus {
 	 */
 	var $options = array(
 		'custom_css' => '',
-		'force_css' => '',
 	);
 
 	var $license_group = 'tminus_countdown_licenseing';
@@ -111,14 +110,6 @@ class WP_TMinus {
 			'tminusnow' => json_encode($response)
 		));
 		wp_enqueue_script('countdown-script');
-
-		//force load styles
-		if( !empty( $this->options['force_css'] ) ){
-			$style = $this->options['force_css'];
-			$style_file_url = plugins_url('/css/'.$style.'/style.css', __FILE__);
-			wp_register_style( 'countdown-'.$style.'-css', $style_file_url, array(), '2.0');
-			wp_enqueue_style( 'countdown-'.$style.'-css' );
-		}
 	}
 
 
@@ -173,26 +164,6 @@ class WP_TMinus {
 							?>
 
 							<table class="form-table">
-								<tr>
-									<th><?php _e( 'Force Load CSS', 't-countdown' ) ?>:</th>
-									<td><label>
-										<select name="<?php echo $this->options_name ?>[force_css]" id="<?php echo $this->options_name ?>[force_css]">
-											<option value=''> </option>
-											<?php
-												$styles_arr = CountDownTimer::get_styles();
-												foreach($styles_arr as $style_name){
-													$selected = "";
-													if($options['force_css'] == $style_name){
-														$selected = 'SELECTED';
-													}
-													echo '<option value="'.$style_name.'" '.$selected.'>'.$style_name.'</option>';
-												}
-											?>
-										</select>
-										<br /><span class="description"><?php _e('Force a css style to load in the header', 't-countdown'); ?></span></label>
-									</td>
-								</tr>
-
 								<tr>
 									<th><?php _e( 'Custom CSS', 't-countdown' ) ?>:</th>
 									<td><label><textarea id="<?php echo $this->options_name ?>[custom_css]" name="<?php echo $this->options_name ?>[custom_css]" style="width: 100%; height: 537px;"><?php echo $options['custom_css']; ?></textarea>
