@@ -5,7 +5,7 @@ T(-) Countdown
 * Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, plugin-oven, pluginoven
 * Requires at least: 4.7
 * Tested up to: 5.2.2
-* Stable tag: 2.4.1
+* Stable tag: 2.4.2
 * Requires PHP: 7.0
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -35,7 +35,7 @@ Frequently Asked Questions
 * <a href='http://github.com/baden03/t-minus-countdown'>github</a>
 
 <b>Where can I translate this plugin into my favorite langauge?</b>
-* <a href='http://translate.twinpictures.de/projects/t-countdown'>Community translation for T(-) Countdown</a> has been set up. You are <a href='http://translate.twinpictures.de/wordpress/wp-login.php?action=register'>welcome to join</a>.
+* <a href='https://translate.wordpress.org/projects/wp-plugins/t-countdown/'>Community translation for T(-) Countdown</a> is available.
 
 <b>How does one pronounce T Minus?</b>
 * Tee&mdash;As in Tea for Two, or Tee off time

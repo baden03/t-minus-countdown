@@ -5,7 +5,7 @@ Donate link: https://plugins.twinpictures.de/plugins/t-minus-countdown/
 Tags: countdown, timer, clock, ticker, event, counter, count down, twinpictures, t minus, t-minus, t(-), t(-) countdown, t-countdown, t (-) countdown, plugin-oven, pluginoven
 Requires at least: 4.7
 Tested up to: 5.2.2
-Stable tag: 2.4.1
+Stable tag: 2.4.2
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -61,7 +61,8 @@ Ah yes! <a href='https://twitter.com/#!/twinpictures'>@Twinpictures</a> is on th
 1. Style: cloud-city
 1. Style: hoth
 1. Style: naboo
-1. Style: Sith
+1. Style: sith
+1. Style: circle
 
 == Changelog ==
 
