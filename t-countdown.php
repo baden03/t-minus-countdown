@@ -332,9 +332,9 @@ class WP_TMinus {
 $WP_TMinus = new WP_TMinus;
 
 //code for the footer
-add_action('wp_footer', 'print_my_script', 99);
+add_action('wp_footer', 'print_tminus_script', 99);
 
-function print_my_script() {
+function print_tminus_script() {
 	global $add_my_script;
 	if ( ! $add_my_script ){
 		return;
