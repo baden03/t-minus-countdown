@@ -1,8 +1,8 @@
 T(-) Countdown
 ==============
-* Contributors: twinpictures, baden03
+* Contributors: twinpictures
 * Donate link: http://plugins.twinpictures.de/plugins/t-minus-countdown/
-* Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, plugin-oven, pluginoven, G2, spaceBros, jQuery, javascript
+* Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, plugin-oven, pluginoven
 * Requires at least: 4.7
 * Tested up to: 5.2.2
 * Stable tag: 2.4.0
@@ -10,22 +10,21 @@ T(-) Countdown
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
+Display and configure multiple countdown timers in years, months, weeks, days, hours and seconds in a number of different styles.
+
 Description
 -----------
-T(-) Countdown will display a highly customizable jQuery countdown timer as a sidebar widget or in a post or page using a shortcode. Perfect for informing one's website visitors of an upcoming event, such as a pending space voyage. Using Jedi Mind-tricks and CSS... but mostly CSS, the countdown timer is highly customizable for your viewing pleasure. A <a href='http://plugins.twinpictures.de/plugins/t-minus-countdown/documentation/'>complete listing of shortcode options</a> are available, as well as <a href='http://wordpress.org/support/plugin/jquery-t-countdown-widget'>free community</a> support. This plug-in was inspired by littlewebthings' CountDown jQuery plugin. Intergalactic planetary thanks to g2.de, siliconstudio.com and be.net/arturex for the included css styles.
+T(-) Countdown is a customisable countdown timer that can display years (optional), months (optional), weeks (optional), days, hours and seconds. This plugin is the next generation of T(-) Countdown Widget. Note: a dedicated sidebar widget is not included as shortcodes can now be used in most sidebars.
 
 Installation
 ------------
-1. Old-school: upload the `countdown-timer` folder to the `/wp-content/plugins/` directory via FTP.
+1. Old-school: upload the `t-minus-countdown` folder to the `/wp-content/plugins/` directory via FTP.
 1. Hipster: Ironically add T(minus) Countdown via the WordPress Plugins menu.
 1. Activate the Plugin
-1. Add the Widget to the desired sidebar in the WordPress Widgets menu.
-1. Configure the `T(-) Countdown` widget options.
 1. Add the shortcode to a post or page.
 1. Test that the this plugin meets your demanding needs.
 1. Tweak the css files for premium enjoyment.
 1. Rate the plugin and verify that it works at wordpress.org.
-1. Leave a comment regarding bugs, feature request or cocktail recipes at http://wordpress.org/tags/jquery-t-countdown-widget
 
 Frequently Asked Questions
 --------------------------
@@ -48,7 +47,3 @@ Frequently Asked Questions
 
 <b>Does Twinpictures do the Twitter?</b>
 * Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the Twitter.
-
-<b>Where may one enjoy U.S. news that gives giggle?</b>
-* The Daily Show with John Stewart
-* Last Week Tonight with John Oliver

@@ -34,7 +34,7 @@
 		tminusTargetTime = this.setTminustminusTargetTime(config);
 		$.data($(this)[0], 'tminusTargetTime', tminusTargetTime);
 
-		var nowobj = $.parseJSON( tminusnow );
+		var nowobj = $.parseJSON( tCountAjax['tminusnow'] );
 		nowTime = new Date(nowobj.now);
 
 		//ofset from browser time
