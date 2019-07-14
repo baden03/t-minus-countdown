@@ -2,7 +2,7 @@
 
 Contributors: twinpictures
 Donate link: https://plugins.twinpictures.de/plugins/t-minus-countdown/
-Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, t(-), t(-) countdown, t-countdown, t (-) countdown, plugin-oven, pluginoven
+Tags: countdown, timer, clock, ticker, event, counter, count down, twinpictures, t minus, t-minus, t(-), t(-) countdown, t-countdown, t (-) countdown, plugin-oven, pluginoven
 Requires at least: 4.7
 Tested up to: 5.2.2
 Stable tag: 2.4.1
@@ -35,7 +35,7 @@ A <a href='https://plugins.twinpictures.de/plugins/t-minus-countdown/documentati
 <a href='https://github.com/baden03/t-minus-countdown'>github</a>
 
 = Where can I translate this plugin into my favorite langauge? =
-<a href='https://translate.wordpress.org/projects/wp-plugins/jquery-t-countdown-widget'>Community translation for T(-) Countdown</a> has been set up.
+<a href='https://translate.wordpress.org/projects/wp-plugins/t-countdown/'>Community translation for T(-) Countdown</a> has been set up.
 
 = How does one pronounce T Minus? =
 * Tee&mdash;As in Tea for Two, or Tee off time
@@ -51,12 +51,17 @@ Ah yes! <a href='https://twitter.com/#!/twinpictures'>@Twinpictures</a> is on th
 
 == Screenshots ==
 
-1. T(-) Countdown in action with styles: Darth, Jedi and Carbonite.
-1. Styles: C-3PO, TIE-Fighter and Carbonlite.
-1. The basic T(-) Countdown widget options.
-1. An expansive view of the available Countdown widget options, provided for your viewing pleasure.
-1. The magical jQuery Datepicker.
-1. Plugin options page with Custom CSS section
+1. Style: jedi
+1. Style: TIE-fighter
+1. Style: darth
+1. Style: carbonate
+1. Style: carbonate-responsive
+1. Style: carbonlite
+1. Style: c-3po and c-3po-mini
+1. Style: cloud-city
+1. Style: hoth
+1. Style: naboo
+1. Style: Sith
 
 == Changelog ==
 
