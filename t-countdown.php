@@ -4,15 +4,15 @@ Plugin Name: T(-) Countdown
 Text Domain: t-countdown
 Plugin URI: https://plugins.twinpictures.de/plugins/t-countdown/
 Description: Display and configure multiple countdown timers in years, months, weeks, days, hours and seconds in a number of different styles.
-Version: 2.4.0
-Author: twinpictures, baden03
-Author URI: https://www.twinpictures.de/
+Version: 2.4.1
+Author: twinpictures
+Author URI: https://plugins.twinpictures.de/
 License: GPL2
 */
 
-class WP_TMinusCD {
+class WP_TMinus {
 	var $plugin_name = 'T(-) Countdown';
-	var $version = '2.4.0';
+	var $version = '2.4.1';
 	var $domain = 'tminus';
 	var $plguin_options_page_title = 'T(-) Countdown Options';
 	var $plugin_options_menue_title = 'T(-) Countdown';
@@ -62,6 +62,10 @@ class WP_TMinusCD {
 	 */
 	function admin_init() {
 		register_setting( $this->domain, $this->options_name );
+		//deactivate legacy version if installed
+		if( is_plugin_active( 'jquery-t-countdown-widget/countdown-timer.php' ) ){
+			deactivate_plugins( 'jquery-t-countdown-widget/countdown-timer.php' );
+		}
 		if( is_plugin_active( 't-countdown-events/t-countdown-events.php' ) ){
 			register_setting( $this->license_group, $this->license_name, array('WP_TminusEvents', 'edd_sanitize_license') );
 		}
@@ -325,23 +329,7 @@ class WP_TMinusCD {
 	}
 
 }
-$WP_TMinusCD = new WP_TMinusCD;
-
-//style folders array
-function folder_array($path, $exclude = ".|..") {
-	if(is_dir($path)){
-		$dh = opendir($path);
-		$exclude_array = explode("|", $exclude);
-		$result = array();
-		while(false !==($file = readdir($dh))) {
-			if( !in_array(strtolower($file), $exclude_array) && substr($file, 0, 1) != '.' ){
-				$result[] = $file;
-			}
-		}
-		closedir($dh);
-		return $result;
-	}
-}
+$WP_TMinus = new WP_TMinus;
 
 //code for the footer
 add_action('wp_footer', 'print_my_script', 99);

@@ -5,7 +5,7 @@ T(-) Countdown
 * Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, plugin-oven, pluginoven
 * Requires at least: 4.7
 * Tested up to: 5.2.2
-* Stable tag: 2.4.0
+* Stable tag: 2.4.1
 * Requires PHP: 7.0
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html

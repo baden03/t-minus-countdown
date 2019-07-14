@@ -5,7 +5,7 @@ Donate link: https://plugins.twinpictures.de/plugins/t-minus-countdown/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, t(-), t(-) countdown, t-countdown, t (-) countdown, plugin-oven, pluginoven
 Requires at least: 4.7
 Tested up to: 5.2.2
-Stable tag: 2.4.0
+Stable tag: 2.4.1
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -60,6 +60,10 @@ Ah yes! <a href='https://twitter.com/#!/twinpictures'>@Twinpictures</a> is on th
 
 == Changelog ==
 
+= 2.4.1 =
+* deactivate legacy plugin if activated
+* removed unused functions
+
 = 2.4.0 =
 * plugin relaunched as the next generation of T(-) Countdown Widget
 * get_styles() is now a static function
@@ -72,3 +76,5 @@ Ah yes! <a href='https://twitter.com/#!/twinpictures'>@Twinpictures</a> is on th
 
 == Upgrade Notice ==
 * Plugin is the next generation of T(-) Countdown Widget
+* deactivate legacy plugin if activated
+* removed unused functions
