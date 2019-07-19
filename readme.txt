@@ -5,7 +5,7 @@ Donate link: https://plugins.twinpictures.de/plugins/t-minus-countdown/
 Tags: countdown, timer, clock, ticker, event, counter, count down, twinpictures, t minus, t-minus, t(-), t(-) countdown, t-countdown, t (-) countdown, plugin-oven, pluginoven
 Requires at least: 4.7
 Tested up to: 5.2.2
-Stable tag: 2.4.2
+Stable tag: 2.4.4a
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -18,7 +18,7 @@ T(-) Countdown is a customisable countdown timer that can display years (optiona
 
 == Installation ==
 
-1. Old-school: upload the `t-minus-countdown` folder to the `/wp-content/plugins/` directory via FTP.
+1. Old-school: upload the `t-countdown` folder to the `/wp-content/plugins/` directory via FTP.
 1. Hipster: Ironically add T(minus) Countdown via the WordPress Plugins menu.
 1. Activate the Plugin
 1. Add the shortcode to a post or page.
@@ -66,6 +66,20 @@ Ah yes! <a href='https://twitter.com/#!/twinpictures'>@Twinpictures</a> is on th
 
 == Changelog ==
 
+= 2.4.5 =
+* added Gutenberg block
+* fine tuned css on some styles
+
+= 2.4.4 =
+* fixed issue if only days are being displayed
+
+= 2.4.3 =
+* check if functions exist to prevent conflicts with legacy plugin
+
+= 2.4.2 =
+* added missing screenshots
+* cleaned up plugin options page
+
 = 2.4.1 =
 * deactivate legacy plugin if activated
 * removed unused functions
@@ -79,8 +93,7 @@ Ah yes! <a href='https://twitter.com/#!/twinpictures'>@Twinpictures</a> is on th
 * added optional years and months with omityears and omitmonths attributes
 * all styles are css optimised and were rebuilt to support more than three digits
 
-
 == Upgrade Notice ==
 * Plugin is the next generation of T(-) Countdown Widget
-* deactivate legacy plugin if activated
-* removed unused functions
+* added Gutenberg block
+* fine tuned css on some styles
