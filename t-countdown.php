@@ -4,7 +4,7 @@ Plugin Name: T(-) Countdown
 Text Domain: t-countdown
 Plugin URI: https://plugins.twinpictures.de/plugins/t-countdown/
 Description: Display and configure multiple countdown timers in years, months, weeks, days, hours and seconds in a number of different styles.
-Version: 2.4.2
+Version: 2.4.4a
 Author: twinpictures
 Author URI: https://plugins.twinpictures.de/
 License: GPL2
@@ -12,18 +12,27 @@ License: GPL2
 
 class WP_TMinus {
 	var $plugin_name = 'T(-) Countdown';
-	var $version = '2.4.2';
+	var $version = '2.4.4a';
 	var $domain = 'tminus';
 	var $plguin_options_page_title = 'T(-) Countdown Options';
 	var $plugin_options_menue_title = 'T(-) Countdown';
 	var $plugin_options_slug = 't-countdown';
 
 	var $options_name = 'WP_TMC_options';
+
 	/**
 	 * @var array
 	 */
+
 	var $options = array(
-		'custom_css' => '',
+		'yearlabel'		=> 'Years',
+		'monthlabel'	=> 'Months',
+		'weeklabel'		=> 'Weeks',
+		'daylabel'		=> 'Days',
+		'hourlabel'		=> 'Hours',
+		'minutelabel' => 'Minutes',
+		'secondlabel' => 'Seconds',
+		'custom_css' 	=> '',
 	);
 
 	var $license_group = 'tminus_countdown_licenseing';
@@ -38,12 +47,21 @@ class WP_TMinus {
 		$this->_set_options();
 
 		// add actions
+		add_action( 'init', array( $this, 'register_tminus_block' ) );
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_action( 'plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'plugin_actions' ) );
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 		add_action( 'wp_head', array( $this, 'plugin_head_inject' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'countdown_scripts' ) );
+		//add_action( 'enqueue_block_assets', array( $this, 'countdown_scripts' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'block_assets' ) );
 		add_action( 'plugins_loaded', array( $this, 'tminus_load_textdomain' ) );
+
+		add_action( 'wp_ajax_tminusevents', array( $this, 'tminusevents_callback' ) );
+		add_action( 'wp_ajax_nopriv_tminusevents', array( $this, 'tminusevents_callback') );
+
+		// the shortcode
+		add_shortcode('tminus', array( $this, 'tminus_shortcode') );
 	}
 
 	/**
@@ -79,6 +97,96 @@ class WP_TMinus {
 		load_plugin_textdomain( 't-countdown' );
 	}
 
+	static function folder_array($path, $exclude = ".|..") {
+		if(is_dir($path)){
+			$dh = opendir($path);
+			$exclude_array = explode("|", $exclude);
+			$result = array();
+			while(false !==($file = readdir($dh))) {
+				if( !in_array(strtolower($file), $exclude_array) && substr($file, 0, 1) != '.' ){
+					$result[] = $file;
+				}
+			}
+			closedir($dh);
+			return $result;
+		}
+	}
+
+	/**
+ 	* Register tminus block
+ 	*/
+	function register_tminus_block() {
+		if ( ! function_exists( 'register_block_type' ) ) {
+			// Gutenberg is not active.
+			return;
+		}
+
+		wp_register_script(
+			'tminus-block',
+			plugin_dir_url(__FILE__) . 'block.js',
+			array(
+				'wp-blocks',
+				'wp-element',
+				'wp-components',
+				'wp-i18n',
+				'wp-editor',
+			),
+			'0.1',
+			true
+		);
+
+		$styles_arr = $this->folder_array(WP_PLUGIN_DIR.'/'. dirname( plugin_basename(__FILE__) ).'/css');
+		if( !empty( $this->options['custom_css'] ) ){
+			preg_match_all("/.(\w+)-dashboard/", $this->options['custom_css'], $custom_styles);
+			$styles_arr = array_merge($styles_arr, $custom_styles[1]);
+		}
+		natcasesort($styles_arr);
+		$tminus_style = array();
+		foreach($styles_arr as $style){
+			$tminus_style[] = array(
+				'value' => $style,
+				'label' => __($style, 't-countdown')
+			);
+		}
+
+		$tminus_options = array(
+			'styles' => $tminus_style,
+			'yearlabel' => $this->options['yearlabel'],
+			'monthlabel' => $this->options['monthlabel'],
+			'weeklabel' => $this->options['weeklabel'],
+			'daylabel' => $this->options['daylabel'],
+			'hourlabel' => $this->options['hourlabel'],
+			'minutelabel' => $this->options['minutelabel'],
+			'secondlabel' => $this->options['secondlabel']
+		);
+
+		wp_localize_script('tminus-block', 'tminus_options', $tminus_options );
+
+		//pass default options to js
+		//wp_localize_script('tminus-block', 'colomat', $this->options );
+
+		register_block_type( 'tminus/countdown', array(
+			'editor_script' => 'tminus-block',
+			'render_callback' => [$this, 'tminus_callback'],
+			'attributes' => array(
+														'id' => array ('type' => 'string'),
+														'style' => array ('type' => 'string', 'default' => 'jedi'),
+														't' => array ('type' => 'number'),
+													  'secs' => array ('type' => 'string', 'default' => '00'),
+														'omityears' => array ('type' => 'boolean', 'default' => false),
+														'omitmonths' => array ('type' => 'boolean', 'default' => false),
+														'omitweeks' => array ('type' => 'boolean', 'default' => false),
+														'yearlabel' => array ('type' => 'string', 'default' => $this->options['yearlabel']),
+														'monthlabel' => array ('type' => 'string', 'default' => $this->options['monthlabel']),
+														'weeklabel' => array ('type' => 'string', 'default' => $this->options['weeklabel']),
+														'daylabel' => array ('type' => 'string', 'default' => $this->options['daylabel']),
+														'hourlabel' => array ('type' => 'string', 'default' => $this->options['hourlabel']),
+														'minutelabel' => array ('type' => 'string', 'default' => $this->options['minutelabel']),
+														'secondlabel' => array ('type' => 'string', 'default' => $this->options['secondlabel']),
+											)
+		) );
+	}
+
 	// Add link to options page from plugin list
 	function plugin_actions($links) {
 		$new_links = array();
@@ -93,6 +201,18 @@ class WP_TMinus {
 			echo "<style>\n";
 			echo $this->options['custom_css'];
 			echo "\n</style>\n";
+		}
+	}
+
+	// load editor only styles
+	function block_assets(){
+		$styles_arr = $this->folder_array(WP_PLUGIN_DIR.'/'. dirname( plugin_basename(__FILE__) ).'/css');
+		foreach($styles_arr as $style){
+			if (! wp_style_is( 'countdown-'.$style.'-css', 'registered' )) {
+				$style_file_url = plugins_url('/css/'.$style.'/style.css', __FILE__);
+				wp_register_style( 'countdown-'.$style.'-css', $style_file_url, array(), '2.0');
+			}
+			wp_enqueue_style( 'countdown-'.$style.'-css' );
 		}
 	}
 
@@ -164,6 +284,55 @@ class WP_TMinus {
 							?>
 
 							<table class="form-table">
+								<tr>
+									<th><?php _e( 'Years Label', 't-countdown' ) ?>:</th>
+									<td><label><input type="text" id="<?php echo $this->options_name ?>[yearlabel]" name="<?php echo $this->options_name ?>[yearlabel]" value="<?php echo $options['yearlabel']; ?>" />
+										<br /><span class="description"><?php _e( 'Default label for years.', 't-countdown' ) ?></span></label>
+									</td>
+								</tr>
+
+								<tr>
+									<th><?php _e( 'Months Label', 't-countdown' ) ?>:</th>
+									<td><label><input type="text" id="<?php echo $this->options_name ?>[monthlabel]" name="<?php echo $this->options_name ?>[monthlabel]" value="<?php echo $options['monthlabel']; ?>" />
+										<br /><span class="description"><?php _e( 'Default label for months.', 't-countdown' ) ?></span></label>
+									</td>
+								</tr>
+
+								<tr>
+									<th><?php _e( 'Weeks Label', 't-countdown' ) ?>:</th>
+									<td><label><input type="text" id="<?php echo $this->options_name ?>[weeklabel]" name="<?php echo $this->options_name ?>[weeklabel]" value="<?php echo $options['weeklabel']; ?>" />
+										<br /><span class="description"><?php _e( 'Default label for weeks.', 't-countdown' ) ?></span></label>
+									</td>
+								</tr>
+
+								<tr>
+									<th><?php _e( 'Days Label', 't-countdown' ) ?>:</th>
+									<td><label><input type="text" id="<?php echo $this->options_name ?>[daylabel]" name="<?php echo $this->options_name ?>[daylabel]" value="<?php echo $options['daylabel']; ?>" />
+										<br /><span class="description"><?php _e( 'Default label for days.', 't-countdown' ) ?></span></label>
+									</td>
+								</tr>
+
+								<tr>
+									<th><?php _e( 'Hours Label', 't-countdown' ) ?>:</th>
+									<td><label><input type="text" id="<?php echo $this->options_name ?>[hourlabel]" name="<?php echo $this->options_name ?>[hourlabel]" value="<?php echo $options['hourlabel']; ?>" />
+										<br /><span class="description"><?php _e( 'Default label for hours.', 't-countdown' ) ?></span></label>
+									</td>
+								</tr>
+
+								<tr>
+									<th><?php _e( 'Minutes Label', 't-countdown' ) ?>:</th>
+									<td><label><input type="text" id="<?php echo $this->options_name ?>[minutelabel]" name="<?php echo $this->options_name ?>[minutelabel]" value="<?php echo $options['minutelabel']; ?>" />
+										<br /><span class="description"><?php _e( 'Default label for minutes.', 't-countdown' ) ?></span></label>
+									</td>
+								</tr>
+
+								<tr>
+									<th><?php _e( 'Seconds Label', 't-countdown' ) ?>:</th>
+									<td><label><input type="text" id="<?php echo $this->options_name ?>[secondlabel]" name="<?php echo $this->options_name ?>[secondlabel]" value="<?php echo $options['secondlabel']; ?>" />
+										<br /><span class="description"><?php _e( 'Default label for seconds.', 't-countdown' ) ?></span></label>
+									</td>
+								</tr>
+
 								<tr>
 									<th><?php _e( 'Custom CSS', 't-countdown' ) ?>:</th>
 									<td><label><textarea id="<?php echo $this->options_name ?>[custom_css]" name="<?php echo $this->options_name ?>[custom_css]" style="width: 100%; height: 537px;"><?php echo $options['custom_css']; ?></textarea>
@@ -299,349 +468,295 @@ class WP_TMinus {
 		}
 	}
 
-}
-$WP_TMinus = new WP_TMinus;
+	function tminus_callback($atts) {
+		/*
+		array { ["id"]=> string(6) "monkey" ["t"]=> int(1563490818) ["secs"]=> string(2) "19" ["omityears"]=> bool(true) ["omitmonths"]=> bool(true) ["style"]=> string(4) "jedi" ["omitweeks"]=> bool(false) }
+		*/
+		//$t = date('Y-m-d H:i', $atts['t'] ).':'.$atts['secs'];
+		$style = $atts['style'];
 
-//code for the footer
-add_action('wp_footer', 'print_tminus_script', 99);
-
-function print_tminus_script() {
-	global $add_my_script;
-	if ( ! $add_my_script ){
-		return;
+		$timestamp = new DateTime( );
+		$timestamp->setTimezone( new DateTimeZone( get_option('timezone_string') ) );
+		$timestamp->setTimestamp($atts['t']);
+		$t = $timestamp->format('Y-m-d H:i').':'.$atts['secs'];
+		$omityears = ($atts['omityears']) ? 'true' : 'false';
+		$omitmonths = ($atts['omitmonths']) ? 'true' : 'false';
+		$omitweeks = ($atts['omitweeks']) ? 'true' : 'false';
+		return do_shortcode('[tminus t="'.$t.'" style="'.$style.'" omityears="'.$omityears.'" omitmonths="'.$omitmonths.'" omitweeks="'.$omitweeks.'" years="'.$atts['yearlabel'].'" months="'.$atts['monthlabel'].'" weeks="'.$atts['weeklabel'].'" days=".'.$atts['daylabel'].'." hours="'.$atts['hourlabel'].'" minutes="'.$atts['minutelabel'].'" seconds="'.$atts['secondlabel'].'" /]');
 	}
 
-	?>
-		<script language="javascript" type="text/javascript">
-			jQuery(document).ready(function($) {
-	<?php
-	//var_dump('hey dude', $add_my_script);
-	foreach((array) $add_my_script as $script){
-	?>
-		$('#<?php echo $script['id']; ?>-dashboard').tminusCountDown({
-			targetDate: {
-				'day': 	<?php echo $script['day']; ?>,
-				'month': <?php echo $script['month']; ?>,
-				'year': <?php echo $script['year']; ?>,
-				'hour': <?php echo $script['hour']; ?>,
-				'min': 	<?php echo $script['min']; ?>,
-				'sec': 	<?php echo $script['sec']; ?>,
-				'localtime': '<?php echo $script['localtime']; ?>',
-			},
-			style: '<?php echo $script['style']; ?>',
-			launchtarget: '<?php echo $script['launchtarget']; ?>',
-			omitWeeks: '<?php echo $script['omitweeks']; ?>',
-			id: '<?php echo $script['id']; ?>',
-			event_id: '<?php echo $script['event_id']; ?>'
-				<?php
-				if(!empty($script['content'])){
-					echo ", onComplete: function() {
-						$('#".$script['id']."-".$script['launchtarget']."').css({'width' : '".$script['launchwidth']."', 'height' : '".$script['launchheight']."'});
-						$('#".$script['id']."-".$script['launchtarget']."').html(".$script['content'].");
-					}";
-				}
-				?>
-		});
-	<?php
-	}
-	?>
-			});
-		</script>
-	<?php
-}
+	//the shortcode
+	function tminus_shortcode($atts, $content=null) {
+		//find a random number, if no id was assigned
+		$ran = uniqid();
+	    extract(shortcode_atts(array(
+			'id' => $ran,
+			't' => '',
+			'timezone' => get_option('timezone_string'),
+			'years' => $this->options['yearlabel'],
+			'months' => $this->options['monthlabel'],
+			'weeks' => $this->options['weeklabel'],
+			'days' => $this->options['daylabel'],
+			'hours' => $this->options['hourlabel'],
+			'minutes' => $this->options['minutelabel'],
+			'seconds' => $this->options['secondlabel'],
+			'omityears' => 'false',
+			'omitmonths' => 'false',
+			'omitweeks' => 'false',
+			'style' => 'jedi',
+			'before' => '',
+			'after' => '',
+			'width' => 'auto',
+			'height' => 'auto',
+			'launchwidth' => 'auto',
+			'launchheight' => 'auto',
+			'launchtarget' => 'countdown',
+			'event_id' => '',
+		), $atts));
 
-//the short code
-function tminuscountdown($atts, $content=null) {
-	global $add_my_script;
-	//find a random number, if no id was assigned
-	$ran = uniqid();
-    extract(shortcode_atts(array(
-		'id' => $ran,
-		't' => '',
-		'timezone' => get_option('timezone_string'),
-		'years' => __('years', 't-countdown'),
-		'months' => __('months', 't-countdown'),
-		'weeks' => __('weeks', 't-countdown'),
-		'days' => __('days', 't-countdown'),
-		'hours' => __('hours', 't-countdown'),
-		'minutes' => __('minutes', 't-countdown'),
-		'seconds' => __('seconds', 't-countdown'),
-		'omityears' => 'false',
-		'omitmonths' => 'false',
-		'omitweeks' => 'false',
-		'style' => 'jedi',
-		'before' => '',
-		'after' => '',
-		'width' => 'auto',
-		'height' => 'auto',
-		'launchwidth' => 'auto',
-		'launchheight' => 'auto',
-		'launchtarget' => 'countdown',
-		'jsplacement' => 'footer',
-		'event_id' => '',
-	), $atts));
-
-	if(empty($t)){
-		return;
-	}
-
-	//insert some style into your life
-	$style_file_url = plugins_url('/css/'.$style.'/style.css', __FILE__);
-
-	if ( file_exists( __DIR__ .'/css/'.$style.'/style.css' ) ) {
-		if (! wp_style_is( 'countdown-'.$style.'-css', 'registered' )) {
-			wp_register_style( 'countdown-'.$style.'-css', $style_file_url, array(), '2.0');
+		if(empty($t)){
+			return;
 		}
-		wp_enqueue_style( 'countdown-'.$style.'-css' );
-	}
 
-	$now = new DateTime( );
-	$now->setTimezone( new DateTimeZone( get_option('timezone_string') ) );
+		//insert some style into your life
+		$style_file_url = plugins_url('/css/'.$style.'/style.css', __FILE__);
 
-	$target = new DateTime($t, new DateTimeZone( $timezone ) );
-
-	$diffSecs = $target->getTimestamp() - $now->getTimestamp();
-
-	$day = $target->format('d');
-	$month = $target->format('m');
-	$year = $target->format('Y');
-	$hour = $target->format('H');
-	$min = $target->format('i');
-	$sec = $target->format('s');
-
-
-	// interval
-	$interval = $now->diff($target);
-
-	// next digits
-	$pop_day = new DateInterval('P1D');
-	$tomorrow_target = $target->sub($pop_day);
-	$tomorrow_interval = $now->diff($tomorrow_target);
-
-	// countdown digits
-	$date_arr = array(
-		'secs' => $interval->s,
-		'mins' => $interval->i,
-		'hours' => $interval->h,
-		'days' => $interval->d,
-		'months' => $interval->m,
-		'years' => $interval->y,
- 	);
-
-	$next_arr = array(
-		'next_day' => $tomorrow_interval->d
-	);
-
-	if($interval->m != $tomorrow_interval->m){
-		$next_arr['next_month'] = $tomorrow_interval->m;
-	}
-
-	if($interval->y != $tomorrow_interval->y){
-		$next_arr['next_year'] = $tomorrow_interval->y;
-	}
-
-  // deal with omit years
-	if(!empty($interval->y) && $omityears != 'false'){
-		// if no months, calculate everyting with total days
-		if($omitmonths != 'false'){
-			$date_arr['days'] = $interval->days;
-			$next_arr['next_day'] = $tomorrow_interval->days;
-		}
-		// add years to months.
-		else{
-			$date_arr['months'] = $date_arr['months'] + ($interval->y * 12);
-			if(isset($next_arr['next_month'])){
-				$next_arr['next_month'] = $next_arr['next_month'] + ($tomorrow_interval->y * 12);
+		if ( file_exists( __DIR__ .'/css/'.$style.'/style.css' ) ) {
+			if (! wp_style_is( 'countdown-'.$style.'-css', 'registered' )) {
+				wp_register_style( 'countdown-'.$style.'-css', $style_file_url, array(), '2.0');
 			}
+			wp_enqueue_style( 'countdown-'.$style.'-css' );
+		}
+
+		$now = new DateTime( );
+		$now->setTimezone( new DateTimeZone( get_option('timezone_string') ) );
+
+		$error = '';
+		try {
+		    $target = new DateTime($t, new DateTimeZone( $timezone ) );
+		} catch (Exception $e) {
+		    $error = $e->getMessage();
+		    $target = $now;
+		}
+
+		$diffSecs = $target->getTimestamp() - $now->getTimestamp();
+
+		$day = $target->format('d');
+		$month = $target->format('m');
+		$year = $target->format('Y');
+		$hour = $target->format('H');
+		$min = $target->format('i');
+		$sec = $target->format('s');
+
+		// interval
+		$interval = $now->diff($target);
+
+		// next digits
+		$pop_day = new DateInterval('P1D');
+		$tomorrow_target = $target->sub($pop_day);
+		$tomorrow_interval = $now->diff($tomorrow_target);
+
+		// countdown digits
+		$date_arr = array(
+			'secs' => $interval->s,
+			'mins' => $interval->i,
+			'hours' => $interval->h,
+			'days' => $interval->d,
+			'months' => $interval->m,
+			'years' => $interval->y,
+	 	);
+
+		$next_arr = array(
+			'next_day' => $tomorrow_interval->d
+		);
+
+		if($interval->m != $tomorrow_interval->m){
+			$next_arr['next_month'] = $tomorrow_interval->m;
+		}
+
+		if($interval->y != $tomorrow_interval->y){
+			$next_arr['next_year'] = $tomorrow_interval->y;
+		}
+
+	  // deal with omit years
+		if(!empty($interval->y) && $omityears != 'false'){
+			// if no months, calculate everyting with total days
+			if($omitmonths != 'false'){
+				$date_arr['days'] = $interval->days;
+				$next_arr['next_day'] = $tomorrow_interval->days;
+			}
+			// add years to months.
 			else{
-				$next_arr['next_month'] = ($tomorrow_interval->y * 12);
-			}
+				$date_arr['months'] = $date_arr['months'] + ($interval->y * 12);
+				if(isset($next_arr['next_month'])){
+					$next_arr['next_month'] = $next_arr['next_month'] + ($tomorrow_interval->y * 12);
+				}
+				else{
+					$next_arr['next_month'] = ($tomorrow_interval->y * 12);
+				}
 
+			}
 		}
-	}
 
-	// deal with omit months
-	if(!empty($date_arr['months']) && $omitmonths != 'false'){
-		if(!empty($interval->y) && $omityears == 'false'){
-			$pop_years = new DateInterval('P'.$interval->y.'Y');
-			$adjusted_target = $target->sub($pop_years);
-			$interval = $now->diff($adjusted_target);
+		// deal with omit months
+		if(!empty($date_arr['months']) && $omitmonths != 'false'){
+			if(!empty($interval->y) && $omityears == 'false'){
+				$pop_years = new DateInterval('P'.$interval->y.'Y');
+				$adjusted_target = $target->sub($pop_years);
+				$interval = $now->diff($adjusted_target);
 
-			if(!empty($next_arr['next_year'])){
-				$pop_tomorrow_time = new DateInterval('P'.$interval->y.'Y1D');
-				$adjusted_tomorrow = $target->sub($pop_tomorrow_time);
-				$tomorrow_interval = $now->diff($adjusted_tomorrow);
+				if(!empty($next_arr['next_year'])){
+					$pop_tomorrow_time = new DateInterval('P'.$interval->y.'Y1D');
+					$adjusted_tomorrow = $target->sub($pop_tomorrow_time);
+					$tomorrow_interval = $now->diff($adjusted_tomorrow);
+				}
 			}
-
 			$date_arr['days'] = $interval->days;
 			$next_arr['next_day'] = $tomorrow_interval->days;
 		}
-	}
 
-	//but what if months where empty, but next day we have months...
-	else if(!empty($next_arr['next_month']) && $omitmonths != 'false'){
-		$next_arr['next_day'] = $tomorrow_interval->days;
-	}
-
-	// just days
-	if($omitweeks != 'false'){
-		$dash_omitweeks_class = 'omitweeks';
-	}
-	//weeks and days
-	else{
-		$dash_omitweeks_class = '';
-
-		$date_arr['weeks'] = (int) floor( $date_arr['days'] / 7 );
-		$date_arr['days'] = (int) floor($date_arr['days'] %7);
-
-		$next_week = (int) floor( $next_arr['next_day'] / 7 );
-		if($date_arr['weeks'] != $next_week ){
-			$next_arr['next_week'] = $next_week;
+		//but what if months where empty, but next day we have months...
+		else if(!empty($next_arr['next_month']) && $omitmonths != 'false'){
+			$next_arr['next_day'] = $tomorrow_interval->days;
 		}
-		$next_arr['next_day'] = (int) floor($next_arr['next_day'] %7);
-	}
 
-	// break numbers into digit elements
-	foreach ($date_arr as $i => $d) {
-		if($i == 'days' && $next_arr['next_day'] > 99){
-			if($d > 9){
+		// just days
+		if($omitweeks != 'false'){
+			$dash_omitweeks_class = 'omitweeks';
+		}
+		//weeks and days
+		else{
+			$dash_omitweeks_class = '';
+
+			$date_arr['weeks'] = (int) floor( $date_arr['days'] / 7 );
+			$date_arr['days'] = (int) floor($date_arr['days'] %7);
+
+			$next_week = (int) floor( $next_arr['next_day'] / 7 );
+			if($date_arr['weeks'] != $next_week ){
+				$next_arr['next_week'] = $next_week;
+			}
+			$next_arr['next_day'] = (int) floor($next_arr['next_day'] %7);
+		}
+
+		// break numbers into digit elements
+		foreach ($date_arr as $i => $d) {
+			if($i == 'days' && $next_arr['next_day'] > 99){
+				if($d > 9){
+					$d = sprintf("%02d", $d);
+				}
+				if($d < 10){
+					$d = sprintf("%03d", $d);
+				}
+			}
+			//single digits get a padding zero
+			else if($d < 10){
 				$d = sprintf("%02d", $d);
 			}
-			if($d < 10){
-				$d = sprintf("%03d", $d);
+			$date_arr[$i] = array_map('intval', str_split($d));
+		}
+
+
+		if(is_numeric($width)){
+			$width .= 'px';
+		}
+		if(is_numeric($height)){
+			$height .= 'px';
+		}
+		$tminus = $error.'<div id="'.$id.'-countdown" class="tminus_countdown" style="width:'.$width.'; height:'.$height.';">';
+		$tminus .= '<div class="'.$style.'-countdown '.$dash_omitweeks_class.'">';
+		$tminus .= '<div id="'.$id.'-tophtml" class="'.$style.'-tophtml">';
+	    if($before){
+	        $tminus .=  htmlspecialchars_decode($before);
+	    }
+		$tminus .=  '</div>';
+
+		//drop in the dashboard
+		$tminus .=  '<div id="'.$id.'-dashboard" class="'.$style.'-dashboard">';
+
+		if(!empty($date_arr['years']) && $omityears == 'false'){
+			$class = $style.'-dash '.$style.'-years_dash';
+			$next_year = '';
+			if(isset($next_arr['next_year'])){
+				$next_year = 'data-next="'.$next_arr['next_year'].'"';
 			}
+			$tminus .=  '<div class="'.$class.'" '.$next_year.'"><div class="'.$style.'-dash_title">'.$years.'</div>';
+			foreach( $date_arr['years'] AS $digit ){
+				$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
+			}
+			$tminus .= '</div>';
 		}
-		//single digits get a padding zero
-		else if($d < 10){
-			$d = sprintf("%02d", $d);
+
+		if(!empty($date_arr['months']) && $omitmonths == 'false'){
+			$class = $style.'-dash '.$style.'-months_dash';
+			$next_month = '';
+			if(isset($next_arr['next_month'])){
+				$next_month = 'data-next="'.$next_arr['next_month'].'"';
+			}
+			$tminus .=  '<div class="'.$class.'" '.$next_month.'><div class="'.$style.'-dash_title">'.$months.'</div>';
+			foreach( $date_arr['months'] AS $digit ){
+				$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
+			}
+			$tminus .= '</div>';
 		}
-		$date_arr[$i] = array_map('intval', str_split($d));
-	}
 
-
-	if(is_numeric($width)){
-		$width .= 'px';
-	}
-	if(is_numeric($height)){
-		$height .= 'px';
-	}
-	$tminus = '<div id="'.$id.'-countdown" class="tminus_countdown" style="width:'.$width.'; height:'.$height.';">';
-	$tminus .= '<div class="'.$style.'-countdown '.$dash_omitweeks_class.'">';
-	$tminus .= '<div id="'.$id.'-tophtml" class="'.$style.'-tophtml">';
-    if($before){
-        $tminus .=  htmlspecialchars_decode($before);
-    }
-	$tminus .=  '</div>';
-
-	//drop in the dashboard
-	$tminus .=  '<div id="'.$id.'-dashboard" class="'.$style.'-dashboard">';
-
-	if(!empty($date_arr['years']) && $omityears == 'false'){
-		$class = $style.'-dash '.$style.'-years_dash';
-		$next_year = '';
-		if(isset($next_arr['next_year'])){
-			$next_year = 'data-next="'.$next_arr['next_year'].'"';
+		if($omitweeks == 'false'){
+			$wclass = $style.'-dash '.$style.'-weeks_dash';
+			$next_week = '';
+			if(isset($next_arr['next_week'])){
+				$next_week = 'data-next="'.$next_arr['next_week'].'"';
+			}
+			$tminus .=  '<div class="'.$wclass.'" '.$next_week.'><div class="'.$style.'-dash_title">'.$weeks.'</div>';
+			foreach( $date_arr['weeks'] AS $digit ){
+				$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
+			}
+			$tminus .= '</div>';
 		}
-		$tminus .=  '<div class="'.$class.'" '.$next_year.'"><div class="'.$style.'-dash_title">'.$years.'</div>';
-		foreach( $date_arr['years'] AS $digit ){
+
+		$dclass = $style.'-dash '.$style.'-days_dash';
+
+		$tminus .= '<div class="'.$dclass.'" data-next="'.$next_arr['next_day'].'"><div class="'.$style.'-dash_title">'.$days.'</div>';
+		foreach( $date_arr['days'] AS $digit ){
 			$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
 		}
 		$tminus .= '</div>';
-	}
-
-	if(!empty($date_arr['months']) && $omitmonths == 'false'){
-		$class = $style.'-dash '.$style.'-months_dash';
-		$next_month = '';
-		if(isset($next_arr['next_month'])){
-			$next_month = 'data-next="'.$next_arr['next_month'].'"';
-		}
-		$tminus .=  '<div class="'.$class.'" '.$next_month.'><div class="'.$style.'-dash_title">'.$months.'</div>';
-		foreach( $date_arr['months'] AS $digit ){
-			$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
-		}
+		$tminus .= '<div class="'.$style.'-dash '.$style.'-hours_dash">';
+			$tminus .= '<div class="'.$style.'-dash_title">'.$hours.'</div>';
+			foreach( $date_arr['hours'] AS $digit ){
+				$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
+			}
 		$tminus .= '</div>';
-	}
-
-	if($omitweeks == 'false'){
-		$wclass = $style.'-dash '.$style.'-weeks_dash';
-		$next_week = '';
-		if(isset($next_arr['next_week'])){
-			$next_week = 'data-next="'.$next_arr['next_week'].'"';
-		}
-		$tminus .=  '<div class="'.$wclass.'" '.$next_week.'><div class="'.$style.'-dash_title">'.$weeks.'</div>';
-		foreach( $date_arr['weeks'] AS $digit ){
-			$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
-		}
+			$tminus .= '<div class="'.$style.'-dash '.$style.'-minutes_dash">';
+			$tminus .= '<div class="'.$style.'-dash_title">'.$minutes.'</div>';
+			foreach( $date_arr['mins'] AS $digit ){
+				$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
+			}
 		$tminus .= '</div>';
-	}
+			$tminus .= '<div class="'.$style.'-dash '.$style.'-seconds_dash">';
+			$tminus .= '<div class="'.$style.'-dash_title">'.$seconds.'</div>';
+			foreach( $date_arr['secs'] AS $digit ){
+				$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
+			}
+		$tminus .= '</div>';
+		$tminus .= '</div>'; //close the dashboard
 
-	$dclass = $style.'-dash '.$style.'-days_dash';
-
-	$tminus .= '<div class="'.$dclass.'" data-next="'.$next_arr['next_day'].'"><div class="'.$style.'-dash_title">'.$days.'</div>';
-	foreach( $date_arr['days'] AS $digit ){
-		$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
-	}
-	$tminus .= '</div>';
-	$tminus .= '<div class="'.$style.'-dash '.$style.'-hours_dash">';
-		$tminus .= '<div class="'.$style.'-dash_title">'.$hours.'</div>';
-		foreach( $date_arr['hours'] AS $digit ){
-			$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
+		$tminus .= '<div id="'.$id.'-bothtml" class="'.$style.'-bothtml">';
+		if($after){
+			$tminus .= htmlspecialchars_decode($after);
 		}
-	$tminus .= '</div>';
-		$tminus .= '<div class="'.$style.'-dash '.$style.'-minutes_dash">';
-		$tminus .= '<div class="'.$style.'-dash_title">'.$minutes.'</div>';
-		foreach( $date_arr['mins'] AS $digit ){
-			$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
+		$tminus .= '</div></div></div>';
+
+		$lt = date( 'n/j/Y H:i:s', strtotime(current_time('mysql')) );
+
+		if(is_numeric($launchwidth)){
+			$launchwidth .= 'px';
 		}
-	$tminus .= '</div>';
-		$tminus .= '<div class="'.$style.'-dash '.$style.'-seconds_dash">';
-		$tminus .= '<div class="'.$style.'-dash_title">'.$seconds.'</div>';
-		foreach( $date_arr['secs'] AS $digit ){
-			$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
+		if(is_numeric($launchheight)){
+			$launchheight .= 'px';
 		}
-	$tminus .= '</div>';
-	$tminus .= '</div>'; //close the dashboard
 
-	$tminus .= '<div id="'.$id.'-bothtml" class="'.$style.'-bothtml">';
-	if($after){
-		$tminus .= htmlspecialchars_decode($after);
-	}
-	$tminus .= '</div></div></div>';
+		$content = json_encode(do_shortcode($content));
+		$content = str_replace(array('\r\n', '\r', '\n<p>', '\n', '""'), '', $content);
 
-	$lt = date( 'n/j/Y H:i:s', strtotime(current_time('mysql')) );
-
-	if(is_numeric($launchwidth)){
-		$launchwidth .= 'px';
-	}
-	if(is_numeric($launchheight)){
-		$launchheight .= 'px';
-	}
-
-	$content = json_encode(do_shortcode($content));
-	$content = str_replace(array('\r\n', '\r', '\n<p>', '\n', '""'), '', $content);
-
-	if($jsplacement == "footer"){
-		$add_my_script[$id] = array(
-			'id' => $id,
-			'day' => $day,
-			'month' => $month,
-			'year' => $year,
-			'hour' => $hour,
-			'min' => $min,
-			'sec' => $sec,
-			'localtime' => $lt,
-			'style' => $style,
-			'omitweeks' => $omitweeks,
-			'omitmonths' => $omitmonths,
-			'omityears' => $omityears,
-			'content' => $content,
-			'launchtarget' => $launchtarget,
-			'launchwidth' => $launchwidth,
-			'launchheight' => $launchheight,
-			'event_id' => $event_id,
-		);
-	}
-	else{
 		$tminus .= "<script language='javascript' type='text/javascript'>
 			jQuery(document).ready(function($) {
 				$('#".$id."-dashboard').tminusCountDown({
@@ -671,22 +786,21 @@ function tminuscountdown($atts, $content=null) {
 		$tminus .= "});
 			});
 		</script>";
-	}
-	return $tminus;
-}
-add_shortcode('tminus', 'tminuscountdown');
 
-add_action('wp_ajax_tminusevents', 'tminusevents_callback');
-add_action('wp_ajax_nopriv_tminusevents', 'tminusevents_callback');
-
-function tminusevents_callback() {
-    $nonce = $_POST['countdownNonce'];
-    if ( ! wp_verify_nonce( $nonce, 'tountajax-countdownonce-nonce' ) ){
-		die ( 'Busted!');
+		return $tminus;
 	}
 
-	esc_attr( WP_TminusEvents::tminusEvents( $_POST['event_id'] ));
-	wp_die();
+	function tminusevents_callback() {
+	    $nonce = $_POST['countdownNonce'];
+	    if ( ! wp_verify_nonce( $nonce, 'tountajax-countdownonce-nonce' ) ){
+			die ( 'Busted!');
+		}
+
+		esc_attr( WP_TminusEvents::tminusEvents( $_POST['event_id'] ));
+		wp_die();
+	}
+
 }
+$WP_TMinus = new WP_TMinus;
 
 ?>
