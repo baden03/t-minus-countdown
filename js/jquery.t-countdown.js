@@ -1,5 +1,5 @@
 /*
- * T- Countdown v2.4.0
+ * T- Countdown v2.4.1
  * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
  * Copyright 2019, Twinpictures
@@ -119,15 +119,20 @@
 
 	$.fn.doTminusCountDown = function (id, diffSecs, duration) {
 		$this = $('#' + id);
+		style = $.data($this[0], 'style');
+		weeks_elm = $('#' + id + ' .' + style + '-weeks_dash');
+		months_elm = $('#' + id + ' .' + style + '-months_dash');
+		years_elm = $('#' + id + ' .' + style + '-years_dash');
 
 		if (diffSecs <= 0){
 			if( $.data($this[0], 'launchtarget') != 'countup' ){
 				diffSecs = 0;
+				
+				// stop the countdown
 				$.data($this[0], 'status', 'stop');
 			}
 		}
 		secs = Math.abs(diffSecs % 60);
-		style = $.data($this[0], 'style');
 
 		$this.dashTminusChangeTo(id, style + '-seconds_dash', secs, duration ? duration : 500);
 		if(secs == 59){
@@ -138,19 +143,14 @@
 				$this.dashTminusChangeTo(id, style + '-hours_dash', hours, duration ? duration : 1000);
 				if(hours == 23){
 					$this.dashTminusChangeTo(id, style + '-days_dash', $('#' + id + ' .' + style + '-days_dash').data('next'), duration ? duration : 1000);
-					weeks_elm = $('#' + id + ' .' + style + '-weeks_dash');
 					if( weeks_elm.length && weeks_elm.data('next') !== undefined){
-						//console.log('weeks:',weeks_elm.data('next'));
 						$this.dashTminusChangeTo(id, style + '-weeks_dash', weeks_elm.data('next'), duration ? duration : 1000);
 					}
-					months_elm = $('#' + id + ' .' + style + '-months_dash');
 					if( months_elm.length && months_elm.data('next') !== undefined){
-						//console.log('months:',months_elm.data('next'));
 						$this.dashTminusChangeTo(id, style + '-months_dash', months_elm.data('next'), duration ? duration : 1000);
 					}
 					years_elm = $('#' + id + ' .' + style + '-years_dash');
 					if( years_elm.length && years_elm.data('next') !== undefined){
-						//console.log('years:',years_elm.data('next'));
 						$this.dashTminusChangeTo(id, style + '-years_dash', years_elm.data('next'), duration ? duration : 1000);
 					}
 				}
