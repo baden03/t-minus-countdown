@@ -26,6 +26,8 @@ const iconEl = el('svg', { width: 20, height: 20 },
 );
 */
 
+//console.log(tminus_options);
+
 registerBlockType( 'tminus/countdown', {
 	title: __( 'T(-) Countdown' ),
   description: __( 'Juicy description of T(-) Countdown that makes you just want to use it.', 't-countdown' ),
@@ -54,15 +56,15 @@ registerBlockType( 'tminus/countdown', {
 		},
     omityears: {
       type: 'boolean',
-      default: false
+      default: (tminus_options.omityears == 'true')
     },
     omitmonths: {
       type: 'boolean',
-      default: false
+      default: (tminus_options.omitmonths == 'true')
     },
     omitweeks: {
       type: 'boolean',
-      default: false
+      default: (tminus_options.omitweeks == 'true')
     },
     yearlabel: {
 			type: 'string',
@@ -309,7 +311,7 @@ registerBlockType( 'tminus/countdown', {
       }
 
 			return (
-				el( 'div', { } )
-			);
+				    el( 'div', { } )
+      );
    }
 });
