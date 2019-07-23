@@ -4,7 +4,7 @@ Plugin Name: T(-) Countdown
 Text Domain: t-countdown
 Plugin URI: https://plugins.twinpictures.de/plugins/t-countdown/
 Description: Display and configure multiple countdown timers in years, months, weeks, days, hours and seconds in a number of different styles.
-Version: 2.4.4a
+Version: 2.4.4b
 Author: twinpictures
 Author URI: https://plugins.twinpictures.de/
 License: GPL2
@@ -12,7 +12,7 @@ License: GPL2
 
 class WP_TMinus {
 	var $plugin_name = 'T(-) Countdown';
-	var $version = '2.4.4a';
+	var $version = '2.4.4b';
 	var $domain = 'tminus';
 	var $plguin_options_page_title = 'T(-) Countdown Options';
 	var $plugin_options_menue_title = 'T(-) Countdown';
@@ -152,13 +152,6 @@ class WP_TMinus {
 			);
 		}
 
-		//convert boolean
-		/*
-		$omityears = ( $this->options['omityears'] == 'true' ) ? true : false;
-		$omitmonths = ( $this->options['omitmonths'] == 'true' ) ? true : false;
-		$omitweeks = ( $this->options['omitweeks'] == 'true' ) ? true : false;
-		*/
-
 		$tminus_options = array(
 			'styles' => $tminus_style,
 
@@ -182,9 +175,12 @@ class WP_TMinus {
 			'editor_script' => 'tminus-block',
 			'render_callback' => [$this, 'tminus_callback'],
 			'attributes' => array(
+														'content' => array('type' => 'string'),
 														'id' => array ('type' => 'string'),
 														'style' => array ('type' => 'string', 'default' => 'jedi'),
 														't' => array ('type' => 'number'),
+														'timestr' => array ('type' => 'string'),
+														'launchtarget' => array ('type' => 'string'),
 													  'secs' => array ('type' => 'string', 'default' => '00'),
 														'omityears' => array ('type' => 'boolean', 'default' => $this->options['omityears']),
 														'omitmonths' => array ('type' => 'boolean', 'default' => $this->options['omitmonths']),
@@ -514,6 +510,12 @@ class WP_TMinus {
 
 	function tminus_callback($atts) {
 		//return 'Hey dude...';
+		if(empty($atts['content'])){
+			$atts['content'] = '';
+		}
+		if(empty($atts['launchtarget'])){
+			$atts['launchtarget'] = 'countdown';
+		}
 		$style = $atts['style'];
 		$timestamp = new DateTime( );
 
@@ -522,12 +524,18 @@ class WP_TMinus {
 			$timezone = $atts['timezone'];
 		}
 
-		$timestamp->setTimestamp($atts['t']);
-		$t = $timestamp->format('Y-m-d H:i').':'.$atts['secs'];
+		if(!empty($atts['timestr'])){
+			$t = $atts['timestr'];
+		}
+		else{
+			$timestamp->setTimestamp($atts['t']);
+			$t = $timestamp->format('Y-m-d H:i').':'.$atts['secs'];
+		}
+
 		$omityears = ($atts['omityears']) ? 'true' : 'false';
 		$omitmonths = ($atts['omitmonths']) ? 'true' : 'false';
 		$omitweeks = ($atts['omitweeks']) ? 'true' : 'false';
-		return do_shortcode('[tminus t="'.$t.'" timezone="'.$timezone.'" style="'.$style.'" omityears="'.$omityears.'" omitmonths="'.$omitmonths.'" omitweeks="'.$omitweeks.'" years="'.$atts['yearlabel'].'" months="'.$atts['monthlabel'].'" weeks="'.$atts['weeklabel'].'" days=".'.$atts['daylabel'].'." hours="'.$atts['hourlabel'].'" minutes="'.$atts['minutelabel'].'" seconds="'.$atts['secondlabel'].'" /]');
+		return do_shortcode('[tminus t="'.$t.'" timezone="'.$timezone.'" style="'.$style.'" omityears="'.$omityears.'" omitmonths="'.$omitmonths.'" omitweeks="'.$omitweeks.'" years="'.$atts['yearlabel'].'" months="'.$atts['monthlabel'].'" weeks="'.$atts['weeklabel'].'" days=".'.$atts['daylabel'].'." hours="'.$atts['hourlabel'].'" minutes="'.$atts['minutelabel'].'" seconds="'.$atts['secondlabel'].'" launchtarget="'.$atts['launchtarget'].'"]'.$atts['content'].'[/tminus]');
 	}
 
 	//the shortcode
