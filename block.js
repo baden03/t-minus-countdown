@@ -5,9 +5,12 @@ version: 0.1
 
 const {registerBlockType} = wp.blocks; //Blocks API
 const {__} = wp.i18n; //translation functions
-const {RichText,InnerBlocks,InspectorControls} = wp.editor;
-const {PanelBody,TextControl,SelectControl,ToggleControl,DateTimePicker,ServerSideRender} = wp.components;
+const {InspectorControls,RichText} = wp.editor;
+const {PanelBody,TextControl,ExternalLink,SelectControl,ToggleControl,DateTimePicker,ServerSideRender} = wp.components;
 const el = wp.element.createElement;
+const StrtotimeLink = el(ExternalLink, {
+                          href: 'https://php.net/manual/en/function.strtotime.php',
+                        }, __( 'PHP strtotime launch value. If set, the date and time values above will be ignored.', 't-countdown') );
 
 // tminus icon full
 const iconEl = el('svg', { width: 20, height: 20 },
@@ -30,15 +33,18 @@ const iconEl = el('svg', { width: 20, height: 20 },
 
 registerBlockType( 'tminus/countdown', {
 	title: __( 'T(-) Countdown' ),
-  description: __( 'Juicy description of T(-) Countdown that makes you just want to use it.', 't-countdown' ),
-	category:  __( 'common' ),
+  description: __('Juicy description of T(-) Countdown that makes you just want to use it.', 't-countdown' ),
+	category:  __('common'),
   keywords: [
-  		__( 'countdown', 't-countdown' ),
-  		__( 'timer', 't-countdown' ),
-  		__( 'tminus', 't-countdown' ),
+  		__('countdown', 't-countdown'),
+  		__('timer', 't-countdown'),
+  		__('tminus', 't-countdown'),
   	],
 	icon: iconEl,
 	attributes:  {
+    content: {
+      type: 'string',
+    },
 		id: {
 			type: 'string',
 		},
@@ -50,10 +56,17 @@ registerBlockType( 'tminus/countdown', {
       type: 'number',
       default: 60 * (1440 + Math.ceil(Date.now() / 60000)) // 24 hours from Date.now
 		},
+    timestr: {
+			type: 'string',
+		},
     secs: {
 			type: 'string',
       default: 0
 		},
+    launchtarget: {
+      type: 'string',
+      default: 'countdown'
+    },
     omityears: {
       type: 'boolean',
       default: (tminus_options.omityears == 'true')
@@ -101,6 +114,10 @@ registerBlockType( 'tminus/countdown', {
 		const setAttributes =  props.setAttributes;
 
 		//Functions to update attributes
+    function changeContent(content){
+			setAttributes({content});
+		}
+
     function changeId(id){
 			setAttributes({id});
 		}
@@ -122,6 +139,14 @@ registerBlockType( 'tminus/countdown', {
         secs = 59;
       }
 			setAttributes({secs});
+		}
+
+    function changeTimestr(timestr){
+			setAttributes({timestr});
+		}
+
+    function changeLaunchTarget(launchtarget){
+			setAttributes({launchtarget});
 		}
 
     function changeOmitYears(omityears){
@@ -174,32 +199,52 @@ registerBlockType( 'tminus/countdown', {
         attributes: attributes
 			} ),
 
+      el(RichText, {
+          value: attributes.content,
+          tagName: 'p',
+          placeholder: __( 'Content blocks to display once countdown reaches zero.', 't-countdown' ),
+          onChange: changeContent
+      }),
+
 			//Block Inspector
 			el( InspectorControls, {},
 				[
 
           el(PanelBody, {
-              title: __('Countdown ID & Style'),
+              title: __('Countdown ID & Style', 't-countdown'),
               initialOpen: true,
           },
               [
                 el(TextControl, {
-                  label: __( 'Countdown ID' ),
+                  label: __('Countdown ID', 't-countdown'),
                   value: attributes.id,
                   onChange: changeId,
                 }),
 
                 el(SelectControl, {
-                  label: __( 'Countdown Style' ),
+                  label: __('Countdown Style', 't-countdown'),
                   value: attributes.style,
                   onChange: changeStyle,
                   options: tminus_options.styles
                 }),
+
+                el(SelectControl, {
+                  label: __('Launch Target', 't-countdown'),
+                  value: attributes.launchtarget,
+                  onChange: changeLaunchTarget,
+                  options: [
+                    {value: 'countdown', label: __('Countdown', 't-countdown') },
+                    {value: 'tophtml', label: __('Above Countdown', 't-countdown') },
+                    {value: 'bothtml', label: __('Below Countdown', 't-countdown') },
+                    {value: 'countup', label: __('Count Up', 't-countdown') },
+                  ]
+                })
+                
               ]
           ),
 
           el(PanelBody, {
-              title: __('Launch Date & Time'),
+              title: __('Launch Date & Time', 't-countdown'),
               initialOpen: true,
           },
               [
@@ -209,37 +254,44 @@ registerBlockType( 'tminus/countdown', {
                   onChange: changeDate
                 }),
                 el(TextControl, {
-                  label: __( 'Seconds' ),
+                  label: __('Seconds', 't-countdown'),
                   value: attributes.secs,
                   onChange: changeSecs,
                   type: 'number',
                   min: 0,
                   max: 59,
-                  help: __( 'Currently, seconds need to be entered seperatly due to the fact that the Gutenberg Time Picker incrediously does not support seconds.' )
+                  help: __('Currently, seconds need to be entered seperatly due to the fact that the Gutenberg Time Picker incrediously does not support seconds.', 't-countdown')
+                }),
+                el(TextControl, {
+                  label: __( 'Launch Strtotime' ),
+                  value: attributes.timestr,
+                  onChange: changeTimestr,
+                  type: 'string',
+                  help: StrtotimeLink // __( '%s launch value. If set, the date and time values above will be ignored.', 't-countdown')
                 }),
               ]
           ),
 
           el(PanelBody, {
-              title: __('Date Unit Display'),
+              title: __('Date Unit Display', 't-countdown'),
               initialOpen: false,
           },
               [
                 el(ToggleControl, {
                   checked: attributes.omityears,
-                  label: __( 'Ommit Years' ),
+                  label: __('Ommit Years', 't-countdown'),
                   onChange: changeOmitYears,
                 }),
 
                 el(ToggleControl, {
                   checked: attributes.omitmonths,
-                  label: __( 'Ommit Months' ),
+                  label: __('Ommit Months', 't-countdown'),
                   onChange: changeOmitMonths,
                 }),
 
                 el(ToggleControl, {
                   checked: attributes.omitweeks,
-                  label: __( 'Ommit Weeks' ),
+                  label: __('Ommit Weeks', 't-countdown'),
                   onChange: changeOmitWeeks,
                 }),
 
@@ -247,49 +299,49 @@ registerBlockType( 'tminus/countdown', {
           ),
 
           el(PanelBody, {
-              title: __('Date & Time Labels'),
+              title: __('Date & Time Labels', 't-countdown'),
               initialOpen: false,
           },
               [
                 el(TextControl, {
                   value: attributes.yearlabel,
-                  label: __( 'Years Label' ),
+                  label: __('Years Label', 't-countdown'),
                   onChange: changeYearLabel,
                 }),
 
                 el(TextControl, {
                   value: attributes.monthlabel,
-                  label: __( 'Months Label' ),
+                  label: __('Months Label', 't-countdown'),
                   onChange: changeMonthLabel,
                 }),
 
                 el(TextControl, {
                   value: attributes.weeklabel,
-                  label: __( 'Weeks Label' ),
+                  label: __('Weeks Label', 't-countdown'),
                   onChange: changeWeekLabel,
                 }),
 
                 el(TextControl, {
                   value: attributes.daylabel,
-                  label: __( 'Days Label' ),
+                  label: __('Days Label', 't-countdown'),
                   onChange: changeDayLabel,
                 }),
 
                 el(TextControl, {
                   value: attributes.hourlabel,
-                  label: __( 'Hours Label' ),
+                  label: __('Hours Label', 't-countdown'),
                   onChange: changeHourLabel,
                 }),
 
                 el(TextControl, {
                   value: attributes.minutelabel,
-                  label: __( 'Mintues Label' ),
+                  label: __('Mintues Label', 't-countdown'),
                   onChange: changeMinuteLabel,
                 }),
 
                 el(TextControl, {
                   value: attributes.secondlabel,
-                  label: __( 'Seconds Label' ),
+                  label: __('Seconds Label', 't-countdown'),
                   onChange: changeSecondLabel,
                 }),
               ]
