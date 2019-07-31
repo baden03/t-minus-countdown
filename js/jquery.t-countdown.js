@@ -1,5 +1,5 @@
 /*
- * T- Countdown v2.4.2
+ * T- Countdown v2.4.3
  * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
  * Copyright 2019, Twinpictures
@@ -117,7 +117,7 @@
 	$.fn.doTminusCountDown = function (id, diffSecs, duration) {
 		$this = $('#' + id);
 		style = $.data($this[0], 'style');
-		secs_elm = $('#' + id + ' .' + style + '-seconds_dash');
+		seconds_elm = $('#' + id + ' .' + style + '-seconds_dash');
 		weeks_elm = $('#' + id + ' .' + style + '-weeks_dash');
 		months_elm = $('#' + id + ' .' + style + '-months_dash');
 		years_elm = $('#' + id + ' .' + style + '-years_dash');
