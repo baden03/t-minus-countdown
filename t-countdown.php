@@ -4,7 +4,7 @@ Plugin Name: T(-) Countdown
 Text Domain: t-countdown
 Plugin URI: https://plugins.twinpictures.de/plugins/t-countdown/
 Description: Display and configure multiple countdown timers in years, months, weeks, days, hours and seconds in a number of different styles.
-Version: 2.4.6b
+Version: 2.4.6c
 Author: twinpictures
 Author URI: https://plugins.twinpictures.de/
 License: GPL2
@@ -12,7 +12,7 @@ License: GPL2
 
 class WP_TMinus {
 	var $plugin_name = 'T(-) Countdown';
-	var $version = '2.4.6b';
+	var $version = '2.4.6c';
 	var $domain = 'tminus';
 	var $plguin_options_page_title = 'T(-) Countdown Options';
 	var $plugin_options_menue_title = 'T(-) Countdown';
@@ -233,7 +233,7 @@ class WP_TMinus {
 		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
 
 		//tCountdown script
-		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '2.4.2', 'true');
+		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '2.4.3', 'true');
 		// callback for t(-) events
 		$response = array( 'now' => date( 'n/j/Y H:i:s', strtotime(current_time('mysql'))));
 		wp_localize_script( 'countdown-script', 'tCountAjax', array(
