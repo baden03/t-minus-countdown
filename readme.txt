@@ -1,14 +1,14 @@
 === T(-) Countdown ===
 
 Contributors: twinpictures
-Donate link: https://plugins.twinpictures.de/plugins/t-minus-countdown/
+Donate link: https://pluginoven.com/plugins/t-countdown/#donate
 Tags: countdown, timer, clock, ticker, event, counter, count down, twinpictures, t minus, t-minus, t(-), t(-) countdown, t-countdown, t (-) countdown, plugin-oven, pluginoven
-Requires at least: 4.7
+Requires at least: 4.9
 Tested up to: 5.2.2
-Stable tag: 2.4.4b
+Stable tag: 2.4.6b
 Requires PHP: 7.0
-License: GPLv2 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
+License: GPLv3
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Display and configure multiple countdown timers in years, months, weeks, days, hours and seconds in a number of different styles.
 
@@ -29,7 +29,7 @@ T(-) Countdown is a customisable countdown timer that can display years (optiona
 == Frequently Asked Questions ==
 
 = How does one use the shortcode, exactly? =
-A <a href='https://plugins.twinpictures.de/plugins/t-minus-countdown/documentation/'>complete list of shortcode options</a> has been provided to answer this exact question.
+A <a href='https://pluginoven.com/plugins/t-countdown/documentation/shortcode/'>complete list of shortcode options</a> has been provided to answer this exact question.
 
 = Where can I fork this plugin and contribute changes? =
 <a href='https://github.com/baden03/t-minus-countdown'>github</a>
@@ -66,9 +66,14 @@ Ah yes! <a href='https://twitter.com/#!/twinpictures'>@Twinpictures</a> is on th
 
 == Changelog ==
 
+= 2.4.6 =
+* added %this_year% and %this_easter% time placeholders
+* added omitseconds fixed issue with day label
+
 = 2.4.5 =
 * added Gutenberg block
 * fine tuned css on some styles
+* countdown will show 00:00:00 by default if already launched
 
 = 2.4.4 =
 * fixed issue if only days are being displayed
@@ -97,3 +102,4 @@ Ah yes! <a href='https://twitter.com/#!/twinpictures'>@Twinpictures</a> is on th
 * Plugin is the next generation of T(-) Countdown Widget
 * added Gutenberg block
 * fine tuned css on some styles
+* countdown will show 00:00:00 by default if already launched
