@@ -4,7 +4,7 @@ Plugin Name: T(-) Countdown
 Text Domain: t-countdown
 Plugin URI: https://plugins.twinpictures.de/plugins/t-countdown/
 Description: Display and configure multiple countdown timers in years, months, weeks, days, hours and seconds in a number of different styles.
-Version: 2.4.4b
+Version: 2.4.6b
 Author: twinpictures
 Author URI: https://plugins.twinpictures.de/
 License: GPL2
@@ -12,7 +12,7 @@ License: GPL2
 
 class WP_TMinus {
 	var $plugin_name = 'T(-) Countdown';
-	var $version = '2.4.4b';
+	var $version = '2.4.6b';
 	var $domain = 'tminus';
 	var $plguin_options_page_title = 'T(-) Countdown Options';
 	var $plugin_options_menue_title = 'T(-) Countdown';
@@ -28,6 +28,7 @@ class WP_TMinus {
 		'omityears'   => 'false',
 		'omitmonths'  => 'false',
 		'omitweeks'		=> 'false',
+		'omitseconds'	=> 'false',
 		'yearlabel'		=> 'Years',
 		'monthlabel'	=> 'Months',
 		'weeklabel'		=> 'Weeks',
@@ -134,7 +135,7 @@ class WP_TMinus {
 				'wp-i18n',
 				'wp-editor',
 			),
-			'0.1',
+			'0.2',
 			true
 		);
 
@@ -158,6 +159,7 @@ class WP_TMinus {
 			'omityears' => $this->options['omityears'],
 			'omitmonths' => $this->options['omitmonths'],
 			'omitweeks' => $this->options['omitweeks'],
+			'omitseconds' => $this->options['omitseconds'],
 
 			'yearlabel' => $this->options['yearlabel'],
 			'monthlabel' => $this->options['monthlabel'],
@@ -185,6 +187,7 @@ class WP_TMinus {
 														'omityears' => array ('type' => 'boolean', 'default' => $this->options['omityears']),
 														'omitmonths' => array ('type' => 'boolean', 'default' => $this->options['omitmonths']),
 														'omitweeks' => array ('type' => 'boolean', 'default' => $this->options['omitweeks']),
+														'omitseconds' => array ('type' => 'boolean', 'default' => $this->options['omitseconds']),
 														'yearlabel' => array ('type' => 'string', 'default' => $this->options['yearlabel']),
 														'monthlabel' => array ('type' => 'string', 'default' => $this->options['monthlabel']),
 														'weeklabel' => array ('type' => 'string', 'default' => $this->options['weeklabel']),
@@ -230,7 +233,7 @@ class WP_TMinus {
 		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
 
 		//tCountdown script
-		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '2.4.1', 'true');
+		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '2.4.2', 'true');
 		// callback for t(-) events
 		$response = array( 'now' => date( 'n/j/Y H:i:s', strtotime(current_time('mysql'))));
 		wp_localize_script( 'countdown-script', 'tCountAjax', array(
@@ -314,6 +317,14 @@ class WP_TMinus {
 									<td><label><input type="radio" name="<?php echo $this->options_name ?>[omitweeks][]" value="false"  <?php echo checked( $options['omitweeks'], 'false' ); ?> /> <?php _e('Display', 't-countdown'); ?></label>
 										&nbsp; &nbsp; <label><input type="radio" name="<?php echo $this->options_name ?>[omitweeks][]" value="true"  <?php echo checked( $options['omitweeks'], 'true' ); ?> /> <?php _e('Hide', 't-countdown'); ?></label>
 										<br /><span class="description"><?php _e('Display or hide weeks from countdowns', 't-countdown'); ?></span>
+									</td>
+								</tr>
+
+								<tr>
+									<th><?php _e( 'Omit Seconds', 't-countdown' ) ?>:</th>
+									<td><label><input type="radio" name="<?php echo $this->options_name ?>[omitseconds][]" value="false"  <?php echo checked( $options['omitseconds'], 'false' ); ?> /> <?php _e('Display', 't-countdown'); ?></label>
+										&nbsp; &nbsp; <label><input type="radio" name="<?php echo $this->options_name ?>[omitseconds][]" value="true"  <?php echo checked( $options['omitseconds'], 'true' ); ?> /> <?php _e('Hide', 't-countdown'); ?></label>
+										<br /><span class="description"><?php _e('Display or hide seconds from countdowns', 't-countdown'); ?></span>
 									</td>
 								</tr>
 
@@ -527,15 +538,21 @@ class WP_TMinus {
 		if(!empty($atts['timestr'])){
 			$t = $atts['timestr'];
 		}
-		else{
+		else if(!empty($atts['t'])){
 			$timestamp->setTimestamp($atts['t']);
 			$t = $timestamp->format('Y-m-d H:i').':'.$atts['secs'];
 		}
+		else{
+			$t = '+ 1 day';
+		}
+
 
 		$omityears = ($atts['omityears']) ? 'true' : 'false';
 		$omitmonths = ($atts['omitmonths']) ? 'true' : 'false';
 		$omitweeks = ($atts['omitweeks']) ? 'true' : 'false';
-		return do_shortcode('[tminus t="'.$t.'" timezone="'.$timezone.'" style="'.$style.'" omityears="'.$omityears.'" omitmonths="'.$omitmonths.'" omitweeks="'.$omitweeks.'" years="'.$atts['yearlabel'].'" months="'.$atts['monthlabel'].'" weeks="'.$atts['weeklabel'].'" days=".'.$atts['daylabel'].'." hours="'.$atts['hourlabel'].'" minutes="'.$atts['minutelabel'].'" seconds="'.$atts['secondlabel'].'" launchtarget="'.$atts['launchtarget'].'"]'.$atts['content'].'[/tminus]');
+		$omitseconds = ($atts['omitseconds']) ? 'true' : 'false';
+
+		return do_shortcode('[tminus t="'.$t.'" timezone="'.$timezone.'" style="'.$style.'" omityears="'.$omityears.'" omitmonths="'.$omitmonths.'" omitweeks="'.$omitweeks.'" omitseconds="'.$omitseconds.'" years="'.$atts['yearlabel'].'" months="'.$atts['monthlabel'].'" weeks="'.$atts['weeklabel'].'" days="'.$atts['daylabel'].'" hours="'.$atts['hourlabel'].'" minutes="'.$atts['minutelabel'].'" seconds="'.$atts['secondlabel'].'" launchtarget="'.$atts['launchtarget'].'"]'.$atts['content'].'[/tminus]');
 	}
 
 	//the shortcode
@@ -556,6 +573,7 @@ class WP_TMinus {
 			'omityears' => 'false',
 			'omitmonths' => 'false',
 			'omitweeks' => 'false',
+			'omitseconds' => 'false',
 			'style' => 'jedi',
 			'before' => '',
 			'after' => '',
@@ -585,6 +603,17 @@ class WP_TMinus {
 
 		if($timezone){
 			$now->setTimezone( new DateTimeZone( $timezone ) );
+		}
+
+		// deal with this_year and this_easter
+		if(stristr($t, '%') != FALSE){
+			$scode = array('%this_year%', '%this_easter%');
+			$swap = array(date('Y'), date('Y-m-d', easter_date(date('Y'))));
+
+			if( strtotime( str_replace($scode, $swap, $t)) <  strtotime("now") ){
+				$swap = array(date('Y', strtotime('+1 year')), date('Y-m-d', easter_date(date('Y', strtotime('+1 year')))));
+			}
+			$t = str_replace($scode, $swap, $t);
 		}
 
 		$error = '';
@@ -784,30 +813,35 @@ class WP_TMinus {
 		}
 
 		$dclass = $style.'-dash '.$style.'-days_dash';
-
 		$tminus .= '<div class="'.$dclass.'" data-next="'.$next_arr['next_day'].'"><div class="'.$style.'-dash_title">'.$days.'</div>';
 		foreach( $date_arr['days'] AS $digit ){
 			$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
 		}
 		$tminus .= '</div>';
+
 		$tminus .= '<div class="'.$style.'-dash '.$style.'-hours_dash">';
 			$tminus .= '<div class="'.$style.'-dash_title">'.$hours.'</div>';
 			foreach( $date_arr['hours'] AS $digit ){
 				$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
 			}
 		$tminus .= '</div>';
-			$tminus .= '<div class="'.$style.'-dash '.$style.'-minutes_dash">';
+
+		$tminus .= '<div class="'.$style.'-dash '.$style.'-minutes_dash">';
 			$tminus .= '<div class="'.$style.'-dash_title">'.$minutes.'</div>';
 			foreach( $date_arr['mins'] AS $digit ){
 				$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
 			}
 		$tminus .= '</div>';
-			$tminus .= '<div class="'.$style.'-dash '.$style.'-seconds_dash">';
-			$tminus .= '<div class="'.$style.'-dash_title">'.$seconds.'</div>';
-			foreach( $date_arr['secs'] AS $digit ){
-				$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
-			}
-		$tminus .= '</div>';
+
+		if($omitseconds == 'false'){
+				$tminus .= '<div class="'.$style.'-dash '.$style.'-seconds_dash">';
+					$tminus .= '<div class="'.$style.'-dash_title">'.$seconds.'</div>';
+					foreach( $date_arr['secs'] AS $digit ){
+						$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
+					}
+				$tminus .= '</div>';
+		}
+
 		$tminus .= '</div>'; //close the dashboard
 
 		$tminus .= '<div id="'.$id.'-bothtml" class="'.$style.'-bothtml">';
@@ -843,10 +877,7 @@ class WP_TMinus {
 					style: '".$style."',
 					id: '".$id."',
 					event_id: '".$event_id."',
-					launchtarget: '".$launchtarget."',
-					omitWeeks: '".$omitweeks."',
-					omitmonths: '".$omitmonths."',
-					omityears: '".$omityears."'";
+					launchtarget: '".$launchtarget."'";
 
 		if(!empty($content)){
 			$tminus .= ", onComplete: function() {
