@@ -1,5 +1,5 @@
 /*
- * T- Countdown v2.4.1
+ * T- Countdown v2.4.2
  * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
  * Copyright 2019, Twinpictures
@@ -74,9 +74,6 @@
 		if (config.hangtime){
 			$.data($(this)[0], 'hangtime', config.hangtime);
 		}
-		if (config.omitWeeks){
-			$.data($(this)[0], 'omitWeeks', config.omitWeeks);
-		}
 
 		$('#' + $(this).attr('id') + ' .' + style + '-digit').each(function(index) {
 			digit = $(this).data('digit');
@@ -120,6 +117,7 @@
 	$.fn.doTminusCountDown = function (id, diffSecs, duration) {
 		$this = $('#' + id);
 		style = $.data($this[0], 'style');
+		secs_elm = $('#' + id + ' .' + style + '-seconds_dash');
 		weeks_elm = $('#' + id + ' .' + style + '-weeks_dash');
 		months_elm = $('#' + id + ' .' + style + '-months_dash');
 		years_elm = $('#' + id + ' .' + style + '-years_dash');
@@ -127,14 +125,16 @@
 		if (diffSecs <= 0){
 			if( $.data($this[0], 'launchtarget') != 'countup' ){
 				diffSecs = 0;
-				
+
 				// stop the countdown
 				$.data($this[0], 'status', 'stop');
 			}
 		}
 		secs = Math.abs(diffSecs % 60);
 
-		$this.dashTminusChangeTo(id, style + '-seconds_dash', secs, duration ? duration : 500);
+		if( seconds_elm.length){
+			$this.dashTminusChangeTo(id, style + '-seconds_dash', secs, duration ? duration : 500);
+		}
 		if(secs == 59){
 			mins = Math.floor(Math.abs(diffSecs/60)%60);
 			$this.dashTminusChangeTo(id, style + '-minutes_dash', mins, duration ? duration : 1000);

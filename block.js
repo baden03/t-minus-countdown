@@ -1,6 +1,6 @@
 /*
 tminus/countdown
-version: 0.1
+version: 0.2
 */
 
 const {registerBlockType} = wp.blocks; //Blocks API
@@ -78,6 +78,10 @@ registerBlockType( 'tminus/countdown', {
     omitweeks: {
       type: 'boolean',
       default: (tminus_options.omitweeks == 'true')
+    },
+    omitseconds: {
+      type: 'boolean',
+      default: (tminus_options.omitseconds == 'true')
     },
     yearlabel: {
 			type: 'string',
@@ -161,6 +165,10 @@ registerBlockType( 'tminus/countdown', {
 			setAttributes({omitweeks});
 		}
 
+    function changeOmitSeconds(omitseconds){
+			setAttributes({omitseconds});
+		}
+
     function changeYearLabel(yearlabel){
 			setAttributes({yearlabel});
 		}
@@ -200,11 +208,10 @@ registerBlockType( 'tminus/countdown', {
 			} ),
 
       el(RichText, {
-          value: attributes.content,
-          tagName: 'p',
-          placeholder: __( 'Content blocks to display once countdown reaches zero.', 't-countdown' ),
-          onChange: changeContent
-      }),
+              value: attributes.content,
+              placeholder: __( 'Content blocks to display once countdown reaches zero.', 't-countdown' ),
+              onChange: changeContent
+      } ),
 
 			//Block Inspector
 			el( InspectorControls, {},
@@ -239,7 +246,7 @@ registerBlockType( 'tminus/countdown', {
                     {value: 'countup', label: __('Count Up', 't-countdown') },
                   ]
                 })
-                
+
               ]
           ),
 
@@ -293,6 +300,12 @@ registerBlockType( 'tminus/countdown', {
                   checked: attributes.omitweeks,
                   label: __('Ommit Weeks', 't-countdown'),
                   onChange: changeOmitWeeks,
+                }),
+
+                el(ToggleControl, {
+                  checked: attributes.omitseconds,
+                  label: __('Ommit Seconds', 't-countdown'),
+                  onChange: changeOmitSeconds,
                 }),
 
               ]
