@@ -708,14 +708,8 @@ class WP_TMinus {
 			$next_arr['next_day'] = $tomorrow_interval->days;
 		}
 
-		// just days
-		if($omitweeks != 'false'){
-			$dash_omitweeks_class = 'omitweeks';
-		}
-		//weeks and days
-		else{
-			$dash_omitweeks_class = '';
-
+		// adjust days if weeks are being displayed
+		if($omitweeks == 'false'){
 			$date_arr['weeks'] = (int) floor( $date_arr['days'] / 7 );
 			$date_arr['days'] = (int) floor($date_arr['days'] %7);
 
@@ -763,7 +757,7 @@ class WP_TMinus {
 			$height .= 'px';
 		}
 		$tminus = $error.'<div id="'.$id.'-countdown" class="tminus_countdown" style="width:'.$width.'; height:'.$height.';">';
-		$tminus .= '<div class="'.$style.'-countdown '.$dash_omitweeks_class.'">';
+		$tminus .= '<div class="'.$style.'-countdown">';
 		$tminus .= '<div id="'.$id.'-tophtml" class="'.$style.'-tophtml">';
 	    if($before){
 	        $tminus .=  htmlspecialchars_decode($before);
