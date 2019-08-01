@@ -209,7 +209,7 @@ registerBlockType( 'tminus/countdown', {
 
       el(RichText, {
               value: attributes.content,
-              placeholder: __( 'Content blocks to display once countdown reaches zero.', 't-countdown' ),
+              placeholder: __( 'Content to display once countdown reaches zero.', 't-countdown' ),
               onChange: changeContent
       } ),
 
