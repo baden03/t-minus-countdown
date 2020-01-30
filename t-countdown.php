@@ -4,7 +4,7 @@ Plugin Name: T(-) Countdown
 Text Domain: t-countdown
 Plugin URI: https://plugins.twinpictures.de/plugins/t-countdown/
 Description: Display and configure multiple countdown timers in years, months, weeks, days, hours and seconds in a number of different styles.
-Version: 2.4.6c
+Version: 2.4.6d
 Author: twinpictures
 Author URI: https://plugins.twinpictures.de/
 License: GPL2
@@ -12,7 +12,7 @@ License: GPL2
 
 class WP_TMinus {
 	var $plugin_name = 'T(-) Countdown';
-	var $version = '2.4.6c';
+	var $version = '2.4.6d';
 	var $domain = 'tminus';
 	var $plguin_options_page_title = 'T(-) Countdown Options';
 	var $plugin_options_menue_title = 'T(-) Countdown';
@@ -519,6 +519,23 @@ class WP_TMinus {
 		}
 	}
 
+	function get_wp_timezone() {
+	    $tzstring = get_option( 'timezone_string' );
+	    $offset   = get_option( 'gmt_offset' );
+
+			if( empty( $tzstring ) && 0 != $offset && floor( $offset ) == $offset ){
+	        $offset_st = $offset > 0 ? "-$offset" : '+'.absint( $offset );
+	        $tzstring  = 'Etc/GMT'.$offset_st;
+	    }
+
+	    if( empty( $tzstring ) ){
+	        $tzstring = 'UTC';
+	    }
+
+	    $timezone = new DateTimeZone( $tzstring );
+	    return $timezone;
+	}
+
 	function tminus_callback($atts) {
 		//return 'Hey dude...';
 		if(empty($atts['content'])){
@@ -528,12 +545,14 @@ class WP_TMinus {
 			$atts['launchtarget'] = 'countdown';
 		}
 		$style = $atts['style'];
-		$timestamp = new DateTime( );
+		$timestamp = new DateTime( null, $this->get_wp_timezone() );
 
+		/*
 		$timezone = get_option('timezone_string');
 		if(!empty($atts['timezone'])){
 			$timezone = $atts['timezone'];
 		}
+		*/
 
 		if(!empty($atts['timestr'])){
 			$t = $atts['timestr'];
@@ -552,7 +571,8 @@ class WP_TMinus {
 		$omitweeks = ($atts['omitweeks']) ? 'true' : 'false';
 		$omitseconds = ($atts['omitseconds']) ? 'true' : 'false';
 
-		return do_shortcode('[tminus t="'.$t.'" timezone="'.$timezone.'" style="'.$style.'" omityears="'.$omityears.'" omitmonths="'.$omitmonths.'" omitweeks="'.$omitweeks.'" omitseconds="'.$omitseconds.'" years="'.$atts['yearlabel'].'" months="'.$atts['monthlabel'].'" weeks="'.$atts['weeklabel'].'" days="'.$atts['daylabel'].'" hours="'.$atts['hourlabel'].'" minutes="'.$atts['minutelabel'].'" seconds="'.$atts['secondlabel'].'" launchtarget="'.$atts['launchtarget'].'"]'.$atts['content'].'[/tminus]');
+		//return do_shortcode('[tminus t="'.$t.'" timezone="'.$timezone.'" style="'.$style.'" omityears="'.$omityears.'" omitmonths="'.$omitmonths.'" omitweeks="'.$omitweeks.'" omitseconds="'.$omitseconds.'" years="'.$atts['yearlabel'].'" months="'.$atts['monthlabel'].'" weeks="'.$atts['weeklabel'].'" days="'.$atts['daylabel'].'" hours="'.$atts['hourlabel'].'" minutes="'.$atts['minutelabel'].'" seconds="'.$atts['secondlabel'].'" launchtarget="'.$atts['launchtarget'].'"]'.$atts['content'].'[/tminus]');
+		return do_shortcode('[tminus t="'.$t.'" style="'.$style.'" omityears="'.$omityears.'" omitmonths="'.$omitmonths.'" omitweeks="'.$omitweeks.'" omitseconds="'.$omitseconds.'" years="'.$atts['yearlabel'].'" months="'.$atts['monthlabel'].'" weeks="'.$atts['weeklabel'].'" days="'.$atts['daylabel'].'" hours="'.$atts['hourlabel'].'" minutes="'.$atts['minutelabel'].'" seconds="'.$atts['secondlabel'].'" launchtarget="'.$atts['launchtarget'].'"]'.$atts['content'].'[/tminus]');
 	}
 
 	//the shortcode
@@ -562,7 +582,7 @@ class WP_TMinus {
 	    extract(shortcode_atts(array(
 			'id' => $ran,
 			't' => '',
-			'timezone' => get_option('timezone_string'),
+			//'timezone' => get_option('timezone_string'),
 			'years' => $this->options['yearlabel'],
 			'months' => $this->options['monthlabel'],
 			'weeks' => $this->options['weeklabel'],
@@ -599,11 +619,15 @@ class WP_TMinus {
 			wp_enqueue_style( 'countdown-'.$style.'-css' );
 		}
 
-		$now = new DateTime( );
+		//$now = new DateTime( );
+		$now = new DateTime( null, $this->get_wp_timezone() );
+		//var_dump($now);
 
+		/*
 		if($timezone){
 			$now->setTimezone( new DateTimeZone( $timezone ) );
 		}
+		*/
 
 		// deal with this_year and this_easter
 		if(stristr($t, '%') != FALSE){
@@ -616,9 +640,14 @@ class WP_TMinus {
 			$t = str_replace($scode, $swap, $t);
 		}
 
+
+		$target = new DateTime( $t, $this->get_wp_timezone() );
+
+		/*
 		$error = '';
 		try {
 		    $target = new DateTime( $t );
+				var_dump('target time:'. $target);
 				if($timezone){
 					$target->setTimezone( new DateTimeZone( $timezone ) );
 				}
@@ -626,6 +655,7 @@ class WP_TMinus {
 		    $error = $e->getMessage();
 		    $target = $now;
 		}
+		*/
 
 		$diffSecs = $target->getTimestamp() - $now->getTimestamp();
 
@@ -756,7 +786,7 @@ class WP_TMinus {
 		if(is_numeric($height)){
 			$height .= 'px';
 		}
-		$tminus = $error.'<div id="'.$id.'-countdown" class="tminus_countdown" style="width:'.$width.'; height:'.$height.';">';
+		$tminus = '<div id="'.$id.'-countdown" class="tminus_countdown" style="width:'.$width.'; height:'.$height.';">';
 		$tminus .= '<div class="'.$style.'-countdown">';
 		$tminus .= '<div id="'.$id.'-tophtml" class="'.$style.'-tophtml">';
 	    if($before){
