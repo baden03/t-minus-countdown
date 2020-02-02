@@ -1,5 +1,5 @@
 /*
- * T- Countdown v2.4.3
+ * T- Countdown v2.4.4
  * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
  * Copyright 2020, Twinpictures
@@ -38,9 +38,25 @@
 		nowTime = new Date(nowobj.now);
 
 		//ofset from browser time
-		browserTime = new Date();
-		timeOffset = Math.floor((nowTime.valueOf()-browserTime.valueOf())/1000);
-		$.data($(this)[0], 'timeOffset', timeOffset);
+		//browserTime = new Date();
+
+		$.ajax({
+				method: 'GET',
+				url: tCountAjax.api_url + 'now',
+				beforeSend: function ( xhr ) {
+						xhr.setRequestHeader( 'X-WP-Nonce', tCountAjax.api_nonce );
+				},
+				success : function( response ) {
+						//console.log('rest-now: ', response);
+						$('#' + config.id + '-jstime').html( response.date );
+				},
+				fail : function( response ) {
+					console.log('error: ', response);
+				}
+		});
+
+		//timeOffset = Math.floor((nowTime.valueOf()-browserTime.valueOf())/1000);
+		//$.data($(this)[0], 'timeOffset', timeOffset);
 
 		style = config.style;
 		$.data($(this)[0], 'style', config.style);
@@ -170,11 +186,11 @@
 			if($.data($this[0], 'status') == 'play'){
 
 				//recaculate diffSecs
-
-				//this is the current browser time, not so good, as we also need an offset
 				nowTime = new Date();
-				timeOffset = $.data($this[0], 'timeOffset');
-				nowTime.setSeconds(nowTime.getSeconds() + timeOffset);
+				nowTime.setSeconds(nowTime.getSeconds());
+				//this is the current browser time, not so good, as we also need an offset
+				//timeOffset = $.data($this[0], 'timeOffset');
+				//nowTime.setSeconds(nowTime.getSeconds() + timeOffset);
 				//console.log('hey dude: ', tminusTargetTime.valueOf(), $.data($this[0], 'tminusTargetTime').valueOf() );
 
 				diffSecs = Math.floor(($.data($this[0], 'tminusTargetTime').valueOf()-nowTime.valueOf())/1000);

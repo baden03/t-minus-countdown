@@ -64,6 +64,9 @@ class WP_TMinus {
 		add_action( 'wp_ajax_tminusevents', array( $this, 'tminusevents_callback' ) );
 		add_action( 'wp_ajax_nopriv_tminusevents', array( $this, 'tminusevents_callback') );
 
+		//rest endpoints
+		add_action( 'rest_api_init',  array( $this, 'rest_tminus_endpoints' ) );
+
 		// the shortcode
 		add_shortcode('tminus', array( $this, 'tminus_shortcode') );
 	}
@@ -199,6 +202,22 @@ class WP_TMinus {
 		) );
 	}
 
+	//rest  endpoints: /wp-json/tminus/v1/now
+	function rest_tminus_endpoints() {
+    $namespace = 'tminus/v1';
+    register_rest_route( $namespace, '/now', array(
+        'methods'   => 'GET',
+        'callback'  => array( $this, 'rest_now_handler')
+    ) );
+	}
+
+	function rest_now_handler( ) {
+		$now = new DateTime( null, $this->get_wp_timezone() );
+		$result = new WP_REST_Response( $now, 200 );
+		$result->set_headers(array('Cache-Control' => 'no-cache'));
+		return $result;
+	}
+
 	// Add link to options page from plugin list
 	function plugin_actions($links) {
 		$new_links = array();
@@ -233,11 +252,13 @@ class WP_TMinus {
 		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
 
 		//tCountdown script
-		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '2.4.3', 'true');
+		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '2.4.4', 'true');
 		// callback for t(-) events
 		$response = array( 'now' => date( 'n/j/Y H:i:s', strtotime(current_time('mysql'))));
 		wp_localize_script( 'countdown-script', 'tCountAjax', array(
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			'api_nonce'		=> wp_create_nonce( 'wp_rest' ),
+	    'api_url'		=> site_url('/wp-json/tminus/v1/'),
 			'countdownNonce' => wp_create_nonce( 'tountajax-countdownonce-nonce' ),
 			'tminusnow' => json_encode($response)
 		));
@@ -911,6 +932,16 @@ class WP_TMinus {
 
 			$interval = $formated_target->diff($now);
 			$tminus .= '<br/>Difference: ' . $interval->format('%a days %h hours %i mins. %s secs.');
+
+			//rest now value
+			$request = new WP_REST_Request( 'GET', '/tminus/v1/now' );
+			$response = rest_do_request( $request );
+			$server = rest_get_server();
+			$data = $server->response_to_data( $response, false );
+			$json = wp_json_encode( $data );
+			$tminus .= '<br/>Rest Now (PHP): ' . $json;
+			$tminus .= '<br/>Rest Now (JS): <span id="'.$id.'-jstime">loading...</span>';
+
 			$tminus .= '</pre>';
 		}
 
