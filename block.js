@@ -1,12 +1,13 @@
 /*
 tminus/countdown
-version: 0.2
+version: 0.4
 */
 
 const {registerBlockType} = wp.blocks; //Blocks API
 const {__} = wp.i18n; //translation functions
-const {InspectorControls,RichText} = wp.editor;
-const {PanelBody,TextControl,ExternalLink,SelectControl,ToggleControl,DateTimePicker,ServerSideRender} = wp.components;
+const {InspectorControls,RichText} = wp.blockEditor;
+const {PanelBody,TextControl,ExternalLink,SelectControl,ToggleControl,DateTimePicker} = wp.components;
+const { serverSideRender } = wp;
 const el = wp.element.createElement;
 const StrtotimeLink = el(ExternalLink, {
                           href: 'https://php.net/manual/en/function.strtotime.php',
@@ -61,7 +62,7 @@ registerBlockType( 'tminus/countdown', {
 		},
     secs: {
 			type: 'string',
-      default: 0
+      default: '00'
 		},
     launchtarget: {
       type: 'string',
@@ -69,19 +70,19 @@ registerBlockType( 'tminus/countdown', {
     },
     omityears: {
       type: 'boolean',
-      default: (tminus_options.omityears == 'true')
+      default: (tminus_options.omityears === 'true')
     },
     omitmonths: {
       type: 'boolean',
-      default: (tminus_options.omitmonths == 'true')
+      default:  (tminus_options.omitmonths === 'true')
     },
     omitweeks: {
       type: 'boolean',
-      default: (tminus_options.omitweeks == 'true')
+      default: (tminus_options.omitweeks === 'true')
     },
     omitseconds: {
       type: 'boolean',
-      default: (tminus_options.omitseconds == 'true')
+      default: (tminus_options.omitseconds === 'true')
     },
     yearlabel: {
 			type: 'string',
@@ -114,6 +115,8 @@ registerBlockType( 'tminus/countdown', {
 	},
 
   edit(props){
+    //console.log( props.attributes );
+
 		const attributes =  props.attributes;
 		const setAttributes =  props.setAttributes;
 
@@ -202,7 +205,7 @@ registerBlockType( 'tminus/countdown', {
 
       //el('div', {}, 'This is a T(-) Countdown placeholder from block edit callback' ),
       //Preview a block with a PHP render callback
-      el( ServerSideRender, {
+      el( serverSideRender, {
 				block: 'tminus/countdown',
         attributes: attributes
 			} ),
