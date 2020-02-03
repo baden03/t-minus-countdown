@@ -25,6 +25,7 @@
  */
 
 (function($){
+	var timeOffset = 0;
 	$.fn.tminusCountDown = function (options) {
 		if ($(this)[0] == undefined)
 			return;
@@ -38,7 +39,8 @@
 		nowTime = new Date(nowobj.now);
 
 		//ofset from browser time
-		//browserTime = new Date();
+		browserTime = new Date();
+		timeOffset = Math.floor((nowTime.getTime()-browserTime.getTime())/1000);
 
 		$.ajax({
 				method: 'GET',
@@ -48,20 +50,33 @@
 				},
 				success : function( response ) {
 						//console.log('rest-now: ', response);
+						restTime = new Date(response.date);
+						var seconds = Math.floor((tminusTargetTime.getTime()-restTime.getTime())/1000);
+						var d = Math.floor(seconds / (3600*24));
+						var h = Math.floor(seconds % (3600*24) / 3600);
+						var m = Math.floor(seconds % 3600 / 60);
+						var s = Math.floor(seconds % 60);
+
+						var dDisplay = d > 0 ? d + (d == 1 ? " day " : " days ") : "";
+						var hDisplay = h > 0 ? h + (h == 1 ? " hour " : " hours ") : "";
+						var mDisplay = m > 0 ? m + (m == 1 ? " minu. " : " mins ") : "";
+						var sDisplay = s > 0 ? s + (s == 1 ? " sec." : " secs.") : "";
+
 						$('#' + config.id + '-jstime').html( response.date );
+						$('#' + config.id + '-jsdiff').html( dDisplay + hDisplay + mDisplay + sDisplay );
+						timeOffset = Math.floor((nowTime.getTime()-restTime.getTime())/1000);
 				},
 				fail : function( response ) {
 					console.log('error: ', response);
 				}
 		});
 
-		//timeOffset = Math.floor((nowTime.valueOf()-browserTime.valueOf())/1000);
-		//$.data($(this)[0], 'timeOffset', timeOffset);
-
 		style = config.style;
 		$.data($(this)[0], 'style', config.style);
 
 		$.data($(this)[0], 'status', 'play');
+		$.data($(this)[0], 'adjusted', 'false');
+
 		$.data($(this)[0], 'id', config.id);
 
 		if ( config.event_id ) {
@@ -97,8 +112,9 @@
 		});
 
 		//caculate the initial difference in seconds between now and launch
-		diffSecs = Math.floor((tminusTargetTime.valueOf()-nowTime.valueOf())/1000);
-		//console.log(diffSecs);
+		diffSecs = Math.floor((tminusTargetTime.getTime()-nowTime.getTime())/1000) + timeOffset;
+
+		//console.log('line 117', diffSecs);
 		$(this).doTminusCountDown($(this).attr('id'), diffSecs, 500);
 
 		return this;
@@ -133,7 +149,11 @@
 	$.fn.doTminusCountDown = function (id, diffSecs, duration) {
 		$this = $('#' + id);
 		style = $.data($this[0], 'style');
+		adjusted = $.data($this[0], 'adjusted');
+
 		seconds_elm = $('#' + id + ' .' + style + '-seconds_dash');
+		minutes_elm = $('#' + id + ' .' + style + '-minutes_dash');
+		hours_elm = $('#' + id + ' .' + style + '-hours_dash');
 		weeks_elm = $('#' + id + ' .' + style + '-weeks_dash');
 		months_elm = $('#' + id + ' .' + style + '-months_dash');
 		years_elm = $('#' + id + ' .' + style + '-years_dash');
@@ -151,12 +171,17 @@
 		if( seconds_elm.length){
 			$this.dashTminusChangeTo(id, style + '-seconds_dash', secs, duration ? duration : 500);
 		}
-		if(secs == 59){
+		if(secs == 59 || adjusted === 'false'){
 			mins = Math.floor(Math.abs(diffSecs/60)%60);
-			$this.dashTminusChangeTo(id, style + '-minutes_dash', mins, duration ? duration : 1000);
-			if(mins == 59){
+			if(mins != minutes_elm.data('current')){
+				$this.dashTminusChangeTo(id, style + '-minutes_dash', mins, duration ? duration : 1000);
+			}
+			if(mins == 59 || adjusted === 'false'){
 				hours = Math.floor(Math.abs(diffSecs/60/60)%24);
-				$this.dashTminusChangeTo(id, style + '-hours_dash', hours, duration ? duration : 1000);
+				if(hours != hours_elm.data('current')){
+					$this.dashTminusChangeTo(id, style + '-hours_dash', hours, duration ? duration : 1000);
+				}
+
 				if(hours == 23){
 					$this.dashTminusChangeTo(id, style + '-days_dash', $('#' + id + ' .' + style + '-days_dash').data('next'), duration ? duration : 1000);
 					if( weeks_elm.length && weeks_elm.data('next') !== undefined){
@@ -171,6 +196,7 @@
 					}
 				}
 			}
+			$.data($(this)[0], 'adjusted', 'true');
 		}
 
 		//why exactly are we doing this?
@@ -187,13 +213,12 @@
 
 				//recaculate diffSecs
 				nowTime = new Date();
+				//nowTime.setSeconds(nowTime.getSeconds());
 				nowTime.setSeconds(nowTime.getSeconds());
-				//this is the current browser time, not so good, as we also need an offset
-				//timeOffset = $.data($this[0], 'timeOffset');
-				//nowTime.setSeconds(nowTime.getSeconds() + timeOffset);
 				//console.log('hey dude: ', tminusTargetTime.valueOf(), $.data($this[0], 'tminusTargetTime').valueOf() );
 
-				diffSecs = Math.floor(($.data($this[0], 'tminusTargetTime').valueOf()-nowTime.valueOf())/1000);
+
+				diffSecs = Math.floor(($.data($this[0], 'tminusTargetTime').getTime()-nowTime.getTime())/1000) + timeOffset;
 
 				t = setTimeout( function() {
 					$this.doTminusCountDown(id, diffSecs);

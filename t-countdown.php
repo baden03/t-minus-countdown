@@ -4,7 +4,7 @@ Plugin Name: T(-) Countdown
 Text Domain: t-countdown
 Plugin URI: https://plugins.twinpictures.de/plugins/t-countdown/
 Description: Display and configure multiple countdown timers in years, months, weeks, days, hours and seconds in a number of different styles.
-Version: 2.4.7a
+Version: 2.4.7b
 Author: twinpictures
 Author URI: https://plugins.twinpictures.de/
 License: GPL2
@@ -12,7 +12,7 @@ License: GPL2
 
 class WP_TMinus {
 	var $plugin_name = 'T(-) Countdown';
-	var $version = '2.4.7a';
+	var $version = '2.4.7b';
 	var $domain = 'tminus';
 	var $plguin_options_page_title = 'T(-) Countdown Options';
 	var $plugin_options_menue_title = 'T(-) Countdown';
@@ -695,6 +695,9 @@ class WP_TMinus {
 			'years' => $interval->y,
 	 	);
 
+		$current_hours = $interval->h;
+		$current_minutes = $interval->i;
+
 		$next_arr = array(
 			'next_day' => $tomorrow_interval->d
 		);
@@ -854,14 +857,14 @@ class WP_TMinus {
 		}
 		$tminus .= '</div>';
 
-		$tminus .= '<div class="'.$style.'-dash '.$style.'-hours_dash">';
+		$tminus .= '<div class="'.$style.'-dash '.$style.'-hours_dash" data-current="'.$current_hours.'">';
 			$tminus .= '<div class="'.$style.'-dash_title">'.$hours.'</div>';
 			foreach( $date_arr['hours'] AS $digit ){
 				$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
 			}
 		$tminus .= '</div>';
 
-		$tminus .= '<div class="'.$style.'-dash '.$style.'-minutes_dash">';
+		$tminus .= '<div class="'.$style.'-dash '.$style.'-minutes_dash" data-current="'.$current_minutes.'">';
 			$tminus .= '<div class="'.$style.'-dash_title">'.$minutes.'</div>';
 			foreach( $date_arr['mins'] AS $digit ){
 				$tminus .=  '<div class="'.$style.'-digit" data-digit="'.$digit.'">'.$digit.'</div>';
@@ -941,6 +944,7 @@ class WP_TMinus {
 			$json = wp_json_encode( $data );
 			$tminus .= '<br/>Rest Now (PHP): ' . $json;
 			$tminus .= '<br/>Rest Now (JS): <span id="'.$id.'-jstime">loading...</span>';
+			$tminus .= '<br/>Rest Difference (JS): <span id="'.$id.'-jsdiff">loading...</span>';
 
 			$tminus .= '</pre>';
 		}
