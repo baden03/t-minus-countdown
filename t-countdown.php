@@ -916,6 +916,7 @@ class WP_TMinus {
 					style: '".$style."',
 					id: '".$id."',
 					event_id: '".$event_id."',
+					debug: '".$debug."',
 					launchtarget: '".$launchtarget."'";
 
 		if(!empty($content)){
