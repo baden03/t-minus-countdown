@@ -35,6 +35,7 @@
 		tminusTargetTime = this.setTminustminusTargetTime(config);
 		$.data($(this)[0], 'tminusTargetTime', tminusTargetTime);
 
+
 		var nowobj = $.parseJSON( tCountAjax['tminusnow'] );
 		nowTime = new Date(nowobj.now);
 
@@ -45,26 +46,29 @@
 		$.ajax({
 				method: 'GET',
 				url: tCountAjax.api_url + 'now',
-				beforeSend: function ( xhr ) {
+				beforeSend : function ( xhr ) {
 						xhr.setRequestHeader( 'X-WP-Nonce', tCountAjax.api_nonce );
 				},
 				success : function( response ) {
-						//console.log('rest-now: ', response);
 						restTime = new Date(response.date);
-						var seconds = Math.floor((tminusTargetTime.getTime()-restTime.getTime())/1000);
-						var d = Math.floor(seconds / (3600*24));
-						var h = Math.floor(seconds % (3600*24) / 3600);
-						var m = Math.floor(seconds % 3600 / 60);
-						var s = Math.floor(seconds % 60);
-
-						var dDisplay = d > 0 ? d + (d == 1 ? " day " : " days ") : "";
-						var hDisplay = h > 0 ? h + (h == 1 ? " hour " : " hours ") : "";
-						var mDisplay = m > 0 ? m + (m == 1 ? " minu. " : " mins ") : "";
-						var sDisplay = s > 0 ? s + (s == 1 ? " sec." : " secs.") : "";
-
-						$('#' + config.id + '-jstime').html( response.date );
-						$('#' + config.id + '-jsdiff').html( dDisplay + hDisplay + mDisplay + sDisplay );
 						timeOffset = Math.floor((nowTime.getTime()-restTime.getTime())/1000);
+
+						if ( config.debug === 'true' ) {
+							console.log('debug is set to "' + config.debug +'" for counter id: ' + config.id);
+							var seconds = Math.floor((tminusTargetTime.getTime()-restTime.getTime())/1000);
+							var d = Math.floor(seconds / (3600*24));
+							var h = Math.floor(seconds % (3600*24) / 3600);
+							var m = Math.floor(seconds % 3600 / 60);
+							var s = Math.floor(seconds % 60);
+
+							var dDisplay = d > 0 ? d + (d == 1 ? " day " : " days ") : "";
+							var hDisplay = h > 0 ? h + (h == 1 ? " hour " : " hours ") : "";
+							var mDisplay = m > 0 ? m + (m == 1 ? " minu. " : " mins ") : "";
+							var sDisplay = s > 0 ? s + (s == 1 ? " sec." : " secs.") : "";
+
+							$('#' + config.id + '-jstime').html( response.date );
+							$('#' + config.id + '-jsdiff').html( dDisplay + hDisplay + mDisplay + sDisplay );
+						}
 				},
 				fail : function( response ) {
 					console.log('error: ', response);
