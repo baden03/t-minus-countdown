@@ -5,7 +5,7 @@ Donate link: https://pluginoven.com/plugins/t-countdown/#donate
 Tags: countdown, timer, clock, ticker, event, counter, count down, twinpictures, t minus, t-minus, t(-), t(-) countdown, t-countdown, t (-) countdown, plugin-oven, pluginoven
 Requires at least: 4.9
 Tested up to: 5.3.2
-Stable tag: 2.4.7.a
+Stable tag: 2.4.7.b
 Requires PHP: 7.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -69,6 +69,7 @@ Ah yes! <a href='https://twitter.com/#!/twinpictures'>@Twinpictures</a> is on th
 = 2.4.7 =
 * fixed issue with default display units and toggles in block
 * added debug attribute to shortcode for troubleshooting caching issues
+* uses rest-api to recalculate time if page has been cached
 
 = 2.4.6 =
 * added %this_year% and %this_easter% time placeholders
