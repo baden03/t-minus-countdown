@@ -4,7 +4,7 @@ Plugin Name: T(-) Countdown
 Text Domain: t-countdown
 Plugin URI: https://plugins.twinpictures.de/plugins/t-countdown/
 Description: Display and configure multiple countdown timers in years, months, weeks, days, hours and seconds in a number of different styles.
-Version: 2.4.7b
+Version: 2.4.7c
 Author: twinpictures
 Author URI: https://plugins.twinpictures.de/
 License: GPL2
@@ -12,7 +12,7 @@ License: GPL2
 
 class WP_TMinus {
 	var $plugin_name = 'T(-) Countdown';
-	var $version = '2.4.7b';
+	var $version = '2.4.7c';
 	var $domain = 'tminus';
 	var $plguin_options_page_title = 'T(-) Countdown Options';
 	var $plugin_options_menue_title = 'T(-) Countdown';
@@ -252,7 +252,7 @@ class WP_TMinus {
 		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
 
 		//tCountdown script
-		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '2.4.4', 'true');
+		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.min.js', array ('jquery'), '2.4.5', 'true');
 		// callback for t(-) events
 		$response = array( 'now' => date( 'n/j/Y H:i:s', strtotime(current_time('mysql'))));
 		wp_localize_script( 'countdown-script', 'tCountAjax', array(
@@ -935,17 +935,14 @@ class WP_TMinus {
 			$tminus .= '<br/>Target: ' . $formated_target->format('Y-m-d H:i:s e');
 
 			$interval = $formated_target->diff($now);
-			$tminus .= '<br/>Difference: ' . $interval->format('%a days %h hours %i mins. %s secs.');
+			$tminus .= '<br/>Time to Target: ' . $interval->format('%a days %h hours %i mins. %s secs.');
 
-			//rest now value
-			$request = new WP_REST_Request( 'GET', '/tminus/v1/now' );
-			$response = rest_do_request( $request );
-			$server = rest_get_server();
-			$data = $server->response_to_data( $response, false );
-			$json = wp_json_encode( $data );
-			$tminus .= '<br/>Rest Now (PHP): ' . $json;
+			//rest now values
+			$tminus .= '<br/>Browser Now (JS): <span id="'.$id.'-jsnow">loading...</span>';
+			$tminus .= '<br/>Timezone Delta: <span id="'.$id.'-jstzone">loading...</span>';
 			$tminus .= '<br/>Rest Now (JS): <span id="'.$id.'-jstime">loading...</span>';
-			$tminus .= '<br/>Rest Difference (JS): <span id="'.$id.'-jsdiff">loading...</span>';
+			$tminus .= '<br/>Time to Target: <span id="'.$id.'-jsdiff">loading...</span>';
+			$tminus .= '<br/>Time Cached: <span id="'.$id.'-jscached">loading...</span>';
 
 			$tminus .= '</pre>';
 		}
