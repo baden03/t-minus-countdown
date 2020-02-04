@@ -633,7 +633,7 @@ class WP_TMinus {
 			'launchtarget' => 'countdown',
 			'event_id' => '',
 			'debug' => '',
-		), $atts));
+		), $atts, 'tminus' ));
 
 		if(empty($t)){
 			return;
