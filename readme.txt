@@ -4,9 +4,9 @@ Contributors: twinpictures
 Donate link: https://pluginoven.com/plugins/t-countdown/#donate
 Tags: countdown, timer, clock, ticker, event, counter, count down, twinpictures, t minus, t-minus, t(-), t(-) countdown, t-countdown, t (-) countdown, plugin-oven, pluginoven
 Requires at least: 4.9
-Tested up to: 5.7.0
-Stable tag: 2.4.8a
-Requires PHP: 7.0
+Tested up to: 5.9-alpha-51904
+Stable tag: 2.4.8
+Requires PHP: 7.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
