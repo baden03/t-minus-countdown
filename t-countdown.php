@@ -2,17 +2,17 @@
 /*
 Plugin Name: T(-) Countdown
 Text Domain: t-countdown
-Plugin URI: https://plugins.twinpictures.de/plugins/t-countdown/
+Plugin URI: https://pluginoven.com/plugins/t-countdown/
 Description: Display and configure multiple countdown timers in years, months, weeks, days, hours and seconds in a number of different styles.
-Version: 2.4.7
+Version: 2.4.8
 Author: twinpictures
-Author URI: https://plugins.twinpictures.de/
+Author URI: hhttps://pluginoven.com/
 License: GPL2
 */
 
 class WP_TMinus {
 	var $plugin_name = 'T(-) Countdown';
-	var $version = '2.4.7';
+	var $version = '2.4.8';
 	var $domain = 'tminus';
 	var $plguin_options_page_title = 'T(-) Countdown Options';
 	var $plugin_options_menue_title = 'T(-) Countdown';
@@ -186,7 +186,7 @@ class WP_TMinus {
 														't' => array ('type' => 'number'),
 														'timestr' => array ('type' => 'string'),
 														'launchtarget' => array ('type' => 'string'),
-													  'secs' => array ('type' => 'string', 'default' => '00'),
+													    'secs' => array ('type' => 'string', 'default' => '00'),
 														'omityears' => array ('type' => 'boolean', 'default' => $this->options['omityears']),
 														'omitmonths' => array ('type' => 'boolean', 'default' => $this->options['omitmonths']),
 														'omitweeks' => array ('type' => 'boolean', 'default' => $this->options['omitweeks']),
@@ -207,7 +207,8 @@ class WP_TMinus {
     $namespace = 'tminus/v1';
     register_rest_route( $namespace, '/now', array(
         'methods'   => 'GET',
-        'callback'  => array( $this, 'rest_now_handler')
+        'callback'  => array( $this, 'rest_now_handler'),
+				'permission_callback' => '__return_true'
     ) );
 	}
 
@@ -252,13 +253,14 @@ class WP_TMinus {
 		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
 
 		//tCountdown script
-		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.min.js', array ('jquery'), '2.4.5', 'true');
+		//wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '2.4.6', 'true');
+		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.min.js', array ('jquery'), '2.4.6', 'true');
 		// callback for t(-) events
 		$response = array( 'now' => date( 'n/j/Y H:i:s', strtotime(current_time('mysql'))));
 		wp_localize_script( 'countdown-script', 'tCountAjax', array(
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			'api_nonce'		=> wp_create_nonce( 'wp_rest' ),
-	    'api_url'		=> site_url('/wp-json/tminus/v1/'),
+	        'api_url'		=> site_url('/wp-json/tminus/v1/'),
 			'countdownNonce' => wp_create_nonce( 'tountajax-countdownonce-nonce' ),
 			'tminusnow' => json_encode($response)
 		));
@@ -351,56 +353,56 @@ class WP_TMinus {
 
 								<tr>
 									<th><?php _e( 'Years Label', 't-countdown' ) ?>:</th>
-									<td><label><input type="text" id="<?php echo $this->options_name ?>[yearlabel]" name="<?php echo $this->options_name ?>[yearlabel]" value="<?php echo $options['yearlabel']; ?>" />
+									<td><label><input type="text" id="<?php echo $this->options_name ?>[yearlabel]" name="<?php echo $this->options_name ?>[yearlabel]" value="<?php echo esc_attr($options['yearlabel']); ?>" />
 										<br /><span class="description"><?php _e( 'Default label for years.', 't-countdown' ) ?></span></label>
 									</td>
 								</tr>
 
 								<tr>
 									<th><?php _e( 'Months Label', 't-countdown' ) ?>:</th>
-									<td><label><input type="text" id="<?php echo $this->options_name ?>[monthlabel]" name="<?php echo $this->options_name ?>[monthlabel]" value="<?php echo $options['monthlabel']; ?>" />
+									<td><label><input type="text" id="<?php echo $this->options_name ?>[monthlabel]" name="<?php echo $this->options_name ?>[monthlabel]" value="<?php echo esc_attr($options['monthlabel']); ?>" />
 										<br /><span class="description"><?php _e( 'Default label for months.', 't-countdown' ) ?></span></label>
 									</td>
 								</tr>
 
 								<tr>
 									<th><?php _e( 'Weeks Label', 't-countdown' ) ?>:</th>
-									<td><label><input type="text" id="<?php echo $this->options_name ?>[weeklabel]" name="<?php echo $this->options_name ?>[weeklabel]" value="<?php echo $options['weeklabel']; ?>" />
+									<td><label><input type="text" id="<?php echo $this->options_name ?>[weeklabel]" name="<?php echo $this->options_name ?>[weeklabel]" value="<?php echo esc_attr($options['weeklabel']); ?>" />
 										<br /><span class="description"><?php _e( 'Default label for weeks.', 't-countdown' ) ?></span></label>
 									</td>
 								</tr>
 
 								<tr>
 									<th><?php _e( 'Days Label', 't-countdown' ) ?>:</th>
-									<td><label><input type="text" id="<?php echo $this->options_name ?>[daylabel]" name="<?php echo $this->options_name ?>[daylabel]" value="<?php echo $options['daylabel']; ?>" />
+									<td><label><input type="text" id="<?php echo $this->options_name ?>[daylabel]" name="<?php echo $this->options_name ?>[daylabel]" value="<?php echo esc_attr($options['daylabel']); ?>" />
 										<br /><span class="description"><?php _e( 'Default label for days.', 't-countdown' ) ?></span></label>
 									</td>
 								</tr>
 
 								<tr>
 									<th><?php _e( 'Hours Label', 't-countdown' ) ?>:</th>
-									<td><label><input type="text" id="<?php echo $this->options_name ?>[hourlabel]" name="<?php echo $this->options_name ?>[hourlabel]" value="<?php echo $options['hourlabel']; ?>" />
+									<td><label><input type="text" id="<?php echo $this->options_name ?>[hourlabel]" name="<?php echo $this->options_name ?>[hourlabel]" value="<?php echo esc_attr($options['hourlabel']); ?>" />
 										<br /><span class="description"><?php _e( 'Default label for hours.', 't-countdown' ) ?></span></label>
 									</td>
 								</tr>
 
 								<tr>
 									<th><?php _e( 'Minutes Label', 't-countdown' ) ?>:</th>
-									<td><label><input type="text" id="<?php echo $this->options_name ?>[minutelabel]" name="<?php echo $this->options_name ?>[minutelabel]" value="<?php echo $options['minutelabel']; ?>" />
+									<td><label><input type="text" id="<?php echo $this->options_name ?>[minutelabel]" name="<?php echo $this->options_name ?>[minutelabel]" value="<?php echo esc_attr($options['minutelabel']); ?>" />
 										<br /><span class="description"><?php _e( 'Default label for minutes.', 't-countdown' ) ?></span></label>
 									</td>
 								</tr>
 
 								<tr>
 									<th><?php _e( 'Seconds Label', 't-countdown' ) ?>:</th>
-									<td><label><input type="text" id="<?php echo $this->options_name ?>[secondlabel]" name="<?php echo $this->options_name ?>[secondlabel]" value="<?php echo $options['secondlabel']; ?>" />
+									<td><label><input type="text" id="<?php echo $this->options_name ?>[secondlabel]" name="<?php echo $this->options_name ?>[secondlabel]" value="<?php echo esc_attr($options['secondlabel']); ?>" />
 										<br /><span class="description"><?php _e( 'Default label for seconds.', 't-countdown' ) ?></span></label>
 									</td>
 								</tr>
 
 								<tr>
 									<th><?php _e( 'Custom CSS', 't-countdown' ) ?>:</th>
-									<td><label><textarea id="<?php echo $this->options_name ?>[custom_css]" name="<?php echo $this->options_name ?>[custom_css]" style="width: 100%; height: 537px;"><?php echo $options['custom_css']; ?></textarea>
+									<td><label><textarea id="<?php echo $this->options_name ?>[custom_css]" name="<?php echo $this->options_name ?>[custom_css]" style="width: 100%; height: 537px;"><?php echo esc_attr($options['custom_css']); ?></textarea>
 										<br /><span class="description"><?php _e( 'Custom CSS style for <em>ultimate flexibility</em>', 't-countdown' ) ?></span></label>
 									</td>
 								</tr>
@@ -422,10 +424,10 @@ class WP_TMinus {
 						<h4><?php echo $this->plugin_name; ?> <?php _e('Version', 't-countdown'); ?> <?php echo $this->version; ?></h4>
 						<p><?php _e( 'T(-) Countdown is a highly customizable, HTML5 countdown timer that can be displayed in a post or page using a shortcode.', 't-countdown') ?></p>
 						<ul>
-							<li><?php printf( __( '%sDetailed documentation%s, complete with working demonstrations of all shortcode attributes, is available for your instructional enjoyment.', 't-countdown'), '<a href="https://plugins.twinpictures.de/plugins/t-countdown/documentation/" target="_blank">', '</a>'); ?></li>
+							<li><?php printf( __( '%sDetailed documentation%s, complete with working demonstrations of all shortcode attributes, is available for your instructional enjoyment.', 't-countdown'), '<a href="https://pluginoven.com/plugins/t-countdown/documentation/" target="_blank">', '</a>'); ?></li>
 							<li><?php printf( __( 'A %sCommunity translation%s tool has been set up that allows anyone to assist in translating T(-) Countdown.', 't-countdown'), '<a href="https://translate.wordpress.org/projects/wp-plugins/t-countdown/" target="_blank">', '</a>' ); ?></li>
 							<li><?php printf( __( 'If this plugin %s, please consider %ssharing your story%s with others.', 't-countdown'), $like_it, '<a href="'.$share_it.'" target="_blank">', '</a>' ) ?></li>
-							<li><a href="https://wordpress.org/plugins/t-countdown/" target="_blank">WordPress.org</a> | <a href="https://plugins.twinpictures.de/plugins/t-countdown/" target="_blank">Twinpictues Plugin Oven</a></li>
+							<li><a href="https://wordpress.org/plugins/t-countdown/" target="_blank">WordPress.org</a> | <a href="https://pluginoven.com/plugins/t-countdown/" target="_blank">Twinpictues Plugin Oven</a></li>
 						</ul>
 						</ul>
 					</div>
@@ -608,10 +610,9 @@ class WP_TMinus {
 	function tminus_shortcode($atts, $content=null) {
 		//find a random number, if no id was assigned
 		$ran = uniqid();
-	    extract(shortcode_atts(array(
+		extract(shortcode_atts(array(
 			'id' => $ran,
 			't' => '',
-			//'timezone' => get_option('timezone_string'),
 			'years' => $this->options['yearlabel'],
 			'months' => $this->options['monthlabel'],
 			'weeks' => $this->options['weeklabel'],
@@ -651,6 +652,8 @@ class WP_TMinus {
 
 		//$now = new DateTime( );
 		$now = new DateTime( null, $this->get_wp_timezone() );
+		$UTC = new DateTimeZone("UTC");
+		$now_utc = new DateTime( null, $UTC);
 
 		// deal with this_year and this_easter
 		if(stristr($t, '%') != FALSE){
@@ -665,6 +668,8 @@ class WP_TMinus {
 
 
 		$target = new DateTime( $t, $this->get_wp_timezone() );
+		$target_utc = new DateTime( $t, $UTC );
+
 		$tomorrow_target = $target;
 
 		$diffSecs = $target->getTimestamp() - $now->getTimestamp();
@@ -678,6 +683,7 @@ class WP_TMinus {
 
 		// interval
 		$interval = $now->diff($target);
+		$interval_utc = $now_utc->diff($target_utc);
 
 		// next digits
 		$pop_day = new DateInterval('P1D');
@@ -901,6 +907,8 @@ class WP_TMinus {
 		$content = json_encode(do_shortcode($content));
 		$content = str_replace(array('\r\n', '\r', '\n<p>', '\n', '""'), '', $content);
 
+		$formated_target = new DateTime($t, $this->get_wp_timezone());
+
 		$tminus .= "<script language='javascript' type='text/javascript'>
 			jQuery(document).ready(function($) {
 				$('#".$id."-dashboard').tminusCountDown({
@@ -911,6 +919,7 @@ class WP_TMinus {
 						'hour': ".$hour.",
 						'min': 	".$min.",
 						'sec': 	".$sec.",
+						'target':  '". $formated_target->format('D M d Y H:i:s O') ."',
 						'localtime': '".$lt."'
 					},
 					style: '".$style."',
@@ -921,9 +930,14 @@ class WP_TMinus {
 
 		if(!empty($content)){
 			$tminus .= ", onComplete: function() {
+							if($('".$launchtarget."').length){
+								$('".$launchtarget."').css({'width' : '".$launchwidth."', 'height' : '".$launchheight."'}).html(".$content.");
+							}
+							else{
 								$('#".$id."-".$launchtarget."').css({'width' : '".$launchwidth."', 'height' : '".$launchheight."'});
 								$('#".$id."-".$launchtarget."').html(".$content.");
-							}";
+							}
+						}";
 		}
 		$tminus .= "});
 			});
@@ -931,17 +945,18 @@ class WP_TMinus {
 
 		if(!empty($debug)){
 			$tminus .= '<pre>Now: ' . $now->format('Y-m-d H:i:s e');
-			$formated_target = new DateTime($t, $this->get_wp_timezone());
 			$tminus .= '<br/>Target: ' . $formated_target->format('Y-m-d H:i:s e');
 
 			$interval = $formated_target->diff($now);
 			$tminus .= '<br/>Time to Target: ' . $interval->format('%a days %h hours %i mins. %s secs.');
+			$tminus .= '<br/>Time to Target UTC: ' . $interval_utc->format('%a days %h hours %i mins. %s secs.');
 
 			//rest now values
 			$tminus .= '<br/>Browser Now (JS): <span id="'.$id.'-jsnow">loading...</span>';
+			$tminus .= '<br/>Browser Target (JS): <span id="'.$id.'-jstarg">loading...</span>';
 			$tminus .= '<br/>Timezone Delta: <span id="'.$id.'-jstzone">loading...</span>';
 			$tminus .= '<br/>Rest Now (JS): <span id="'.$id.'-jstime">loading...</span>';
-			$tminus .= '<br/>Time to Target: <span id="'.$id.'-jsdiff">loading...</span>';
+			$tminus .= '<br/>Time to Target (Rest): <span id="'.$id.'-restdiff">loading...</span>';
 			$tminus .= '<br/>Time Cached: <span id="'.$id.'-jscached">loading...</span>';
 
 			$tminus .= '</pre>';
