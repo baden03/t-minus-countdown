@@ -1,8 +1,8 @@
 /*
- * T- Countdown v2.4.5
+ * T- Countdown v2.4.6
  * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
- * Copyright 2020, Twinpictures
+ * Copyright 2021, Twinpictures
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -53,8 +53,6 @@
 
 		config = {};
 		$.extend(config, options);
-		tminusTargetTime = this.setTminustminusTargetTime(config);
-		$.data($(this)[0], 'tminusTargetTime', tminusTargetTime);
 
 		// this is the time from the server
 		// it uses the correct timezone
@@ -62,12 +60,18 @@
 		var nowobj = $.parseJSON( tCountAjax['tminusnow'] );
 		nowTime = new Date( nowobj.now );
 
+		tminusTargetTime = this.setTminustminusTargetTime( config.targetDate.target );
+		$.data($(this)[0], 'tminusTargetTime', tminusTargetTime);
+
+		$.data($(this)[0], 'id', config.id);
+
 		// This is the time from the user
 		// it uses the timezone of the user
 		// it will not be cached
 		browserTime = new Date();
 		if ( config.debug === 'true' ) {
 			$('#' + config.id + '-jsnow').html( browserTime );
+			$('#' + config.id + '-jstarg').html( tminusTargetTime );
 		}
 
 		// adjust for timezone and cache
@@ -75,42 +79,14 @@
 		//console.log(timeOffset);
 		//nowTime.setSeconds(nowTime.getSeconds() + timeOffset );
 
-		$.ajax({
-				method: 'GET',
-				url: tCountAjax.api_url + 'now',
-				beforeSend : function ( xhr ) {
-						xhr.setRequestHeader( 'X-WP-Nonce', tCountAjax.api_nonce );
-				},
-				success : function( response ) {
-					  //console.log( 'now time at line 68: ', nowTime);
-						// this is the non-cached time from the server
-						serverTime = new Date( nowobj.now );
-						restTime = new Date(response.date);
-						cacheOffset = Math.round((serverTime.getTime()-restTime.getTime())/1000);
-
-						if ( config.debug === 'true' ) {
-							//console.log('debug is set to "' + config.debug +'" for counter id: ' + config.id);
-							zoneOffset = Math.round((browserTime.getTime()-restTime.getTime())/1000);
-							$('#' + config.id + '-jstzone').html( secstotime( zoneOffset ) );
-
-							seconds = Math.floor((tminusTargetTime.getTime()-restTime.getTime())/1000);
-							$('#' + config.id + '-jstime').html( response.date );
-							$('#' + config.id + '-jsdiff').html( secstotime(seconds) );
-							$('#' + config.id + '-jscached').html( secstotime( cacheOffset ) );
-						}
-				},
-				fail : function( response ) {
-					console.log('error: ', response);
-				}
-		});
+		// get the rest-api time from the server
+		$(this).getRestNow(config.id, config.debug);
 
 		style = config.style;
 		$.data($(this)[0], 'style', config.style);
 
 		$.data($(this)[0], 'status', 'play');
 		$.data($(this)[0], 'adjusted', 'false');
-
-		$.data($(this)[0], 'id', config.id);
 
 		if ( config.event_id ) {
 			$.data($(this)[0], 'event_id', config.event_id);
@@ -148,9 +124,43 @@
 		diffSecs = Math.floor((tminusTargetTime.getTime()-nowTime.getTime())/1000);
 
 		//console.log('line 117', diffSecs);
-		$(this).doTminusCountDown($(this).attr('id'), diffSecs, 500);
+		this.doTminusCountDown($(this).attr('id'), diffSecs, 500);
+		//$(this).doTminusCountDown($(this).attr('id'), diffSecs, 500);
 
 		return this;
+	};
+
+	$.fn.getRestNow = function (id, debug) {
+		$.ajax({
+				method: 'GET',
+				url: tCountAjax.api_url + 'now',
+				beforeSend : function ( xhr ) {
+						xhr.setRequestHeader( 'X-WP-Nonce', tCountAjax.api_nonce );
+				},
+				success : function( response ) {
+					  // console.log( 'now time for ' + id + ' from rest-api: ', nowTime);
+						// this is the non-cached time from the server
+						restTime = new Date(response.date);
+						cacheOffset = Math.round((nowTime.getTime()-restTime.getTime())/1000);
+
+						if ( debug === 'true' ) {
+							//console.log('debug is set to "' + config.debug +'" for counter id: ' + config.id);
+							zoneOffset = Math.round((browserTime.getTime()-restTime.getTime())/1000);
+							$('#' + id + '-jstzone').html( secstotime( zoneOffset ) );
+
+							//console.log( tminusTargetTime, restTime);
+							restseconds = Math.floor((tminusTargetTime.getTime()-restTime.getTime())/1000);
+
+							$('#' + id + '-jstime').html( response );
+							$('#' + id + '-restdiff').html( secstotime( restseconds ) );
+							$('#' + id + '-jscached').html( secstotime( cacheOffset ) );
+						}
+				},
+				fail : function( response ) {
+					console.log('error: ', response);
+				}
+		});
+
 	};
 
 	$.fn.stopTminusCountDown = function () {
@@ -162,25 +172,18 @@
 		this.doTminusCountDown($(this).attr('id'),$.data(this[0], 'diffSecs'), 500);
 	};
 
-	$.fn.setTminustminusTargetTime = function (options) {
-		var tminusTargetTime = new Date();
-		if (options.targetDate){
-			tminusTargetTime = new Date(options.targetDate.month + '/' + options.targetDate.day + '/' + options.targetDate.year + ' ' + options.targetDate.hour + ':' + options.targetDate.min + ':' + options.targetDate.sec + (options.targetDate.utc ? ' UTC' : ''));
-		}
-		else if (options.targetOffset){
-			tminusTargetTime.setFullYear(options.targetOffset.year + tminusTargetTime.getFullYear());
-			tminusTargetTime.setMonth(options.targetOffset.month + tminusTargetTime.getMonth());
-			tminusTargetTime.setDate(options.targetOffset.day + tminusTargetTime.getDate());
-			tminusTargetTime.setHours(options.targetOffset.hour + tminusTargetTime.getHours());
-			tminusTargetTime.setMinutes(options.targetOffset.min + tminusTargetTime.getMinutes());
-			tminusTargetTime.setSeconds(options.targetOffset.sec + tminusTargetTime.getSeconds());
-		}
 
-		return tminusTargetTime;
+	$.fn.setTminustminusTargetTime = function ( target ) {
+		//console.log(target);
+
+		t = new Date( target );
+		//console.log(t);
+		return t;
 	};
 
 	$.fn.doTminusCountDown = function (id, diffSecs, duration) {
 		$this = $('#' + id);
+		//console.log('doTminus', id);
 		style = $.data($this[0], 'style');
 		adjusted = $.data($this[0], 'adjusted');
 
@@ -198,31 +201,28 @@
 
 				// stop the countdown
 				$.data($this[0], 'status', 'stop');
+				//console.log(id, 'marked as stop');
 			}
 		}
+
 		secs = Math.abs(diffSecs % 60);
 		mins = Math.floor(Math.abs(diffSecs/60)%60);
 
-		dur = 1000;
-		if(adjusted === 'false'){
-			dur = 500;
-		}
-
 		if( seconds_elm.length){
-			$this.dashTminusChangeTo(id, style + '-seconds_dash', secs, duration ? duration : 500);
+			this.dashTminusChangeTo(id, style + '-seconds_dash', secs, duration ? duration : 500);
 			if(mins != minutes_elm.data('current')){
 				adjusted = 'false';
 			}
 		}
 		if(secs == 59 || adjusted === 'false'){
 			if(mins != minutes_elm.data('current')){
-				$this.dashTminusChangeTo(id, style + '-minutes_dash', mins, duration ? duration : dur);
+				this.dashTminusChangeTo(id, style + '-minutes_dash', mins, duration ? duration : 1000);
 				minutes_elm.data('current', mins);
 			}
 			if(mins == 59 || adjusted === 'false'){
 				hours = Math.floor(Math.abs(diffSecs/60/60)%24);
 				if(hours != hours_elm.data('current')){
-					$this.dashTminusChangeTo(id, style + '-hours_dash', hours, duration ? duration : dur);
+					this.dashTminusChangeTo(id, style + '-hours_dash', hours, duration ? duration : 1000);
 					if(hours < 23){
 						hours_elm.data('current', hours);
 					}
@@ -230,24 +230,23 @@
 
 				//when the day changes
 				if(hours == 23 && hours != hours_elm.data('current')){
-					$this.dashTminusChangeTo(id, style + '-days_dash', days_elm.data('next'), duration ? duration : 1000);
+					this.dashTminusChangeTo(id, style + '-days_dash', days_elm.data('next'), duration ? duration : 1000);
 					hours_elm.data('current', hours);
 					if( weeks_elm.length && weeks_elm.data('next') !== undefined){
-						$this.dashTminusChangeTo(id, style + '-weeks_dash', weeks_elm.data('next'), duration ? duration : 1000);
+						this.dashTminusChangeTo(id, style + '-weeks_dash', weeks_elm.data('next'), duration ? duration : 1000);
 					}
 					if( months_elm.length && months_elm.data('next') !== undefined){
-						$this.dashTminusChangeTo(id, style + '-months_dash', months_elm.data('next'), duration ? duration : 1000);
+						this.dashTminusChangeTo(id, style + '-months_dash', months_elm.data('next'), duration ? duration : 1000);
 					}
 					years_elm = $('#' + id + ' .' + style + '-years_dash');
 					if( years_elm.length && years_elm.data('next') !== undefined){
-						$this.dashTminusChangeTo(id, style + '-years_dash', years_elm.data('next'), duration ? duration : 1000);
+						this.dashTminusChangeTo(id, style + '-years_dash', years_elm.data('next'), duration ? duration : 1000);
 					}
 				}
 			}
 		}
 
-    $.data($(this)[0], 'adjusted', 'true');
-		//console.log('adjusted is now: ', $.data($this[0], 'adjusted') );
+   		$.data($(this)[0], 'adjusted', 'true');
 
 		//events
 		if( $.data($this[0], 'event_id') ){
@@ -258,16 +257,10 @@
 			if($.data($this[0], 'status') == 'play'){
 
 				//recaculate diffSecs
-				//nowTime = new Date();
-				//nowTime.setSeconds(nowTime.getSeconds());
-				//console.log( 'nowTime at line 228: ', nowTime);
-				//nowTime.setSeconds(nowTime.getSeconds() +1 );
-				//console.log('hey dude: ', tminusTargetTime.valueOf(), $.data($this[0], 'tminusTargetTime').valueOf() );
-
+				newTime = new Date();
+				newTime.setSeconds( newTime.getSeconds() - zoneOffset);
+				diffSecs = Math.floor(($.data($this[0], 'tminusTargetTime').getTime()-newTime.getTime())/1000);
 				t = setTimeout( function() {
-					newTime = new Date();
-					newTime.setSeconds( newTime.getSeconds() - zoneOffset);
-					diffSecs = Math.floor(($.data($this[0], 'tminusTargetTime').getTime()-newTime.getTime())/1000);
 					$this.doTminusCountDown(id, diffSecs);
 				} , 1000);
 			}
@@ -277,9 +270,10 @@
 			if($.data($this[0], 'hangtime')){
 				//phone's ringing dude.
 			}
+			//hey dude
+			//console.log(id, 'trigger callback');
 			$.data($this[0], 'callback')();
 		}
-
 	};
 
 	$.fn.dashTminusChangeTo = function(id, dash, n, duration) {
