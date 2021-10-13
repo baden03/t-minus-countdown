@@ -4,8 +4,8 @@ Contributors: twinpictures
 Donate link: https://pluginoven.com/plugins/t-countdown/#donate
 Tags: countdown, timer, clock, ticker, event, counter, count down, twinpictures, t minus, t-minus, t(-), t(-) countdown, t-countdown, t (-) countdown, plugin-oven, pluginoven
 Requires at least: 4.9
-Tested up to: 5.3.2
-Stable tag: 2.4.7
+Tested up to: 5.7.0
+Stable tag: 2.4.8a
 Requires PHP: 7.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -66,6 +66,12 @@ Ah yes! <a href='https://twitter.com/#!/twinpictures'>@Twinpictures</a> is on th
 
 == Changelog ==
 
+= 2.4.8 =
+* updated links to new documentation 
+* options page fields escaped
+* can target external elements on launch
+* improvements to get around cashed pages
+
 = 2.4.7 =
 * fixed issue with default display units and toggles in block
 * added debug attribute to shortcode for troubleshooting caching issues
@@ -107,8 +113,7 @@ Ah yes! <a href='https://twitter.com/#!/twinpictures'>@Twinpictures</a> is on th
 * all styles are css optimised and were rebuilt to support more than three digits
 
 == Upgrade Notice ==
-* fixed issue with default display units and toggles in block
-* added debug attribute to shortcode for troubleshooting caching issues
-* uses rest-api to recalculate time if page has been cached
-* manages cached pages and timezones better
-* js script is minified
+* updated links to new documentation 
+* options page fields escaped
+* can target external elements on launch
+* improvements to get around cashed pages
